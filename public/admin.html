@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>管理者控制台 - 農業知識測驗系統</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* 使用原有的根變數 */
+      :root {
+        --primary-color: #2e7d32;
+        --primary-light: #4caf50;
+        --primary-dark: #1b5e20;
+        --background: #f8f9fa;
+        --card-bg: #ffffff;
+        --text-primary: #2c3e50;
+        --text-secondary: #666666;
+      }
+
+      /* 管理者頁面特定樣式 */
+      .admin-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .stat-card {
+        background: var(--card-bg);
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .back-button {
+        padding: 0.8rem 1.5rem;
+        background: var(--text-secondary);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        position: fixed; /* 固定位置 */
+        top: 20px; /* 距離頂部 */
+        right: 20px; /* 距離右側 */
+        z-index: 1000; /* 確保在最上層 */
+      }
+
+      .download-btn {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 0.5rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .download-btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .back-button:hover {
+        background: #555;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      /* 在原有的 style 中添加 */
+      .record-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+      }
+
+      .delete-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-left: 1rem;
+      }
+
+      .delete-btn:hover {
+        background: #c82333;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .record-content {
+        flex: 1;
+      }
+
+      .user-list {
+        background: var(--card-bg);
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .user-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .user-item:hover {
+        background-color: #f5f5f5;
+      }
+
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--primary-light);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+      }
+
+      .user-info {
+        flex: 1;
+      }
+
+      .chart-container {
+        background: var(--card-bg);
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-top: 2rem;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-content {
+        background: var(--card-bg);
+        padding: 2rem;
+        border-radius: 8px;
+        max-width: 800px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+
+      .close-btn {
+        float: right;
+        cursor: pointer;
+        font-size: 1.5rem;
+      }
+
+      .record-list {
+        margin-top: 1rem;
+      }
+
+      .record-item {
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+      }
+
+      .tooltip {
+        position: relative;
+        display: inline-block;
+      }
+
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -60px;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="back-button" onclick="goBack()">
+      <i class="fas fa-arrow-left"></i>
+      返回
+    </button>
+
+    <div class="admin-container">
+      <div class="admin-header">
+        <h1>管理者控制台</h1>
+        <div class="tooltip">
+          <i class="fas fa-question-circle"></i>
+          <span class="tooltiptext">點擊用戶查看詳細資訊</span>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>總用戶數</h3>
+          <div id="total-users">載入中...</div>
+        </div>
+        <div class="stat-card">
+          <h3>今日測驗次數</h3>
+          <div id="today-quizzes">載入中...</div>
+        </div>
+        <div class="stat-card">
+          <h3>平均分數</h3>
+          <div id="avg-score">載入中...</div>
+        </div>
+      </div>
+
+      <div class="user-list" id="user-list">
+        <!-- 用戶列表會動態載入 -->
+      </div>
+
+      <div class="chart-container"></div>
+    </div>
+
+    <!-- 用戶詳情模態框 -->
+    <div class="modal" id="userModal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>用戶測驗記錄</h2>
+        <div class="record-list" id="recordList"></div>
+      </div>
+    </div>
+
+    <script>
+      const API_URL = "http://localhost:5000/api";
+      let authToken = localStorage.getItem("token");
+
+      // 檢查管理者權限
+      async function checkAdminAccess() {
+        try {
+          const response = await fetch(`${API_URL}/admin/check`, {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          });
+
+          if (!response.ok) {
+            alert("您沒有管理者權限");
+            window.location.href = "/";
+            return false;
+          }
+          return true;
+        } catch (error) {
+          console.error("權限檢查失敗:", error);
+          window.location.href = "/";
+          return false;
+        }
+      }
+
+      // 載入統計數據
+      async function loadStatistics() {
+        try {
+          const response = await fetch(`${API_URL}/admin/statistics`, {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          });
+          const stats = await response.json();
+
+          document.getElementById("total-users").textContent = stats.totalUsers;
+          document.getElementById("today-quizzes").textContent =
+            stats.todayQuizzes;
+          document.getElementById(
+            "avg-score"
+          ).textContent = `${stats.avgScore.toFixed(1)}%`;
+
+          createChart(stats.topicStats);
+        } catch (error) {
+          console.error("載入統計數據失敗:", error);
+          alert("載入統計數據失敗");
+        }
+      }
+
+      // 載入用戶列表
+      async function loadUsers() {
+        try {
+          const response = await fetch(`${API_URL}/admin/users`, {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          });
+          const users = await response.json();
+
+          const userList = document.getElementById("user-list");
+          userList.innerHTML = users
+            .map(
+              (user) => `
+                          <div class="user-item" onclick="showUserDetails('${
+                            user._id
+                          }')">
+                              <div class="user-avatar">${user.username[0].toUpperCase()}</div>
+                              <div class="user-info">
+                                  <h3>${user.username}</h3>
+                                  <p>註冊時間: ${new Date(
+                                    user.createdAt
+                                  ).toLocaleDateString()}</p>
+                                  <p>角色: ${user.role}</p>
+                              </div>
+                              <button onclick="toggleUserRole('${user._id}', '${
+                user.role
+              }')" class="role-toggle-btn">
+                                  ${
+                                    user.role === "admin"
+                                      ? "移除管理員"
+                                      : "設為管理員"
+                                  }
+                              </button>
+                              <i class="fas fa-chevron-right"></i>
+                          </div>
+                      `
+            )
+            .join("");
+        } catch (error) {
+          console.error("載入用戶列表失敗:", error);
+          alert("載入用戶列表失敗");
+        }
+      }
+
+      // 顯示用戶詳情
+      async function showUserDetails(userId) {
+        try {
+          const response = await fetch(`${API_URL}/admin/records/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          });
+          const records = await response.json();
+
+          const recordList = document.getElementById("recordList");
+          recordList.innerHTML = records
+            .map(
+              (record) => `
+                <div class="record-item">
+                  <div class="record-content">
+                    <h4>${record.topic}</h4>
+                    <p>分數: ${record.score}/${record.totalQuestions} (${(
+                (record.score / record.totalQuestions) *
+                100
+              ).toFixed(1)}%)</p>
+                    <p>完成時間: ${new Date(
+                      record.completedAt
+                    ).toLocaleString()}</p>
+                    <button class="download-btn" onclick="downloadRecord('${
+                      record._id
+                    }')">
+                      <i class="fas fa-download"></i> 下載測驗記錄
+                    </button>
+                  </div>
+                  <button class="delete-btn" onclick="confirmDelete('${
+                    record._id
+                  }', '${userId}')">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              `
+            )
+            .join("");
+
+          document.getElementById("userModal").style.display = "flex";
+        } catch (error) {
+          console.error("載入用戶記錄失敗:", error);
+          alert("載入用戶記錄失敗");
+        }
+      }
+
+      async function downloadRecord(recordId) {
+        try {
+          const response = await fetch(
+            `${API_URL}/admin/records/${recordId}/download`,
+            {
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+              },
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("下載失敗");
+          }
+
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.style.display = "none";
+          a.href = url;
+          a.download = `quiz-record-${recordId}.txt`;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+        } catch (error) {
+          console.error("下載記錄失敗:", error);
+          alert("下載記錄失敗");
+        }
+      }
+
+      // 切換用戶角色
+      async function toggleUserRole(userId, currentRole) {
+        try {
+          const newRole = currentRole === "admin" ? "user" : "admin";
+          const response = await fetch(
+            `${API_URL}/admin/users/${userId}/role`,
+            {
+              method: "PATCH",
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ role: newRole }),
+            }
+          );
+
+          if (response.ok) {
+            loadUsers(); // 重新載入用戶列表
+          } else {
+            alert("更新角色失敗");
+          }
+        } catch (error) {
+          console.error("更新角色失敗:", error);
+          alert("更新角色失敗");
+        }
+      }
+
+      // 在 script 標籤內添加
+      async function confirmDelete(recordId, userId) {
+        if (confirm("確定要刪除這筆記錄嗎？此操作無法復原。")) {
+          try {
+            const response = await fetch(
+              `${API_URL}/admin/records/${recordId}`,
+              {
+                method: "DELETE",
+                headers: {
+                  Authorization: `Bearer ${authToken}`,
+                },
+              }
+            );
+
+            if (response.ok) {
+              // 重新載入該用戶的記錄
+              showUserDetails(userId);
+            } else {
+              alert("刪除失敗");
+            }
+          } catch (error) {
+            console.error("刪除記錄失敗:", error);
+            alert("刪除記錄時發生錯誤");
+          }
+        }
+      }
+
+      // 創建統計圖表
+      function createChart(data) {
+        const container = document.querySelector(".chart-container");
+        container.innerHTML = `
+            <h3>各主題統計</h3>
+            <div style="padding: 1rem;">
+                ${data
+                  .map(
+                    (d) => `
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                        <h4>${d._id}</h4>
+                        <p>平均分數: ${d.avgScore.toFixed(1)}%</p>
+                        <p>測驗次數: ${d.totalAttempts} 次</p>
+                    </div>
+                `
+                  )
+                  .join("")}
+            </div>
+        `;
+      }
+
+      // 初始化
+      document.addEventListener("DOMContentLoaded", async () => {
+        if (await checkAdminAccess()) {
+          loadStatistics();
+          loadUsers();
+        }
+      });
+
+      // 模態框關閉功能
+      document.querySelector(".close-btn").onclick = function () {
+        document.getElementById("userModal").style.display = "none";
+      };
+
+      // 點擊模態框外部關閉
+      // 移除原本在 window.onclick 裡面的 goBack 函數
+      window.onclick = function (event) {
+        const modal = document.getElementById("userModal");
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+
+      // 添加獨立的 goBack 函數
+      function goBack() {
+        window.history.back();
+      }
+    </script>
+  </body>
+</html>

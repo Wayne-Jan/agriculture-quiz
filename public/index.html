@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>農業知識測驗系統</title>
+    <!-- 原有的 Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- 添加 Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #2e7d32;
+        --primary-light: #4caf50;
+        --primary-dark: #1b5e20;
+        --background: #f8f9fa;
+        --card-bg: #ffffff;
+        --text-primary: #2c3e50;
+        --text-secondary: #666666;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Noto Sans TC", sans-serif;
+        background: var(--background);
+        color: var(--text-primary);
+        line-height: 1.6;
+        padding: 2rem;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem;
+        background: var(--card-bg);
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 2px solid #eee;
+      }
+
+      .header h1 {
+        color: var(--primary-color);
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .file-input-container {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding: 2rem;
+        border: 2px dashed #ccc;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+      }
+
+      .file-input-container:hover {
+        border-color: var(--primary-color);
+        background: #f5f5f5;
+      }
+
+      #file-input {
+        display: none;
+      }
+
+      .file-label {
+        display: inline-block;
+        padding: 12px 24px;
+        background: var(--primary-color);
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .file-label:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+
+      .topic-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .topic-button {
+        padding: 1.2rem;
+        background: var(--card-bg);
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .topic-button:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .quiz-content {
+        margin-bottom: 80px;
+      }
+
+      .question-card {
+        background: var(--card-bg);
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+      }
+
+      .question-card h2 {
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        font-size: 1.3rem;
+        line-height: 1.5;
+      }
+
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .option-btn {
+        padding: 1rem 1.5rem;
+        background: var(--card-bg);
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        text-align: left;
+        transition: all 0.2s ease;
+      }
+
+      .option-btn:hover {
+        background: #f8f9fa;
+        border-color: var(--primary-color);
+        transform: translateX(5px);
+      }
+
+      .progress {
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: var(--card-bg);
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .progress-bar {
+        height: 8px;
+        background: #e0e0e0;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 0.5rem;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: var(--primary-color);
+        width: 0%;
+        transition: width 0.3s ease;
+      }
+
+      .quiz-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 1rem;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        z-index: 1000;
+      }
+
+      .back-btn {
+        padding: 0.8rem 1.5rem;
+        background: var(--text-secondary);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+      }
+
+      .back-btn:hover {
+        background: #555;
+        transform: translateY(-2px);
+      }
+
+      .result {
+        text-align: center;
+        padding: 2rem;
+      }
+
+      .result h2 {
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+      }
+
+      .result p {
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+      }
+
+      .score {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin: 1.5rem 0;
+        font-weight: bold;
+      }
+
+      .stats-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+        background: white;
+      }
+
+      .stats-table th,
+      .stats-table td {
+        padding: 1rem;
+        border: 1px solid #e0e0e0;
+        text-align: left;
+      }
+
+      .stats-table th {
+        background: #f5f5f5;
+        font-weight: 600;
+      }
+
+      .stats-table tr:hover {
+        background: #f8f9fa;
+      }
+
+      .answer-status {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 4px;
+        font-weight: 500;
+      }
+
+      .answer-correct {
+        background: #e8f5e9;
+        color: #2e7d32;
+      }
+
+      .answer-incorrect {
+        background: #ffebee;
+        color: #c62828;
+      }
+
+      /* 新增的登入相關樣式 */
+      .auth-container {
+        max-width: 400px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: var(--card-bg);
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      }
+
+      .auth-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .form-group input {
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+      }
+
+      .auth-btn {
+        padding: 1rem;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .auth-btn:hover {
+        background: var(--primary-dark);
+      }
+
+      .auth-switch {
+        text-align: center;
+        margin-top: 1rem;
+      }
+
+      .auth-switch button {
+        background: none;
+        border: none;
+        color: var(--primary-color);
+        cursor: pointer;
+        text-decoration: underline;
+      }
+      /* 在原有的 style 標籤中添加 */
+      .admin-btn {
+        padding: 0.8rem 1.5rem;
+        background: #1a237e; /* 深藍色，區別於其他按鈕 */
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        margin-left: 1rem;
+        display: none; /* 預設隱藏 */
+      }
+
+      .admin-btn:hover {
+        background: #283593;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .admin-btn i {
+        margin-right: 0.5rem;
+      }
+
+      .user-info {
+        text-align: right;
+        padding: 1rem;
+        background: var(--card-bg);
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 1rem;
+        }
+
+        .container {
+          padding: 1rem;
+        }
+
+        .topic-list {
+          grid-template-columns: 1fr;
+        }
+
+        .header h1 {
+          font-size: 2rem;
+        }
+
+        .stats-table {
+          font-size: 0.9rem;
+        }
+
+        .stats-table th,
+        .stats-table td {
+          padding: 0.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 用戶資訊區塊 -->
+    <div class="user-info" id="user-info" style="display: none">
+      歡迎, <span id="username-display"></span>
+      <button class="admin-btn" id="admin-btn" onclick="goToAdmin()">
+        <i class="fas fa-cog"></i>管理系統
+      </button>
+      <button class="auth-btn" onclick="logout()">登出</button>
+    </div>
+
+    <!-- 認證表單容器 -->
+    <div id="auth-container" class="auth-container">
+      <!-- 登入表單 -->
+      <div class="auth-form" id="login-form">
+        <h2>登入</h2>
+        <div class="form-group">
+          <label for="username">用戶名</label>
+          <input type="text" id="username" required />
+        </div>
+        <div class="form-group">
+          <label for="password">密碼</label>
+          <input type="password" id="password" required />
+        </div>
+        <button class="auth-btn" onclick="login()">登入</button>
+        <div class="auth-switch">
+          <button onclick="toggleAuthForm()">還沒有帳號？註冊</button>
+        </div>
+      </div>
+
+      <!-- 註冊表單 -->
+      <div class="auth-form" id="register-form" style="display: none">
+        <h2>註冊</h2>
+        <div class="form-group">
+          <label for="reg-username">用戶名</label>
+          <input type="text" id="reg-username" required />
+        </div>
+        <div class="form-group">
+          <label for="reg-password">密碼</label>
+          <input type="password" id="reg-password" required />
+        </div>
+        <button class="auth-btn" onclick="register()">註冊</button>
+        <div class="auth-switch">
+          <button onclick="toggleAuthForm()">已有帳號？登入</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 原有的主要容器 -->
+    <div class="container" id="main-container" style="display: none">
+      <div class="header">
+        <h1>農業知識測驗系統</h1>
+        <p>選擇題庫開始測驗</p>
+      </div>
+
+      <div class="file-input-container">
+        <input type="file" id="file-input" accept=".json" />
+        <label for="file-input" class="file-label">選擇題庫檔案</label>
+      </div>
+
+      <div id="topics-container" class="topic-list"></div>
+
+      <div id="quiz-container" style="display: none">
+        <div class="quiz-content">
+          <div class="progress">
+            <span id="progress-text"></span>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progress-fill"></div>
+            </div>
+          </div>
+          <div id="question-container" class="question-card"></div>
+        </div>
+        <div class="quiz-footer">
+          <button class="back-btn" onclick="showTopics()">
+            ← 返回主題選擇
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // API 設定
+      const API_URL = "http://localhost:5000/api";
+      let authToken = localStorage.getItem("token");
+
+      // 檢查登入狀態
+      async function checkAuth() {
+        if (authToken) {
+          try {
+            // 檢查是否是管理員
+            const response = await fetch(`${API_URL}/auth/check-role`, {
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+              },
+            });
+            const data = await response.json();
+
+            document.getElementById("auth-container").style.display = "none";
+            document.getElementById("main-container").style.display = "block";
+            document.getElementById("user-info").style.display = "block";
+            const username = localStorage.getItem("username");
+            document.getElementById("username-display").textContent = username;
+
+            // 如果是管理員，顯示管理按鈕
+            if (data.role === "admin") {
+              document.getElementById("admin-btn").style.display =
+                "inline-block";
+            }
+          } catch (error) {
+            console.error("檢查角色失敗:", error);
+          }
+        }
+      }
+
+      // 添加跳轉到管理頁面的函數
+      function goToAdmin() {
+        window.location.href = "/admin.html";
+      }
+
+      // 切換登入/註冊表單
+      function toggleAuthForm() {
+        const loginForm = document.getElementById("login-form");
+        const registerForm = document.getElementById("register-form");
+        if (loginForm.style.display === "none") {
+          loginForm.style.display = "block";
+          registerForm.style.display = "none";
+        } else {
+          loginForm.style.display = "none";
+          registerForm.style.display = "block";
+        }
+      }
+
+      // 登入功能
+      async function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        try {
+          const response = await fetch(`${API_URL}/auth/login`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+          });
+
+          const data = await response.json();
+          if (response.ok) {
+            authToken = data.token;
+            localStorage.setItem("token", authToken);
+            localStorage.setItem("username", username);
+            checkAuth();
+          } else {
+            alert(data.message || "登入失敗");
+          }
+        } catch (error) {
+          alert("登入時發生錯誤");
+        }
+      }
+
+      // 註冊功能
+      async function register() {
+        const username = document.getElementById("reg-username").value;
+        const password = document.getElementById("reg-password").value;
+
+        try {
+          const response = await fetch(`${API_URL}/auth/register`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+          });
+
+          const data = await response.json();
+          if (response.ok) {
+            alert("註冊成功，請登入");
+            toggleAuthForm();
+          } else {
+            alert(data.message || "註冊失敗");
+          }
+        } catch (error) {
+          alert("註冊時發生錯誤");
+        }
+      }
+
+      // 登出功能
+      function logout() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        authToken = null;
+        document.getElementById("auth-container").style.display = "block";
+        document.getElementById("main-container").style.display = "none";
+        document.getElementById("user-info").style.display = "none";
+      }
+
+      // 保存測驗結果
+      async function saveQuizResult(topic, score, totalQuestions, answers) {
+        try {
+          const response = await fetch(`${API_URL}/quiz/record`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${authToken}`,
+            },
+            body: JSON.stringify({
+              topic,
+              score,
+              totalQuestions,
+              answers,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error("保存測驗結果失敗");
+          }
+
+          console.log("測驗結果已保存");
+        } catch (error) {
+          console.error("保存測驗結果失敗:", error);
+          alert("保存測驗結果時發生錯誤，請稍後再試");
+        }
+      }
+
+      // 測驗相關變數
+      let allQuestions = [];
+      let currentQuestions = [];
+      let currentQuestion = 0;
+      let score = 0;
+      let answerHistory = [];
+
+      // 檔案上傳處理
+      document
+        .getElementById("file-input")
+        .addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          const reader = new FileReader();
+
+          reader.onload = function (e) {
+            allQuestions = JSON.parse(e.target.result);
+            showTopicButtons();
+          };
+
+          reader.readAsText(file);
+        });
+
+      // 顯示主題按鈕
+      function showTopicButtons() {
+        const topics = [...new Set(allQuestions.map((q) => q.topic))];
+        const container = document.getElementById("topics-container");
+
+        container.innerHTML = topics
+          .map(
+            (topic) => `
+        <button class="topic-button" onclick="startQuiz('${topic}')">
+          ${topic}
+        </button>
+      `
+          )
+          .join("");
+      }
+
+      // 開始測驗
+      function startQuiz(topic) {
+        currentQuestions = allQuestions.filter((q) => q.topic === topic);
+        currentQuestion = 0;
+        score = 0;
+        answerHistory = [];
+
+        document.getElementById("topics-container").style.display = "none";
+        document.getElementById("file-input").parentElement.style.display =
+          "none";
+        document.getElementById("quiz-container").style.display = "block";
+
+        showQuestion();
+      }
+
+      // 顯示題目
+      function showQuestion() {
+        const questionData = currentQuestions[currentQuestion];
+        const container = document.getElementById("question-container");
+
+        container.style.display = "block";
+        container.innerHTML = `
+    <h2>${questionData.question}</h2>
+    <div class="options">
+      <button class="option-btn" onclick="checkAnswer('A')">${questionData.answer_a}</button>
+      <button class="option-btn" onclick="checkAnswer('B')">${questionData.answer_b}</button>
+      <button class="option-btn" onclick="checkAnswer('C')">${questionData.answer_c}</button>
+      <button class="option-btn" onclick="checkAnswer('D')">${questionData.answer_d}</button>
+    </div>
+  `;
+
+        const progressText = document.getElementById("progress-text");
+        progressText.textContent = `題目 ${currentQuestion + 1} / ${
+          currentQuestions.length
+        }`;
+
+        const progressFill = document.getElementById("progress-fill");
+        progressFill.style.width = `${
+          ((currentQuestion + 1) / currentQuestions.length) * 100
+        }%`;
+      }
+
+      // 檢查答案
+      function checkAnswer(selected) {
+        const questionData = currentQuestions[currentQuestion];
+        const correct = selected === questionData.correct_answer;
+
+        answerHistory.push({
+          question: questionData.question,
+          userAnswer: selected,
+          correctAnswer: questionData.correct_answer,
+          isCorrect: correct,
+          userAnswerText: questionData[`answer_${selected.toLowerCase()}`],
+          correctAnswerText:
+            questionData[`answer_${questionData.correct_answer.toLowerCase()}`],
+        });
+
+        if (correct) score++;
+
+        if (currentQuestion < currentQuestions.length - 1) {
+          currentQuestion++;
+          showQuestion();
+        } else {
+          showResult();
+        }
+      }
+
+      // 顯示結果
+      function showResult() {
+        const container = document.getElementById("quiz-container");
+        const percentage = ((score / currentQuestions.length) * 100).toFixed(1);
+
+        // 儲存測驗結果
+        saveQuizResult(
+          currentQuestions[0].topic,
+          score,
+          currentQuestions.length,
+          answerHistory
+        );
+
+        const statsHtml = `
+    <div class="quiz-content">
+      <div class="result">
+        <h2>測驗完成！</h2>
+        <div class="score">${percentage}%</div>
+        <p>答對題數：${score} / ${currentQuestions.length}</p>
+        
+        <h3 style="margin-top: 2rem;">答題統計</h3>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>題號</th>
+              <th>題目</th>
+              <th>你的答案</th>
+              <th>正確答案</th>
+              <th>結果</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${answerHistory
+              .map(
+                (record, index) => `
+                <tr>
+                  <td>${index + 1}</td>
+                  <td>${record.question}</td>
+                  <td>${record.userAnswerText}</td>
+                  <td>${record.correctAnswerText}</td>
+                  <td>
+                    <span class="answer-status ${
+                      record.isCorrect ? "answer-correct" : "answer-incorrect"
+                    }">
+                      ${record.isCorrect ? "正確" : "錯誤"}
+                    </span>
+                  </td>
+                </tr>
+              `
+              )
+              .join("")}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="quiz-footer">
+      <button class="back-btn" onclick="showTopics()">返回主題選擇</button>
+    </div>
+  `;
+
+        container.innerHTML = statsHtml;
+      }
+
+      // 返回主題選擇
+      function showTopics() {
+        answerHistory = [];
+        currentQuestion = 0;
+        score = 0;
+
+        document.getElementById("quiz-container").innerHTML = `
+    <div class="quiz-content">
+      <div class="progress">
+        <span id="progress-text"></span>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+      <div id="question-container" class="question-card"></div>
+    </div>
+    <div class="quiz-footer">
+      <button class="back-btn" onclick="showTopics()">← 返回主題選擇</button>
+    </div>
+  `;
+
+        document.getElementById("topics-container").style.display = "grid";
+        document.getElementById("file-input").parentElement.style.display =
+          "block";
+        document.getElementById("quiz-container").style.display = "none";
+      }
+
+      // 頁面載入時檢查認證狀態
+      document.addEventListener("DOMContentLoaded", checkAuth);
+    </script>
+  </body>
+</html>
