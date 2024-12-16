@@ -477,8 +477,16 @@
 
     <script>
       // API 設定
-      const API_URL = "http://localhost:5000/api";
-      let authToken = localStorage.getItem("token");
+      const API_URL = (() => {
+        if (
+          window.location.hostname === "localhost" ||
+          window.location.hostname === "127.0.0.1"
+        ) {
+          return "http://localhost:5000/api";
+        } else {
+          return "https://agriculture-quiz.onrender.com/api"; // 請替換成您的 Render URL
+        }
+      })();
 
       // 檢查登入狀態
       async function checkAuth() {
