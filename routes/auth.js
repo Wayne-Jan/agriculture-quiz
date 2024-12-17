@@ -8,12 +8,18 @@ const auth = require("../middleware/auth");
 // 註冊路由
 router.post("/register", async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, name, organization, education } = req.body;
 
     // 檢查用戶是否已存在
     let user = await User.findOne({ username });
     if (user) {
       return res.status(400).json({ message: "用戶名已被使用" });
+    }
+
+    // 驗證教育程度是否有效
+    const validEducation = ["highschool", "university", "graduate"];
+    if (!validEducation.includes(education)) {
+      return res.status(400).json({ message: "無效的教育程度" });
     }
 
     // 檢查是否已有管理員
@@ -23,6 +29,9 @@ router.post("/register", async (req, res) => {
     user = new User({
       username,
       password,
+      name,
+      organization,
+      education,
       role: adminCount === 0 ? "admin" : "user", // 如果還沒有管理員，則設為管理員
     });
 
@@ -62,7 +71,7 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign(
       {
         userId: user._id,
-        role: user.role, // 在 token 中加入角色信息
+        role: user.role,
       },
       process.env.JWT_SECRET,
       {
@@ -72,7 +81,10 @@ router.post("/login", async (req, res) => {
 
     res.json({
       token,
-      role: user.role, // 返回用戶角色
+      role: user.role,
+      // 可以選擇是否要返回用戶的其他資訊
+      name: user.name,
+      organization: user.organization,
     });
   } catch (error) {
     console.error(error);
@@ -84,9 +96,37 @@ router.post("/login", async (req, res) => {
 router.get("/check-role", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.userId);
-    res.json({ role: user.role });
+    if (!user) {
+      return res.status(404).json({ message: "用戶不存在" });
+    }
+
+    // 回傳角色和必要的用戶資訊
+    res.json({
+      role: user.role,
+      name: user.name,
+      organization: user.organization,
+      education: user.education,
+    });
   } catch (error) {
     console.error("檢查角色失敗:", error);
+    res.status(500).json({ message: "伺服器錯誤" });
+  }
+});
+
+// 添加一個新的路由用於獲取所有用戶資訊(僅管理員可用)
+router.get("/users/all", auth, async (req, res) => {
+  try {
+    // 檢查請求用戶是否為管理員
+    const user = await User.findById(req.user.userId);
+    if (!user || user.role !== "admin") {
+      return res.status(403).json({ message: "無權限訪問此資源" });
+    }
+
+    // 獲取所有用戶資訊(排除密碼欄位)
+    const users = await User.find({}, "-password");
+    res.json(users);
+  } catch (error) {
+    console.error("獲取用戶列表失敗:", error);
     res.status(500).json({ message: "伺服器錯誤" });
   }
 });

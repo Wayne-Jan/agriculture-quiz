@@ -383,7 +383,6 @@
         }
       }
 
-      // 載入用戶列表
       async function loadUsers() {
         try {
           const response = await fetch(`${API_URL}/admin/users`, {
@@ -397,39 +396,155 @@
           userList.innerHTML = users
             .map(
               (user) => `
-                <div class="user-item">
-                    <div class="user-avatar">${user.username[0].toUpperCase()}</div>
-                    <div class="user-info" onclick="showUserDetails('${
-                      user._id
-                    }')">
-                        <h3>${user.username}</h3>
-                        <p>註冊時間: ${new Date(
-                          user.createdAt
-                        ).toLocaleDateString()}</p>
-                        <p>角色: ${user.role}</p>
-                    </div>
-                    <div class="user-actions">
-                        <button onclick="toggleUserRole('${user._id}', '${
-                user.role
-              }')" class="role-toggle-btn">
-                            ${
-                              user.role === "admin"
-                                ? "移除管理員"
-                                : "設為管理員"
-                            }
-                        </button>
-                        ${
-                          user.role !== "admin"
-                            ? `<button onclick="deleteUser('${user._id}', '${user.username}')" class="delete-btn">
-                                <i class="fas fa-trash"></i>
-                               </button>`
-                            : ""
-                        }
-                    </div>
-                </div>
+              <div class="user-item">
+                  <div class="user-avatar">${user.username[0].toUpperCase()}</div>
+                  <div class="user-info" onclick="showUserDetails('${
+                    user._id
+                  }')">
+                      <h3>${user.username}</h3>
+                      <div class="user-details">
+                          <p><strong>姓名:</strong> ${user.name || "未提供"}</p>
+                          <p><strong>單位:</strong> ${
+                            user.organization || "未提供"
+                          }</p>
+                          <p><strong>教育程度:</strong> ${
+                            user.education === "highschool"
+                              ? "高中"
+                              : user.education === "university"
+                              ? "大學"
+                              : user.education === "graduate"
+                              ? "研究所以上"
+                              : "未提供"
+                          }</p>
+                          <p><strong>註冊時間:</strong> ${new Date(
+                            user.createdAt
+                          ).toLocaleDateString()}</p>
+                          <p><strong>角色:</strong> ${
+                            user.role === "admin" ? "管理員" : "一般用戶"
+                          }</p>
+                      </div>
+                  </div>
+                  <div class="user-actions">
+                      <button 
+                          onclick="event.stopPropagation(); toggleUserRole('${
+                            user._id
+                          }', '${user.role}')" 
+                          class="role-toggle-btn ${
+                            user.role === "admin" ? "admin-role" : ""
+                          }"
+                      >
+                          ${user.role === "admin" ? "移除管理員" : "設為管理員"}
+                      </button>
+                      ${
+                        user.role !== "admin"
+                          ? `
+                          <button 
+                              onclick="event.stopPropagation(); deleteUser('${user._id}', '${user.username}')" 
+                              class="delete-btn"
+                          >
+                              <i class="fas fa-trash"></i>
+                          </button>
+                          `
+                          : ""
+                      }
+                  </div>
+              </div>
               `
             )
             .join("");
+
+          // 添加相關的 CSS 樣式
+          const style = document.createElement("style");
+          style.textContent = `
+            .user-item {
+              display: flex;
+              align-items: flex-start;
+              padding: 1.5rem;
+              border-bottom: 1px solid #eee;
+              transition: background-color 0.3s;
+            }
+      
+            .user-item:hover {
+              background-color: #f8f9fa;
+            }
+      
+            .user-avatar {
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+              background: var(--primary-light);
+              color: white;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-right: 1.5rem;
+              font-size: 1.2rem;
+              font-weight: bold;
+            }
+      
+            .user-info {
+              flex: 1;
+              cursor: pointer;
+            }
+      
+            .user-info h3 {
+              margin-bottom: 0.5rem;
+              color: var(--text-primary);
+            }
+      
+            .user-details {
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+              gap: 0.5rem;
+            }
+      
+            .user-details p {
+              margin: 0.25rem 0;
+              color: var(--text-secondary);
+            }
+      
+            .user-actions {
+              display: flex;
+              gap: 0.5rem;
+              align-items: flex-start;
+            }
+      
+            .role-toggle-btn {
+              padding: 0.5rem 1rem;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              background: var(--primary-color);
+              color: white;
+            }
+      
+            .role-toggle-btn.admin-role {
+              background: #ff9800;
+            }
+      
+            .role-toggle-btn:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+      
+            .delete-btn {
+              padding: 0.5rem;
+              background: #dc3545;
+              color: white;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+              transition: all 0.3s ease;
+            }
+      
+            .delete-btn:hover {
+              background: #c82333;
+              transform: translateY(-2px);
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+          `;
+          document.head.appendChild(style);
         } catch (error) {
           console.error("載入用戶列表失敗:", error);
           alert("載入用戶列表失敗");

@@ -480,10 +480,39 @@
       }
 
       .form-group input {
-        padding: 0.8rem;
-        border: 1px solid #ddd;
+        background-color: rgba(255, 255, 255, 0.9);
+        border: 2px solid #e8f5e9;
         border-radius: 8px;
+        padding: 0.8rem;
         font-size: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .form-group input:focus {
+        border-color: #4caf50;
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        outline: none;
+        background-color: #ffffff;
+      }
+
+      /* 新增的表單樣式 */
+      .form-group select {
+        background-color: rgba(255, 255, 255, 0.9);
+        border: 2px solid #e8f5e9;
+        border-radius: 8px;
+        padding: 0.8rem;
+        font-size: 1rem;
+        width: 100%;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .form-group select:focus {
+        border-color: #4caf50;
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        outline: none;
+        background-color: #ffffff;
       }
 
       .auth-btn {
@@ -611,6 +640,19 @@
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.2);
         animation: fadeIn 0.8s ease-out;
+      }
+
+      /* 整體表單容器微調 */
+      .auth-container {
+        max-width: 450px;
+        margin: 2rem auto;
+        padding: 2rem;
+      }
+
+      .form-group label {
+        color: #2c3e50;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
       }
 
       /* 登入表單出現動畫 */
@@ -1092,6 +1134,23 @@
           <label for="reg-password">密碼</label>
           <input type="password" id="reg-password" required />
         </div>
+        <div class="form-group">
+          <label for="reg-name">姓名</label>
+          <input type="text" id="reg-name" required />
+        </div>
+        <div class="form-group">
+          <label for="reg-organization">單位</label>
+          <input type="text" id="reg-organization" required />
+        </div>
+        <div class="form-group">
+          <label for="reg-education">教育程度</label>
+          <select id="reg-education" required>
+            <option value="">請選擇教育程度</option>
+            <option value="highschool">高中</option>
+            <option value="university">大學</option>
+            <option value="graduate">研究所以上</option>
+          </select>
+        </div>
         <button class="auth-btn" onclick="register()">註冊</button>
         <div class="auth-switch">
           <button onclick="toggleAuthForm()">已有帳號？登入</button>
@@ -1182,16 +1241,49 @@
         }
       })();
 
+      // 修改背景和標題管理函數
+      function manageBackground(shouldShow) {
+        const existingBackground = document.querySelector(
+          ".animation-background"
+        );
+        const existingTitle = document.querySelector(".main-title");
+
+        // 移除現有的主標題元素（如果存在）
+        if (existingTitle) existingTitle.remove();
+
+        // 確保背景動畫一直存在
+        if (!existingBackground) {
+          const background = document.createElement("div");
+          background.className = "animation-background";
+          document.body.insertBefore(background, document.body.firstChild);
+          createFloatingElements();
+        }
+
+        // 只在登入頁面（shouldShow 為 true）時顯示標題
+        if (shouldShow) {
+          const title = document.createElement("div");
+          title.className = "main-title";
+          title.innerHTML = `
+      <h1>農業知識測驗系統</h1>
+      <p>測試您的農業專業知識</p>
+    `;
+          document.body.insertBefore(
+            title,
+            document.getElementById("auth-container")
+          );
+        }
+      }
+
       // 檢查登入狀態
       async function checkAuth() {
-        // 先取得 token
         authToken = localStorage.getItem("token");
 
         if (!authToken) {
-          // 如果沒有 token，顯示登入頁面
+          // 未登入狀態
           document.getElementById("auth-container").style.display = "block";
           document.getElementById("main-container").style.display = "none";
           document.getElementById("user-info").style.display = "none";
+          manageBackground(true);
           return;
         }
 
@@ -1208,24 +1300,38 @@
 
           const data = await response.json();
 
+          // 登入成功
+          manageBackground(false);
           document.getElementById("auth-container").style.display = "none";
           document.getElementById("main-container").style.display = "block";
           document.getElementById("user-info").style.display = "block";
+
+          // 設置用戶資訊
           const username = localStorage.getItem("username");
           document.getElementById("username-display").textContent = username;
 
+          // 設置管理員按鈕
+          const adminBtn = document.getElementById("admin-btn");
           if (data.role === "admin") {
-            document.getElementById("admin-btn").style.display = "inline-block";
+            adminBtn.style.display = "inline-block";
+          } else {
+            adminBtn.style.display = "none";
           }
+
+          localStorage.setItem("userRole", data.role);
         } catch (error) {
           console.error("檢查角色失敗:", error);
-          // 如果驗證失敗，清除 token 並顯示登入頁面
+          // 認證失敗，清除資料
           localStorage.removeItem("token");
           localStorage.removeItem("username");
+          localStorage.removeItem("userRole");
           authToken = null;
+
+          // 返回登入畫面
           document.getElementById("auth-container").style.display = "block";
           document.getElementById("main-container").style.display = "none";
           document.getElementById("user-info").style.display = "none";
+          manageBackground(true);
         }
       }
 
@@ -1269,7 +1375,6 @@
             localStorage.setItem("username", username);
             checkAuth();
           } else {
-            // 顯示具體的錯誤訊息
             console.error("登入失敗:", data);
             alert(data.message || "登入失敗，請檢查用戶名和密碼");
           }
@@ -1283,6 +1388,9 @@
       async function register() {
         const username = document.getElementById("reg-username").value;
         const password = document.getElementById("reg-password").value;
+        const name = document.getElementById("reg-name").value;
+        const organization = document.getElementById("reg-organization").value;
+        const education = document.getElementById("reg-education").value;
 
         try {
           const response = await fetch(`${API_URL}/auth/register`, {
@@ -1290,7 +1398,13 @@
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({
+              username,
+              password,
+              name,
+              organization,
+              education,
+            }),
           });
 
           const data = await response.json();
@@ -1305,42 +1419,27 @@
         }
       }
 
-      // 登出功能
+      // 修改登出功能
       function logout() {
         localStorage.removeItem("token");
         localStorage.removeItem("username");
+        localStorage.removeItem("userRole");
         authToken = null;
 
-        // 移除已存在的元素（如果有的話）
-        const existingBackground = document.querySelector(
-          ".animation-background"
-        );
-        const existingTitle = document.querySelector(".main-title");
-        if (existingBackground) existingBackground.remove();
-        if (existingTitle) existingTitle.remove();
-
-        // 重新創建動畫背景和標題
-        const animationBackground = document.createElement("div");
-        animationBackground.className = "animation-background";
-        document.body.insertBefore(
-          animationBackground,
-          document.body.firstChild
-        );
-
-        const mainTitle = document.createElement("div");
-        mainTitle.className = "main-title";
-        mainTitle.innerHTML = `
+        // 重新顯示標題（只在登入頁面）
+        if (!document.querySelector(".main-title")) {
+          const mainTitle = document.createElement("div");
+          mainTitle.className = "main-title";
+          mainTitle.innerHTML = `
       <h1>農業知識測驗系統</h1>
       <p>測試您的農業專業知識</p>
-  `;
-        document.body.insertBefore(
-          mainTitle,
-          document.getElementById("auth-container")
-        );
+    `;
+          document.body.insertBefore(
+            mainTitle,
+            document.getElementById("auth-container")
+          );
+        }
 
-        createFloatingElements();
-
-        // 更新顯示狀態
         document.getElementById("auth-container").style.display = "block";
         document.getElementById("main-container").style.display = "none";
         document.getElementById("user-info").style.display = "none";
@@ -1661,8 +1760,11 @@
         document.getElementById("quiz-container").style.display = "none";
       }
 
-      // 頁面載入時檢查認證狀態
-      document.addEventListener("DOMContentLoaded", checkAuth);
+      // 修改 DOMContentLoaded 事件監聽器
+      document.addEventListener("DOMContentLoaded", () => {
+        // 直接檢查身份認證，背景會在 checkAuth 中處理
+        checkAuth();
+      });
 
       // 修改 goHome 函數
       function goHome() {
@@ -1711,45 +1813,17 @@
         }
       }
 
-      // 修改登入驗證後的處理
-      // 更新檢查認證函數
+      // 檢查登入狀態
+      // 修改檢查認證函數
       async function checkAuth() {
         authToken = localStorage.getItem("token");
 
         if (!authToken) {
-          // 顯示登入頁面時，確保動畫背景和標題可見
+          // 未登入狀態：顯示登入頁面和標題
           document.getElementById("auth-container").style.display = "block";
           document.getElementById("main-container").style.display = "none";
           document.getElementById("user-info").style.display = "none";
-
-          // 移除已存在的元素（如果有的話）
-          const existingBackground = document.querySelector(
-            ".animation-background"
-          );
-          const existingTitle = document.querySelector(".main-title");
-          if (existingBackground) existingBackground.remove();
-          if (existingTitle) existingTitle.remove();
-
-          // 創建新的動畫背景和標題
-          const animationBackground = document.createElement("div");
-          animationBackground.className = "animation-background";
-          document.body.insertBefore(
-            animationBackground,
-            document.body.firstChild
-          );
-
-          const mainTitle = document.createElement("div");
-          mainTitle.className = "main-title";
-          mainTitle.innerHTML = `
-          <h1>農業知識測驗系統</h1>
-          <p>測試您的農業專業知識</p>
-      `;
-          document.body.insertBefore(
-            mainTitle,
-            document.getElementById("auth-container")
-          );
-
-          createFloatingElements();
+          manageBackground(true);
           return;
         }
 
@@ -1766,33 +1840,64 @@
 
           const data = await response.json();
 
-          // 登入成功後，移除動畫背景和標題
-          const animationBackground = document.querySelector(
-            ".animation-background"
-          );
-          const mainTitle = document.querySelector(".main-title");
-          if (animationBackground) animationBackground.remove();
-          if (mainTitle) mainTitle.remove();
-
-          // 顯示主要內容
+          // 登入成功：只保留背景動畫，移除標題
+          manageBackground(false);
           document.getElementById("auth-container").style.display = "none";
           document.getElementById("main-container").style.display = "block";
           document.getElementById("user-info").style.display = "block";
 
+          // 設置用戶名稱
           const username = localStorage.getItem("username");
           document.getElementById("username-display").textContent = username;
 
+          // 設置管理員按鈕
+          const adminBtn = document.getElementById("admin-btn");
           if (data.role === "admin") {
-            document.getElementById("admin-btn").style.display = "inline-block";
+            adminBtn.style.display = "inline-block";
+          } else {
+            adminBtn.style.display = "none";
           }
+
+          localStorage.setItem("userRole", data.role);
         } catch (error) {
           console.error("檢查角色失敗:", error);
+          // 認證失敗：清除資料並返回登入頁面
           localStorage.removeItem("token");
           localStorage.removeItem("username");
+          localStorage.removeItem("userRole");
           authToken = null;
+
           document.getElementById("auth-container").style.display = "block";
           document.getElementById("main-container").style.display = "none";
           document.getElementById("user-info").style.display = "none";
+          manageBackground(true);
+        }
+      }
+
+      // 新增一個輔助函數來確保動畫背景的存在
+      function ensureAnimationBackground() {
+        if (!document.querySelector(".animation-background")) {
+          const animationBackground = document.createElement("div");
+          animationBackground.className = "animation-background";
+          document.body.insertBefore(
+            animationBackground,
+            document.body.firstChild
+          );
+          createFloatingElements();
+        }
+      }
+
+      // 添加驗證管理員的函數
+      function isAdmin() {
+        return localStorage.getItem("userRole") === "admin";
+      }
+
+      // 在進入管理頁面時檢查
+      function goToAdmin() {
+        if (isAdmin()) {
+          window.location.href = "/admin.html";
+        } else {
+          alert("您沒有權限訪問管理頁面");
         }
       }
 
@@ -1832,17 +1937,12 @@
 
       // 當 DOM 載入完成後初始化動畫
       document.addEventListener("DOMContentLoaded", () => {
-        // 只在未登入狀態下初始化動畫
         if (!localStorage.getItem("token")) {
-          // 移除已存在的元素（如果有的話）
           const existingBackground = document.querySelector(
             ".animation-background"
           );
-          const existingTitle = document.querySelector(".main-title");
           if (existingBackground) existingBackground.remove();
-          if (existingTitle) existingTitle.remove();
 
-          // 創建新的動畫背景
           const animationBackground = document.createElement("div");
           animationBackground.className = "animation-background";
           document.body.insertBefore(
@@ -1850,21 +1950,10 @@
             document.body.firstChild
           );
 
-          // 創建新的標題
-          const mainTitle = document.createElement("div");
-          mainTitle.className = "main-title";
-          mainTitle.innerHTML = `
-          <h1>農業知識測驗系統</h1>
-          <p>測試您的農業專業知識</p>
-      `;
-          document.body.insertBefore(
-            mainTitle,
-            document.getElementById("auth-container")
-          );
-
-          // 創建漂浮元素
           createFloatingElements();
         }
+
+        checkAuth();
       });
     </script>
   </body>
