@@ -459,30 +459,122 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
 
+      /* 修改現有的媒體查詢樣式 */
       @media (max-width: 768px) {
         body {
-          padding: 1rem;
+          padding: 0.5rem; /* 減少body的padding */
         }
 
         .container {
           padding: 1rem;
+          margin: 0.5rem; /* 加入margin控制 */
+          width: auto; /* 自動寬度 */
         }
 
-        .topic-list {
-          grid-template-columns: 1fr;
+        /* 優化題庫選擇按鈕 */
+        .topic-buttons {
+          flex-direction: column; /* 改為垂直排列 */
+          gap: 1rem;
         }
 
-        .header h1 {
-          font-size: 2rem;
+        .topic-select-btn {
+          padding: 1rem;
+          width: 100%; /* 讓按鈕佔滿寬度 */
+          margin: 0; /* 移除margin */
         }
 
-        .stats-table {
+        /* 用戶資訊區塊調整 */
+        .user-info {
+          flex-wrap: wrap; /* 允許換行 */
+          gap: 0.5rem;
+          padding: 0.5rem;
+          justify-content: center; /* 置中對齊 */
+        }
+
+        /* 導航按鈕調整 */
+        .nav-btn {
+          margin: 0.25rem; /* 減少按鈕間距 */
+          min-width: auto; /* 移除最小寬度限制 */
+          width: calc(50% - 0.5rem); /* 讓按鈕平均分配寬度 */
+          padding: 0.5rem 1rem;
+          font-size: 0.8rem;
+        }
+
+        /* 問題卡片調整 */
+        .question-card {
+          padding: 1rem;
+          margin: 1rem 0;
+        }
+
+        .question-card h2 {
+          font-size: 1.1rem;
+        }
+
+        /* 選項按鈕調整 */
+        .option-btn {
+          padding: 0.8rem 1rem;
           font-size: 0.9rem;
+        }
+
+        /* 進度條容器調整 */
+        .progress {
+          margin: 1rem 0;
+          padding: 0.5rem;
+        }
+
+        /* 測驗結果表格調整 */
+        .stats-table {
+          display: block;
+          overflow-x: auto;
+          white-space: nowrap;
+          font-size: 0.8rem;
         }
 
         .stats-table th,
         .stats-table td {
           padding: 0.5rem;
+        }
+
+        /* 登入/註冊表單容器 */
+        .auth-container {
+          margin: 1rem auto;
+          padding: 1rem;
+          width: auto;
+          max-width: 100%;
+        }
+
+        .auth-form {
+          gap: 0.8rem;
+        }
+
+        .form-group input {
+          padding: 0.6rem;
+        }
+
+        /* 標題調整 */
+        .header h1 {
+          font-size: 1.8rem;
+        }
+
+        /* 修正按鈕在行動裝置上的大小 */
+        .admin-btn,
+        .home-btn,
+        .logout-btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.8rem;
+          margin: 0.25rem;
+        }
+      }
+
+      /* 新增超小螢幕的優化 */
+      @media (max-width: 320px) {
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .nav-btn {
+          width: 100%; /* 在超小螢幕上按鈕佔滿寬度 */
+          margin: 0.25rem 0;
         }
       }
     </style>
