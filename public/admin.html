@@ -232,6 +232,46 @@
         visibility: visible;
         opacity: 1;
       }
+      .user-actions {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+
+      .role-toggle-btn {
+        padding: 0.5rem 1rem;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .role-toggle-btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+
+      .delete-btn {
+        padding: 0.5rem;
+        background: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .delete-btn:hover {
+        background: #c82333;
+        transform: translateY(-2px);
+      }
+
+      .user-info {
+        cursor: pointer;
+        flex: 1;
+      }
     </style>
   </head>
   <body>
@@ -344,29 +384,37 @@
           userList.innerHTML = users
             .map(
               (user) => `
-                          <div class="user-item" onclick="showUserDetails('${
-                            user._id
-                          }')">
-                              <div class="user-avatar">${user.username[0].toUpperCase()}</div>
-                              <div class="user-info">
-                                  <h3>${user.username}</h3>
-                                  <p>註冊時間: ${new Date(
-                                    user.createdAt
-                                  ).toLocaleDateString()}</p>
-                                  <p>角色: ${user.role}</p>
-                              </div>
-                              <button onclick="toggleUserRole('${user._id}', '${
+                <div class="user-item">
+                    <div class="user-avatar">${user.username[0].toUpperCase()}</div>
+                    <div class="user-info" onclick="showUserDetails('${
+                      user._id
+                    }')">
+                        <h3>${user.username}</h3>
+                        <p>註冊時間: ${new Date(
+                          user.createdAt
+                        ).toLocaleDateString()}</p>
+                        <p>角色: ${user.role}</p>
+                    </div>
+                    <div class="user-actions">
+                        <button onclick="toggleUserRole('${user._id}', '${
                 user.role
               }')" class="role-toggle-btn">
-                                  ${
-                                    user.role === "admin"
-                                      ? "移除管理員"
-                                      : "設為管理員"
-                                  }
-                              </button>
-                              <i class="fas fa-chevron-right"></i>
-                          </div>
-                      `
+                            ${
+                              user.role === "admin"
+                                ? "移除管理員"
+                                : "設為管理員"
+                            }
+                        </button>
+                        ${
+                          user.role !== "admin"
+                            ? `<button onclick="deleteUser('${user._id}', '${user.username}')" class="delete-btn">
+                                <i class="fas fa-trash"></i>
+                               </button>`
+                            : ""
+                        }
+                    </div>
+                </div>
+              `
             )
             .join("");
         } catch (error) {
@@ -449,6 +497,38 @@
         } catch (error) {
           console.error("下載記錄失敗:", error);
           alert("下載記錄失敗");
+        }
+      }
+
+      // 添加刪除用戶函數
+      async function deleteUser(userId, username) {
+        if (
+          !confirm(
+            `確定要刪除用戶 "${username}" 嗎？此操作將同時刪除該用戶的所有測驗記錄且無法復原。`
+          )
+        ) {
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_URL}/admin/users/${userId}`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          });
+
+          if (response.ok) {
+            alert("用戶已成功刪除");
+            loadUsers(); // 重新載入用戶列表
+            loadStatistics(); // 重新載入統計資料
+          } else {
+            const data = await response.json();
+            throw new Error(data.message || "刪除用戶失敗");
+          }
+        } catch (error) {
+          console.error("刪除用戶失敗:", error);
+          alert(error.message || "刪除用戶時發生錯誤");
         }
       }
 

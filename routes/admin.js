@@ -173,4 +173,31 @@ router.get(
   }
 );
 
+// 刪除用戶
+router.delete("/users/:userId", auth, checkAdmin, async (req, res) => {
+  try {
+    // 檢查是否試圖刪除自己
+    if (req.params.userId === req.user.userId) {
+      return res.status(400).json({ message: "不能刪除自己的帳號" });
+    }
+
+    // 檢查用戶是否存在
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(404).json({ message: "找不到此用戶" });
+    }
+
+    // 刪除用戶相關的測驗記錄
+    await QuizRecord.deleteMany({ user: req.params.userId });
+
+    // 刪除用戶
+    await User.findByIdAndDelete(req.params.userId);
+
+    res.json({ message: "用戶已成功刪除" });
+  } catch (error) {
+    console.error("刪除用戶失敗:", error);
+    res.status(500).json({ message: "伺服器錯誤" });
+  }
+});
+
 module.exports = router;
