@@ -662,16 +662,20 @@
           });
 
           const data = await response.json();
+
           if (response.ok) {
             authToken = data.token;
             localStorage.setItem("token", authToken);
             localStorage.setItem("username", username);
             checkAuth();
           } else {
-            alert(data.message || "登入失敗");
+            // 顯示具體的錯誤訊息
+            console.error("登入失敗:", data);
+            alert(data.message || "登入失敗，請檢查用戶名和密碼");
           }
         } catch (error) {
-          alert("登入時發生錯誤");
+          console.error("登入錯誤:", error);
+          alert("登入時發生錯誤，請檢查網路連接");
         }
       }
 
@@ -808,10 +812,10 @@
         container.innerHTML = topics
           .map(
             (topic) => `
-          <button class="topic-button" onclick="startQuiz('${topic}')">
-            ${topic}
-          </button>
-        `
+                <button class="topic-button" onclick="startQuiz('${topic}')">
+                  ${topic}
+                </button>
+              `
           )
           .join("");
       }
@@ -857,14 +861,14 @@
 
         // 設置題目內容
         container.innerHTML = `
-          <h2>${questionData.question}</h2>
-          <div class="options">
-            <button class="option-btn" onclick="checkAnswer('A')">${questionData.answer_a}</button>
-            <button class="option-btn" onclick="checkAnswer('B')">${questionData.answer_b}</button>
-            <button class="option-btn" onclick="checkAnswer('C')">${questionData.answer_c}</button>
-            <button class="option-btn" onclick="checkAnswer('D')">${questionData.answer_d}</button>
-          </div>
-        `;
+                <h2>${questionData.question}</h2>
+                <div class="options">
+                  <button class="option-btn" onclick="checkAnswer('A')">${questionData.answer_a}</button>
+                  <button class="option-btn" onclick="checkAnswer('B')">${questionData.answer_b}</button>
+                  <button class="option-btn" onclick="checkAnswer('C')">${questionData.answer_c}</button>
+                  <button class="option-btn" onclick="checkAnswer('D')">${questionData.answer_d}</button>
+                </div>
+              `;
 
         // 更新進度條
         updateProgress();
@@ -922,51 +926,53 @@
         );
 
         const statsHtml = `
-    <div class="quiz-content">
-      <div class="result">
-        <h2>測驗完成！</h2>
-        <div class="score">${percentage}%</div>
-        <p>答對題數：${score} / ${currentQuestions.length}</p>
-        
-        <h3 style="margin-top: 2rem;">答題統計</h3>
-        <table class="stats-table">
-          <thead>
-            <tr>
-              <th>題號</th>
-              <th>題目</th>
-              <th>你的答案</th>
-              <th>正確答案</th>
-              <th>結果</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${answerHistory
-              .map(
-                (record, index) => `
-                <tr>
-                  <td>${index + 1}</td>
-                  <td>${record.question}</td>
-                  <td>${record.userAnswerText}</td>
-                  <td>${record.correctAnswerText}</td>
-                  <td>
-                    <span class="answer-status ${
-                      record.isCorrect ? "answer-correct" : "answer-incorrect"
-                    }">
-                      ${record.isCorrect ? "正確" : "錯誤"}
-                    </span>
-                  </td>
-                </tr>
-              `
-              )
-              .join("")}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="quiz-footer">
-      <button class="back-btn" onclick="showTopics()">返回主題選擇</button>
-    </div>
-  `;
+          <div class="quiz-content">
+            <div class="result">
+              <h2>測驗完成！</h2>
+              <div class="score">${percentage}%</div>
+              <p>答對題數：${score} / ${currentQuestions.length}</p>
+
+              <h3 style="margin-top: 2rem;">答題統計</h3>
+              <table class="stats-table">
+                <thead>
+                  <tr>
+                    <th>題號</th>
+                    <th>題目</th>
+                    <th>你的答案</th>
+                    <th>正確答案</th>
+                    <th>結果</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${answerHistory
+                    .map(
+                      (record, index) => `
+                      <tr>
+                        <td>${index + 1}</td>
+                        <td>${record.question}</td>
+                        <td>${record.userAnswerText}</td>
+                        <td>${record.correctAnswerText}</td>
+                        <td>
+                          <span class="answer-status ${
+                            record.isCorrect
+                              ? "answer-correct"
+                              : "answer-incorrect"
+                          }">
+                            ${record.isCorrect ? "正確" : "錯誤"}
+                          </span>
+                        </td>
+                      </tr>
+                    `
+                    )
+                    .join("")}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="quiz-footer">
+            <button class="back-btn" onclick="showTopics()">返回主題選擇</button>
+          </div>
+        `;
 
         container.innerHTML = statsHtml;
       }
@@ -978,19 +984,19 @@
         score = 0;
 
         document.getElementById("quiz-container").innerHTML = `
-          <div class="quiz-content">
-            <div class="progress">
-              <span id="progress-text"></span>
-              <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
-              </div>
-            </div>
-            <div id="question-container" class="question-card"></div>
-          </div>
-          <div class="quiz-footer">
-            <button class="back-btn" onclick="showTopics()">← 返回主題選擇</button>
-          </div>
-        `;
+                <div class="quiz-content">
+                  <div class="progress">
+                    <span id="progress-text"></span>
+                    <div class="progress-bar">
+                      <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                  </div>
+                  <div id="question-container" class="question-card"></div>
+                </div>
+                <div class="quiz-footer">
+                  <button class="back-btn" onclick="showTopics()">← 返回主題選擇</button>
+                </div>
+              `;
 
         document.getElementById("topics-container").style.display = "none";
         document.querySelector(".topic-selection-container").style.display =
