@@ -12,23 +12,6 @@ const adminRoutes = require("./routes/admin");
 
 const app = express();
 
-// 創建管理員帳號的函數
-const createAdminIfNotExists = async () => {
-  try {
-    const adminUser = await User.findOne({ username: "admin" });
-    if (!adminUser) {
-      await User.create({
-        username: "admin",
-        password: await bcrypt.hash("admin", 10),
-        role: "admin",
-      });
-      console.log("管理者帳號創建成功");
-    }
-  } catch (error) {
-    console.error("檢查/創建管理者失敗:", error);
-  }
-};
-
 // 根據環境選擇 MongoDB 連線
 const isDevelopment = process.env.NODE_ENV !== "production";
 const mongoURI = isDevelopment
@@ -38,7 +21,6 @@ const mongoURI = isDevelopment
 // 連接資料庫並在連接成功後創建管理員帳號
 connectDB(mongoURI).then(() => {
   console.log(`MongoDB: ${isDevelopment ? "本地資料庫" : "Atlas 資料庫"}`);
-  createAdminIfNotExists();
 });
 
 // 中間件設定
