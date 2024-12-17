@@ -993,6 +993,7 @@
               score,
               totalQuestions,
               answers,
+              quizFormat: currentQuizFormat, // 添加這行
             }),
           });
 
@@ -1013,21 +1014,6 @@
       let currentQuestion = 0;
       let score = 0;
       let answerHistory = [];
-
-      // 檔案上傳處理
-      document
-        .getElementById("file-input")
-        .addEventListener("change", function (e) {
-          const file = e.target.files[0];
-          const reader = new FileReader();
-
-          reader.onload = function (e) {
-            allQuestions = JSON.parse(e.target.result);
-            showTopicButtons();
-          };
-
-          reader.readAsText(file);
-        });
 
       // 顯示主題按鈕
       function showTopicButtons() {
@@ -1085,8 +1071,23 @@
 
         // 如果是圖片題庫且有圖片路徑
         if (currentQuizFormat === "image" && questionData.filepath) {
+          // 構建完整的圖片路徑
+          const imagePath = `/quizzes/agriculture/${questionData.filepath}`;
+
+          console.log("圖片資訊：", {
+            format: currentQuizFormat,
+            originalPath: questionData.filepath,
+            fullPath: imagePath,
+            questionData: questionData,
+          });
+
           questionHtml = `
-            <img src="/quizzes/${questionData.filepath}" alt="題目圖片" style="max-width: 100%; margin-bottom: 1rem;">
+            <img 
+              src="${imagePath}" 
+              alt="題目圖片" 
+              class="question-image"
+              onerror="console.error('圖片載入失敗，路徑:', '${imagePath}')"
+            >
             <h2>${questionData.question}</h2>
           `;
         }
@@ -1162,12 +1163,13 @@
               <h2>測驗完成！</h2>
               <div class="score">${percentage}%</div>
               <p>答對題數：${score} / ${currentQuestions.length}</p>
-
+      
               <h3 style="margin-top: 2rem;">答題統計</h3>
               <table class="stats-table">
                 <thead>
                   <tr>
                     <th>題號</th>
+                    ${currentQuizFormat === "image" ? "<th>圖片</th>" : ""}
                     <th>題目</th>
                     <th>你的答案</th>
                     <th>正確答案</th>
@@ -1180,6 +1182,15 @@
                       (record, index) => `
                       <tr>
                         <td>${index + 1}</td>
+                        ${
+                          currentQuizFormat === "image"
+                            ? `<td>
+                            <img src="/quizzes/agriculture/${currentQuestions[index].filepath}" 
+                                alt="題目圖片" 
+                                style="max-width: 150px; max-height: 150px; object-fit: contain;">
+                           </td>`
+                            : ""
+                        }
                         <td>${record.question}</td>
                         <td>${record.userAnswerText}</td>
                         <td>${record.correctAnswerText}</td>
