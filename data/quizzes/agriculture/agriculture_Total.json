@@ -7,7 +7,7 @@
     "answer_c": "稻熱病",
     "answer_d": "紋枯病",
     "correct_answer": "A",
-    "filepath": "image/21476.jpg",
+    "filepath": "21476.jpg",
     "label": "胡麻葉枯病",
     "provider": "王智立"
   },
@@ -19,7 +19,7 @@
     "answer_c": "紋枯病",
     "answer_d": "葉鞘腐敗病",
     "correct_answer": "A",
-    "filepath": "image/徒長病1.jpg",
+    "filepath": "徒長病1.jpg",
     "label": "徒長病",
     "provider": "王智立"
   },
@@ -31,7 +31,7 @@
     "answer_c": "紋枯病",
     "answer_d": "葉鞘腐敗病",
     "correct_answer": "B",
-    "filepath": "image/稻熱病4.jpg",
+    "filepath": "稻熱病4.jpg",
     "label": "稻熱病",
     "provider": "王智立"
   },
@@ -43,7 +43,7 @@
     "answer_c": "白葉枯病",
     "answer_d": "紋枯病",
     "correct_answer": "D",
-    "filepath": "image/紋枯病4.jpg",
+    "filepath": "紋枯病4.jpg",
     "label": "紋枯病",
     "provider": "王智立"
   },
@@ -55,7 +55,7 @@
     "answer_c": "白葉枯病",
     "answer_d": "紋枯病",
     "correct_answer": "A",
-    "filepath": "image/葉鞘腐敗病.jpg",
+    "filepath": "葉鞘腐敗病.jpg",
     "label": "葉鞘腐敗病",
     "provider": "王智立"
   },
@@ -67,7 +67,7 @@
     "answer_c": "紋枯病",
     "answer_d": "白絹病",
     "correct_answer": "D",
-    "filepath": "image/304.jpg",
+    "filepath": "304.jpg",
     "label": "白絹病",
     "provider": "王智立"
   },
@@ -79,7 +79,7 @@
     "answer_c": "紋枯病",
     "answer_d": "白葉枯病",
     "correct_answer": "D",
-    "filepath": "image/白葉枯病2.jpg",
+    "filepath": "白葉枯病2.jpg",
     "label": "白葉枯病",
     "provider": "王智立"
   },
@@ -91,7 +91,7 @@
     "answer_c": "紋枯病",
     "answer_d": "葉鞘腐敗病",
     "correct_answer": "A",
-    "filepath": "image/22237.jpg",
+    "filepath": "22237.jpg",
     "label": "細菌性條斑病",
     "provider": "王智立"
   },
@@ -103,7 +103,7 @@
     "answer_c": "白尖病",
     "answer_d": "白葉枯病",
     "correct_answer": "C",
-    "filepath": "image/白尖病.jpg",
+    "filepath": "白尖病.jpg",
     "label": "白尖病",
     "provider": "王智立"
   },
@@ -115,7 +115,7 @@
     "answer_c": "白尖病",
     "answer_d": "白葉枯病",
     "correct_answer": "B",
-    "filepath": "image/20220416_152104.jpg",
+    "filepath": "20220416_152104.jpg",
     "label": "根瘤線蟲",
     "provider": "王智立"
   },
@@ -127,7 +127,7 @@
     "answer_c": "稻熱病",
     "answer_d": "細菌性條斑病",
     "correct_answer": "A",
-    "filepath": "image/稻麴病.jpg",
+    "filepath": "稻麴病.jpg",
     "label": "稻麴病",
     "provider": "王智立"
   },
@@ -139,7 +139,7 @@
     "answer_c": "褐飛蝨",
     "answer_d": "水稻水象鼻蟲",
     "correct_answer": "A",
-    "filepath": "image/大螟2.jpg",
+    "filepath": "大螟2.jpg",
     "label": "大螟",
     "provider": "莊益源"
   },
@@ -151,7 +151,7 @@
     "answer_c": "稻椿象",
     "answer_d": "稻縱捲葉蟲(瘤野螟)",
     "correct_answer": "D",
-    "filepath": "image/水稻瘤野螟幼蟲.jpg",
+    "filepath": "水稻瘤野螟幼蟲.jpg",
     "label": "稻縱捲葉蟲(瘤野螟)",
     "provider": "莊益源"
   },
@@ -163,7 +163,7 @@
     "answer_c": "蝗蟲",
     "answer_d": "黑尾葉蟬",
     "correct_answer": "A",
-    "filepath": "image/南方綠椿象1.jpg",
+    "filepath": "南方綠椿象1.jpg",
     "label": "南方綠椿象",
     "provider": "莊益源"
   },
@@ -175,7 +175,7 @@
     "answer_c": "鐵甲蟲",
     "answer_d": "稻椿象",
     "correct_answer": "A",
-    "filepath": "image/褐飛蝨3.jpg",
+    "filepath": "褐飛蝨3.jpg",
     "label": "褐飛蝨",
     "provider": "莊益源"
   },
@@ -187,7 +187,7 @@
     "answer_c": "弄蝶(稻苞蟲)",
     "answer_d": "水稻水象鼻蟲",
     "correct_answer": "D",
-    "filepath": "image/水稻水象鼻蟲4.jpg",
+    "filepath": "水稻水象鼻蟲4.jpg",
     "label": "水稻水象鼻蟲",
     "provider": "莊益源"
   },
@@ -199,7 +199,7 @@
     "answer_c": "稻心蠅",
     "answer_d": "稻椿象",
     "correct_answer": "B",
-    "filepath": "image/黑椿象1.jpg",
+    "filepath": "黑椿象1.jpg",
     "label": "稻黑椿象",
     "provider": "莊益源"
   },
@@ -211,7 +211,7 @@
     "answer_c": "鐵甲蟲",
     "answer_d": "白背飛蝨",
     "correct_answer": "A",
-    "filepath": "image/負泥蟲3.jpg",
+    "filepath": "負泥蟲3.jpg",
     "label": "負泥蟲",
     "provider": "莊益源"
   },
@@ -223,7 +223,7 @@
     "answer_c": "黑椿象",
     "answer_d": "黑尾葉蟬",
     "correct_answer": "B",
-    "filepath": "image/暮眼蝶屬2.jpg",
+    "filepath": "暮眼蝶屬2.jpg",
     "label": "暮眼蝶屬(樹蔭蝶)",
     "provider": "莊益源"
   },
@@ -235,7 +235,7 @@
     "answer_c": "稻心蠅",
     "answer_d": "鐵甲蟲",
     "correct_answer": "B",
-    "filepath": "image/蝗蟲2.jpg",
+    "filepath": "蝗蟲2.jpg",
     "label": "蝗蟲",
     "provider": "莊益源"
   },
@@ -247,7 +247,7 @@
     "answer_c": "弄蝶(稻苞蟲)",
     "answer_d": "斜紋夜蛾",
     "correct_answer": "D",
-    "filepath": "image/斜紋夜蛾2.jpg",
+    "filepath": "斜紋夜蛾2.jpg",
     "label": "斜紋夜蛾",
     "provider": "莊益源"
   },
@@ -259,7 +259,7 @@
     "answer_c": "緣椿象",
     "answer_d": "黑尾葉蟬",
     "correct_answer": "D",
-    "filepath": "image/黑尾葉蟬2.jpg",
+    "filepath": "黑尾葉蟬2.jpg",
     "label": "黑尾葉蟬",
     "provider": "莊益源"
   },
@@ -271,7 +271,7 @@
     "answer_c": "緣椿象",
     "answer_d": "稻椿象",
     "correct_answer": "C",
-    "filepath": "image/稻椿象3.jpg",
+    "filepath": "稻椿象3.jpg",
     "label": "稻椿象",
     "provider": "莊益源"
   },
@@ -283,7 +283,7 @@
     "answer_c": "大螟",
     "answer_d": "鐵甲蟲",
     "correct_answer": "A",
-    "filepath": "image/15057.jpg",
+    "filepath": "15057.jpg",
     "label": "稻心蠅",
     "provider": "莊益源"
   },
@@ -295,7 +295,7 @@
     "answer_c": "白翅葉蟬",
     "answer_d": "黑椿象",
     "correct_answer": "A",
-    "filepath": "image/緣椿象1.jpg",
+    "filepath": "緣椿象1.jpg",
     "label": "緣椿象",
     "provider": "莊益源"
   },
@@ -307,7 +307,7 @@
     "answer_c": "稻縱捲葉蟲(瘤野螟)",
     "answer_d": "斜紋夜蛾",
     "correct_answer": "B",
-    "filepath": "image/27146.jpg",
+    "filepath": "27146.jpg",
     "label": "弄蝶(稻苞蟲)",
     "provider": "莊益源"
   },
@@ -319,7 +319,7 @@
     "answer_c": "電光葉蟬",
     "answer_d": "白背飛蝨",
     "correct_answer": "A",
-    "filepath": "image/弄蝶(稻苞蟲).jpg",
+    "filepath": "弄蝶(稻苞蟲).jpg",
     "label": "弄蝶(稻苞蟲)",
     "provider": "莊益源"
   },
@@ -331,7 +331,7 @@
     "answer_c": "白翅葉蟬",
     "answer_d": "稻椿象",
     "correct_answer": "A",
-    "filepath": "image/電光葉蟬 1.jpg",
+    "filepath": "電光葉蟬 1.jpg",
     "label": "電光葉蟬",
     "provider": "莊益源"
   },
@@ -343,7 +343,7 @@
     "answer_c": "白背飛蝨",
     "answer_d": "負泥蟲",
     "correct_answer": "C",
-    "filepath": "image/25052.jpg",
+    "filepath": "25052.jpg",
     "label": "白背飛蝨",
     "provider": "莊益源"
   },
@@ -355,7 +355,7 @@
     "answer_c": "斜紋夜蛾",
     "answer_d": "鐵甲蟲",
     "correct_answer": "D",
-    "filepath": "image/29826.jpg",
+    "filepath": "29826.jpg",
     "label": "鐵甲蟲",
     "provider": "莊益源"
   },
@@ -367,7 +367,7 @@
     "answer_c": "氮過多",
     "answer_d": "氮缺乏",
     "correct_answer": "D",
-    "filepath": "image/6131.jpg",
+    "filepath": "6131.jpg",
     "label": "氮缺乏",
     "provider": "郭寶錚"
   },
@@ -379,7 +379,7 @@
     "answer_c": "硼過多",
     "answer_d": "鉀缺乏",
     "correct_answer": "D",
-    "filepath": "image/5598.jpg",
+    "filepath": "5598.jpg",
     "label": "鉀缺乏",
     "provider": "郭寶錚"
   },
@@ -391,7 +391,7 @@
     "answer_c": "餅病",
     "answer_d": "赤葉枯病",
     "correct_answer": "D",
-    "filepath": "image/IMG20220319082326.jpg",
+    "filepath": "IMG20220319082326.jpg",
     "label": "赤葉枯病",
     "provider": "王智立"
   },
@@ -403,7 +403,7 @@
     "answer_c": "赤葉枯病",
     "answer_d": "網餅病",
     "correct_answer": "C",
-    "filepath": "image/IMG0004.jpg",
+    "filepath": "IMG0004.jpg",
     "label": "赤葉枯病",
     "provider": "王智立"
   },
@@ -415,7 +415,7 @@
     "answer_c": "輪紋葉枯病",
     "answer_d": "藻斑病",
     "correct_answer": "B",
-    "filepath": "image/茶網餅病.jpg",
+    "filepath": "茶網餅病.jpg",
     "label": "網餅病",
     "provider": "王智立"
   },
@@ -427,7 +427,7 @@
     "answer_c": "髮狀病",
     "answer_d": "輪斑病",
     "correct_answer": "A",
-    "filepath": "image/PXL_20220316_061426488.jpg",
+    "filepath": "PXL_20220316_061426488.jpg",
     "label": "餅病",
     "provider": "王智立"
   },
@@ -439,7 +439,7 @@
     "answer_c": "煤煙病",
     "answer_d": "藻斑病",
     "correct_answer": "B",
-    "filepath": "image/24045.jpg",
+    "filepath": "24045.jpg",
     "label": "網餅病",
     "provider": "王智立"
   },
@@ -451,7 +451,7 @@
     "answer_c": "煤煙病",
     "answer_d": "髮狀病",
     "correct_answer": "A",
-    "filepath": "image/6614.jpg",
+    "filepath": "6614.jpg",
     "label": "餅病",
     "provider": "王智立"
   },
@@ -463,7 +463,7 @@
     "answer_c": "枝枯病",
     "answer_d": "髮狀病",
     "correct_answer": "D",
-    "filepath": "image/IMG_4939.jpg",
+    "filepath": "IMG_4939.jpg",
     "label": "髮狀病",
     "provider": "王智立"
   },
@@ -475,7 +475,7 @@
     "answer_c": "輪斑病",
     "answer_d": "煤煙病",
     "correct_answer": "C",
-    "filepath": "image/1356.jpg",
+    "filepath": "1356.jpg",
     "label": "輪斑病",
     "provider": "王智立"
   },
@@ -487,7 +487,7 @@
     "answer_c": "苔癬",
     "answer_d": "輪斑病",
     "correct_answer": "B",
-    "filepath": "image/IMG_47260.jpg",
+    "filepath": "IMG_47260.jpg",
     "label": "煤煙病",
     "provider": "王智立"
   },
@@ -499,7 +499,7 @@
     "answer_c": "枝枯病",
     "answer_d": "藻類",
     "correct_answer": "A",
-    "filepath": "image/IMG_14703.jpg",
+    "filepath": "IMG_14703.jpg",
     "label": "藻斑病",
     "provider": "王智立"
   },
@@ -511,7 +511,7 @@
     "answer_c": "煤煙病",
     "answer_d": "赤葉枯病",
     "correct_answer": "A",
-    "filepath": "image/IMG_4745.jpg",
+    "filepath": "IMG_4745.jpg",
     "label": "藻斑病",
     "provider": "王智立"
   },
@@ -523,7 +523,7 @@
     "answer_c": "地衣",
     "answer_d": "苔癬",
     "correct_answer": "C",
-    "filepath": "image/IMG_4524.jpg",
+    "filepath": "IMG_4524.jpg",
     "label": "地衣",
     "provider": "王智立"
   },
@@ -535,7 +535,7 @@
     "answer_c": "苔癬",
     "answer_d": "枝枯病",
     "correct_answer": "C",
-    "filepath": "image/IMG_4521.jpg",
+    "filepath": "IMG_4521.jpg",
     "label": "苔癬",
     "provider": "王智立"
   },
@@ -547,7 +547,7 @@
     "answer_c": "褐色圓星病",
     "answer_d": "褐根病",
     "correct_answer": "A",
-    "filepath": "image/IMG_4420.jpg",
+    "filepath": "IMG_4420.jpg",
     "label": "枝枯病",
     "provider": "王智立"
   },
@@ -559,7 +559,7 @@
     "answer_c": "煤煙病",
     "answer_d": "輪斑病",
     "correct_answer": "B",
-    "filepath": "image/IMG_4891.jpg",
+    "filepath": "IMG_4891.jpg",
     "label": "藻類",
     "provider": "王智立"
   },
@@ -571,7 +571,7 @@
     "answer_c": "煤煙病",
     "answer_d": "褐根病",
     "correct_answer": "D",
-    "filepath": "image/褐根病.jpg",
+    "filepath": "褐根病.jpg",
     "label": "褐根病",
     "provider": "王智立"
   },
@@ -583,7 +583,7 @@
     "answer_c": "潛葉蠅",
     "answer_d": "茶角盲椿象/奎寧角盲椿象",
     "correct_answer": "A",
-    "filepath": "image/1-1-IMG_7407_20220819100948.jpg",
+    "filepath": "1-1-IMG_7407_20220819100948.jpg",
     "label": "臺灣土白蟻",
     "provider": "莊益源"
   },
@@ -595,7 +595,7 @@
     "answer_c": "褐緣蛾蠟蟬",
     "answer_d": "介殼蟲類",
     "correct_answer": "A",
-    "filepath": "image/2-1-IMG20220724115741.jpg",
+    "filepath": "2-1-IMG20220724115741.jpg",
     "label": "棕長頸捲葉象鼻蟲",
     "provider": "莊益源"
   },
@@ -607,7 +607,7 @@
     "answer_c": "茶細蛾",
     "answer_d": "潛葉蠅",
     "correct_answer": "D",
-    "filepath": "image/3-1-IMG_2069_20220819090310.jpg",
+    "filepath": "3-1-IMG_2069_20220819090310.jpg",
     "label": "潛葉蠅",
     "provider": "莊益源"
   },
@@ -619,7 +619,7 @@
     "answer_c": "毒蛾類",
     "answer_d": "茶角盲椿象/奎寧角盲椿象",
     "correct_answer": "D",
-    "filepath": "image/4-2-IMG20220721114307.jpg",
+    "filepath": "4-2-IMG20220721114307.jpg",
     "label": "茶角盲椿象/奎寧角盲椿象",
     "provider": "莊益源"
   },
@@ -631,7 +631,7 @@
     "answer_c": "介殼蟲類",
     "answer_d": "刺粉蝨",
     "correct_answer": "A",
-    "filepath": "image/5-1-IMG_5820_20220826070700.jpg",
+    "filepath": "5-1-IMG_5820_20220826070700.jpg",
     "label": "小桔蚜",
     "provider": "莊益源"
   },
@@ -643,7 +643,7 @@
     "answer_c": "褐緣蛾蠟蟬",
     "answer_d": "刺粉蝨",
     "correct_answer": "C",
-    "filepath": "image/褐緣蛾蠟蟬1.jpg",
+    "filepath": "褐緣蛾蠟蟬1.jpg",
     "label": "褐緣蛾蠟蟬",
     "provider": "莊益源"
   },
@@ -655,7 +655,7 @@
     "answer_c": "茶細蛾",
     "answer_d": "毒蛾類",
     "correct_answer": "A",
-    "filepath": "image/7-1-IMG20220811102550.jpg",
+    "filepath": "7-1-IMG20220811102550.jpg",
     "label": "介殼蟲類",
     "provider": "莊益源"
   },
@@ -667,7 +667,7 @@
     "answer_c": "介殼蟲類",
     "answer_d": "刺粉蝨",
     "correct_answer": "D",
-    "filepath": "image/8-1-DSC06371.jpg",
+    "filepath": "8-1-DSC06371.jpg",
     "label": "刺粉蝨",
     "provider": "莊益源"
   },
@@ -679,7 +679,7 @@
     "answer_c": "蝗蟲",
     "answer_d": "茶細蛾",
     "correct_answer": "D",
-    "filepath": "image/茶細蛾2.jpg",
+    "filepath": "茶細蛾2.jpg",
     "label": "茶細蛾",
     "provider": "莊益源"
   },
@@ -691,7 +691,7 @@
     "answer_c": "茶蠶",
     "answer_d": "蝗蟲",
     "correct_answer": "A",
-    "filepath": "image/12-1-PXL_20220811_021508597.MP.jpg",
+    "filepath": "12-1-PXL_20220811_021508597.MP.jpg",
     "label": "毒蛾類",
     "provider": "莊益源"
   },
@@ -703,7 +703,7 @@
     "answer_c": "茶細蛾",
     "answer_d": "毒蛾類",
     "correct_answer": "B",
-    "filepath": "image/13-1-IMG_2065_20220819090050.jpg",
+    "filepath": "13-1-IMG_2065_20220819090050.jpg",
     "label": "茶姬捲葉蛾",
     "provider": "莊益源"
   },
@@ -715,7 +715,7 @@
     "answer_c": "茶蠶",
     "answer_d": "蝗蟲",
     "correct_answer": "B",
-    "filepath": "image/14-1-IMG_7208_20220326114413.jpg",
+    "filepath": "14-1-IMG_7208_20220326114413.jpg",
     "label": "茶捲葉蛾",
     "provider": "莊益源"
   },
@@ -727,7 +727,7 @@
     "answer_c": "小綠葉蟬",
     "answer_d": "茶摺粉蝨",
     "correct_answer": "A",
-    "filepath": "image/15-1-DSC_0174.jpg",
+    "filepath": "15-1-DSC_0174.jpg",
     "label": "茶蠶",
     "provider": "莊益源"
   },
@@ -739,7 +739,7 @@
     "answer_c": "蝗蟲",
     "answer_d": "避債蛾",
     "correct_answer": "C",
-    "filepath": "image/蝗蟲1.jpg",
+    "filepath": "蝗蟲1.jpg",
     "label": "蝗蟲",
     "provider": "莊益源"
   },
@@ -751,7 +751,7 @@
     "answer_c": "斜紋夜蛾",
     "answer_d": "尺蠖蛾",
     "correct_answer": "D",
-    "filepath": "image/18-1-IMG20220718115101.jpg",
+    "filepath": "18-1-IMG20220718115101.jpg",
     "label": "茶黃薊馬(小黃薊馬)",
     "provider": "莊益源"
   },
@@ -763,7 +763,7 @@
     "answer_c": "茶摺粉蝨",
     "answer_d": "金花蟲類",
     "correct_answer": "A",
-    "filepath": "image/避債蛾1.jpg",
+    "filepath": "避債蛾1.jpg",
     "label": "避債蛾",
     "provider": "莊益源"
   },
@@ -775,7 +775,7 @@
     "answer_c": "金花蟲類",
     "answer_d": "茶蠶",
     "correct_answer": "A",
-    "filepath": "image/小綠葉蟬1.jpg",
+    "filepath": "小綠葉蟬1.jpg",
     "label": "小綠葉蟬",
     "provider": "莊益源"
   },
@@ -787,7 +787,7 @@
     "answer_c": "茶摺粉蝨",
     "answer_d": "褐緣蛾蠟蟬",
     "correct_answer": "C",
-    "filepath": "image/21-1-IMG_2185.jpg",
+    "filepath": "21-1-IMG_2185.jpg",
     "label": "茶摺粉蝨",
     "provider": "莊益源"
   },
@@ -799,7 +799,7 @@
     "answer_c": "褐緣蛾蠟蟬",
     "answer_d": "金花蟲類",
     "correct_answer": "D",
-    "filepath": "image/金花蟲類1.jpg",
+    "filepath": "金花蟲類1.jpg",
     "label": "金花蟲類",
     "provider": "莊益源"
   },
@@ -811,7 +811,7 @@
     "answer_c": "避債蛾",
     "answer_d": "蝗蟲",
     "correct_answer": "B",
-    "filepath": "image/斜紋夜蛾3.jpg",
+    "filepath": "斜紋夜蛾3.jpg",
     "label": "斜紋夜蛾",
     "provider": "莊益源"
   },
@@ -823,7 +823,7 @@
     "answer_c": "茶捲葉蛾",
     "answer_d": "茶蠶",
     "correct_answer": "A",
-    "filepath": "image/24-1-P_20220327_140327.jpg",
+    "filepath": "24-1-P_20220327_140327.jpg",
     "label": "尺蠖蛾",
     "provider": "莊益源"
   },
@@ -835,7 +835,7 @@
     "answer_c": "茶蠶",
     "answer_d": "蝗蟲",
     "correct_answer": "A",
-    "filepath": "image/黑姬捲葉蛾4.jpg",
+    "filepath": "黑姬捲葉蛾4.jpg",
     "label": "黑姬捲葉蛾",
     "provider": "莊益源"
   },
@@ -847,7 +847,7 @@
     "answer_c": "茶蠶",
     "answer_d": "毒蛾類",
     "correct_answer": "A",
-    "filepath": "image/黃紋紅頸斑蛾1.jpg",
+    "filepath": "黃紋紅頸斑蛾1.jpg",
     "label": "黃紋紅頸斑蛾",
     "provider": "莊益源"
   },
@@ -859,7 +859,7 @@
     "answer_c": "小綠葉蟬",
     "answer_d": "茶摺粉蝨",
     "correct_answer": "B",
-    "filepath": "image/27-1-IMG20220721111450.jpg",
+    "filepath": "27-1-IMG20220721111450.jpg",
     "label": "茶斑蛾",
     "provider": "莊益源"
   },
@@ -871,7 +871,7 @@
     "answer_c": "蟎類",
     "answer_d": "小綠葉蟬",
     "correct_answer": "C",
-    "filepath": "image/蟎類2.jpg",
+    "filepath": "蟎類2.jpg",
     "label": "蟎類",
     "provider": "莊益源"
   },
@@ -883,7 +883,7 @@
     "answer_c": "茶摺粉蝨",
     "answer_d": "刺角透翅盲椿",
     "correct_answer": "D",
-    "filepath": "image/30-1-PXL_20220811_023717018.MP.jpg",
+    "filepath": "30-1-PXL_20220811_023717018.MP.jpg",
     "label": "刺角透翅盲椿",
     "provider": "莊益源"
   },
@@ -895,7 +895,7 @@
     "answer_c": "小綠葉蟬",
     "answer_d": "避債蛾",
     "correct_answer": "A",
-    "filepath": "image/17858.jpg",
+    "filepath": "17858.jpg",
     "label": "中華軍配飛蝨",
     "provider": "莊益源"
   },
@@ -907,7 +907,7 @@
     "answer_c": "刺角透翅盲椿",
     "answer_d": "芫菁",
     "correct_answer": "D",
-    "filepath": "image/芫菁1.jpg",
+    "filepath": "芫菁1.jpg",
     "label": "芫菁",
     "provider": "莊益源"
   },
@@ -919,7 +919,7 @@
     "answer_c": "磷過多",
     "answer_d": "鉀缺乏",
     "correct_answer": "A",
-    "filepath": "image/67358.jpg",
+    "filepath": "67358.jpg",
     "label": "氮缺乏",
     "provider": "郭寶錚"
   },
@@ -931,7 +931,7 @@
     "answer_c": "鉀缺乏",
     "answer_d": "鈣缺乏",
     "correct_answer": "A",
-    "filepath": "image/20210615_P0_007.jpg",
+    "filepath": "20210615_P0_007.jpg",
     "label": "磷缺乏",
     "provider": "郭寶錚"
   },
@@ -943,7 +943,7 @@
     "answer_c": "硼缺乏",
     "answer_d": "鈣缺乏",
     "correct_answer": "D",
-    "filepath": "image/13.jpg",
+    "filepath": "13.jpg",
     "label": "鈣缺乏",
     "provider": "郭寶錚"
   },
@@ -955,7 +955,7 @@
     "answer_c": "氯過多",
     "answer_d": "鎂缺乏",
     "correct_answer": "D",
-    "filepath": "image/5395.jpg",
+    "filepath": "5395.jpg",
     "label": "鎂缺乏",
     "provider": "郭寶錚"
   },
@@ -967,7 +967,7 @@
     "answer_c": "鈣缺乏",
     "answer_d": "鎂缺乏",
     "correct_answer": "A",
-    "filepath": "image/6331.jpg",
+    "filepath": "6331.jpg",
     "label": "硼缺乏",
     "provider": "郭寶錚"
   },
@@ -979,7 +979,7 @@
     "answer_c": "磷過多",
     "answer_d": "鉀缺乏",
     "correct_answer": "A",
-    "filepath": "image/IMAG2640.jpg",
+    "filepath": "IMAG2640.jpg",
     "label": "氮過多",
     "provider": "郭寶錚"
   },
@@ -991,7 +991,7 @@
     "answer_c": "硼缺乏",
     "answer_d": "氮過多",
     "correct_answer": "D",
-    "filepath": "image/IMG_2261.jpg",
+    "filepath": "IMG_2261.jpg",
     "label": "氮過多",
     "provider": "郭寶錚"
   },
@@ -1003,7 +1003,7 @@
     "answer_c": "磷缺乏",
     "answer_d": "鎂缺乏",
     "correct_answer": "B",
-    "filepath": "image/IMAG2839.jpg",
+    "filepath": "IMAG2839.jpg",
     "label": "氮過多",
     "provider": "郭寶錚"
   },
@@ -1015,7 +1015,7 @@
     "answer_c": "磷",
     "answer_d": "硼",
     "correct_answer": "C",
-    "filepath": "image/IMAG3258.jpg",
+    "filepath": "IMAG3258.jpg",
     "label": "磷過多",
     "provider": "郭寶錚"
   },
@@ -1027,7 +1027,7 @@
     "answer_c": "磷",
     "answer_d": "硼",
     "correct_answer": "B",
-    "filepath": "image/23.jpg",
+    "filepath": "23.jpg",
     "label": "硼過多",
     "provider": "郭寶錚"
   },
@@ -1039,7 +1039,7 @@
     "answer_c": "皮爾斯病",
     "answer_d": "灰斑病",
     "correct_answer": "A",
-    "filepath": "image/24928.jpg",
+    "filepath": "24928.jpg",
     "label": "炭疽病",
     "provider": "王智立"
   },
@@ -1051,7 +1051,7 @@
     "answer_c": "黑痘病",
     "answer_d": "炭疽病",
     "correct_answer": "D",
-    "filepath": "image/26573.jpg",
+    "filepath": "26573.jpg",
     "label": "炭疽病",
     "provider": "王智立"
   },
@@ -1063,7 +1063,7 @@
     "answer_c": "白腐病",
     "answer_d": "黑痘病",
     "correct_answer": "D",
-    "filepath": "image/8710.jpg",
+    "filepath": "8710.jpg",
     "label": "黑痘病",
     "provider": "王智立"
   },
@@ -1075,7 +1075,7 @@
     "answer_c": "白粉病",
     "answer_d": "銹病",
     "correct_answer": "B",
-    "filepath": "image/8713.jpg",
+    "filepath": "8713.jpg",
     "label": "黑痘病",
     "provider": "王智立"
   },
@@ -1087,7 +1087,7 @@
     "answer_c": "白粉病",
     "answer_d": "銹病",
     "correct_answer": "C",
-    "filepath": "image/4118.jpg",
+    "filepath": "4118.jpg",
     "label": "白粉病",
     "provider": "王智立"
   },
@@ -1099,7 +1099,7 @@
     "answer_c": "露菌病",
     "answer_d": "灰黴病",
     "correct_answer": "A",
-    "filepath": "image/銹病2.jpg",
+    "filepath": "銹病2.jpg",
     "label": "銹病",
     "provider": "王智立"
   },
@@ -1111,7 +1111,7 @@
     "answer_c": "皮爾斯病",
     "answer_d": "露菌病",
     "correct_answer": "C",
-    "filepath": "image/30723.jpg",
+    "filepath": "30723.jpg",
     "label": "皮爾斯病",
     "provider": "王智立"
   },
@@ -1123,7 +1123,7 @@
     "answer_c": "銹病",
     "answer_d": "露菌病",
     "correct_answer": "D",
-    "filepath": "image/781.jpg",
+    "filepath": "781.jpg",
     "label": "露菌病",
     "provider": "王智立"
   },
@@ -1135,7 +1135,7 @@
     "answer_c": "房枯病",
     "answer_d": "枝枯病",
     "correct_answer": "A",
-    "filepath": "image/770.jpg",
+    "filepath": "770.jpg",
     "label": "露菌病",
     "provider": "王智立"
   },
@@ -1147,7 +1147,7 @@
     "answer_c": "銹病",
     "answer_d": "苦腐病",
     "correct_answer": "D",
-    "filepath": "image/24652.jpg",
+    "filepath": "24652.jpg",
     "label": "苦腐病",
     "provider": "王智立"
   },
@@ -1159,7 +1159,7 @@
     "answer_c": "食銹菌癭蚋",
     "answer_d": "小白紋毒蛾",
     "correct_answer": "C",
-    "filepath": "image/食銹菌癭蚋1.jpg",
+    "filepath": "食銹菌癭蚋1.jpg",
     "label": "食銹菌癭蚋",
     "provider": "莊益源"
   },
@@ -1171,7 +1171,7 @@
     "answer_c": "粉蝨類",
     "answer_d": "黃斑椿象",
     "correct_answer": "A",
-    "filepath": "image/29800.jpg",
+    "filepath": "29800.jpg",
     "label": "斜紋夜盜",
     "provider": "莊益源"
   },
@@ -1183,7 +1183,7 @@
     "answer_c": "金龜子類",
     "answer_d": "天牛類",
     "correct_answer": "A",
-    "filepath": "image/31529.jpg",
+    "filepath": "31529.jpg",
     "label": "薊馬類",
     "provider": "莊益源"
   },
@@ -1195,7 +1195,7 @@
     "answer_c": "金花蟲類",
     "answer_d": "下紅天蛾",
     "correct_answer": "D",
-    "filepath": "image/30992.jpg",
+    "filepath": "30992.jpg",
     "label": "下紅天蛾",
     "provider": "莊益源"
   },
@@ -1207,7 +1207,7 @@
     "answer_c": "黃斑椿象",
     "answer_d": "天牛類",
     "correct_answer": "A",
-    "filepath": "image/31116.jpg",
+    "filepath": "31116.jpg",
     "label": "葉蟬類",
     "provider": "莊益源"
   },
@@ -1219,7 +1219,7 @@
     "answer_c": "葉蟎類",
     "answer_d": "薊馬類",
     "correct_answer": "A",
-    "filepath": "image/30958.jpg",
+    "filepath": "30958.jpg",
     "label": "黃斑椿象",
     "provider": "莊益源"
   },
@@ -1231,7 +1231,7 @@
     "answer_c": "薊馬類",
     "answer_d": "粉蝨類",
     "correct_answer": "D",
-    "filepath": "image/31008.jpg",
+    "filepath": "31008.jpg",
     "label": "粉蝨類",
     "provider": "莊益源"
   },
@@ -1243,7 +1243,7 @@
     "answer_c": "氮缺乏",
     "answer_d": "鈣缺乏",
     "correct_answer": "C",
-    "filepath": "image/4343.jpg",
+    "filepath": "4343.jpg",
     "label": "氮缺乏",
     "provider": "林慧玲"
   },
@@ -1255,7 +1255,7 @@
     "answer_c": "鐵缺乏",
     "answer_d": "硫缺乏",
     "correct_answer": "B",
-    "filepath": "image/12475.jpg",
+    "filepath": "12475.jpg",
     "label": "鉀缺乏",
     "provider": "林慧玲"
   },
@@ -1267,7 +1267,7 @@
     "answer_c": "鐵缺乏",
     "answer_d": "氮過多",
     "correct_answer": "A",
-    "filepath": "image/7190.jpg",
+    "filepath": "7190.jpg",
     "label": "鎂缺乏",
     "provider": "林慧玲"
   }
