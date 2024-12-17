@@ -1,0 +1,542 @@
+[
+    {
+        "topic": "獸醫病理學",
+        "question": "在缺氧情況下，肝小葉中那一部分之肝細胞首先受到傷害？",
+        "answer_a": "門脈周邊區",
+        "answer_b": "小葉中間區",
+        "answer_c": "小葉中心區",
+        "answer_d": "被膜下肝細胞",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "獸醫病理學",
+        "question": "下列何者與犬感染小病毒無關？",
+        "answer_a": "心肌炎及影響骨髓顆粒細胞生成",
+        "answer_b": "小腸呈現纖維素性出血性壞死性腸炎",
+        "answer_c": "子宮內感染會導致胎兒先天性小腦發育不全",
+        "answer_d": "可在腺窩上皮細胞觀察到細胞核內包含體",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "獸醫病理學",
+        "question": "下列有關糖尿病性白內障，何者錯誤？",
+        "answer_a": "本病變由出現到完全白化病程短",
+        "answer_b": "雙眼皆會發生",
+        "answer_c": "絕大多數糖尿病患貓會發生本病變",
+        "answer_d": "於眼房液中有大量葡萄糖",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "獸醫病理學",
+        "question": "在急性炎症防禦機制中，下列何者需要免疫球蛋白的參與？",
+        "answer_a": "leukocytes adhesion cascade",
+        "answer_b": "complement classical pathway",
+        "answer_c": "intrinsic fibrinolytic pathway",
+        "answer_d": "arachidonic acid metabolites",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫病理學",
+        "question": "有關母牛因乳汁淤積所形成之澱粉樣小體（corpora amylacea），何者正確？",
+        "answer_a": "泌乳高峰期較易發生",
+        "answer_b": "主要成分是變性脫落的上皮細胞壓縮形成",
+        "answer_c": "主要成分是澱粉與脂肪",
+        "answer_d": "俗稱乳砂（milk sand）",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫病理學",
+        "question": "下列何者與殺滅腫瘤細胞無直接關係？",
+        "answer_a": "CD8+ lymphocyte",
+        "answer_b": "CD4+ lymphocyte",
+        "answer_c": "natural killer cell",
+        "answer_d": "antibody-dependent cellular cytotoxicity reaction",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫病理學",
+        "question": "有關羊隻俗稱的「藍乳袋病（blue bag）」乳房炎，何者正確？",
+        "answer_a": "主由巴氏桿菌感染引起",
+        "answer_b": "多為散發性發生",
+        "answer_c": "主要呈現肉芽腫病變",
+        "answer_d": "為一種慢性乳房炎",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫病理學",
+        "question": "有關反芻獸原發性鼓脹，何者正確？",
+        "answer_a": "可能吃了過多乾草料，導致消化不良所引起",
+        "answer_b": "可能因攝食精料，導致瘤胃產生大量穩定及持續的泡沫狀氣體",
+        "answer_c": "因皺胃分泌大量胃酸，引起代謝性酸血症",
+        "answer_d": "可能與迷走神經受損有關",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫病理學",
+        "question": "下痢豬隻，剖檢可見腸道黏膜增厚，腺窩上皮細胞增生，Ｗarthin-Starry染色可見細胞內有逗點樣細菌，最可能病原為：",
+        "answer_a": "Brachyspira hyodysenteriae",
+        "answer_b": "Lawsonia intracellularis",
+        "answer_c": "enterotoxic E. coli",
+        "answer_d": "Clostridium perfringens type C",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫病理學",
+        "question": "下列有關緊迫症候群之敘述，何者正確？",
+        "answer_a": "長期緊迫狀態下，腎上腺髓質部的功能增加",
+        "answer_b": "長期緊迫狀態下，常發現腎上腺和淋巴結萎縮",
+        "answer_c": "動物園長期籠飼動物，常有腎上腺肥大現象",
+        "answer_d": "豬對緊迫的感受性和遺傳有關",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "獸醫藥理學",
+        "question": "下列何者可藉由抑制核分裂有效對抗馬原蟲（Sarcocystis neurona）性腦脊髓炎之裂殖體？",
+        "answer_a": "nicarbazin",
+        "answer_b": "ponazuril",
+        "answer_c": "nitazoxanide",
+        "answer_d": "imidocarb",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫藥理學",
+        "question": "有關H1-antihistamine藥理作用的敘述，下列何者錯誤？",
+        "answer_a": "收縮已鬆弛的支氣管平滑肌",
+        "answer_b": "鬆弛已收縮的腸管平滑肌",
+        "answer_c": "可抑制水腫及紅腫的發炎反應",
+        "answer_d": "可抑制癢的感覺",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "獸醫藥理學",
+        "question": "下列何者可有效地拮抗非去極化性骨骼肌鬆弛劑所引起的神經肌肉阻斷？",
+        "answer_a": "succinylcholine",
+        "answer_b": "neostigmine",
+        "answer_c": "bethanechol",
+        "answer_d": "atropine",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫藥理學",
+        "question": "下列何者有降血壓功效，但會降低動物體內正腎上腺素的濃度，干擾中樞與交感神經的功能？",
+        "answer_a": "hemicholinium",
+        "answer_b": "reserpine",
+        "answer_c": "glycopyrrolate",
+        "answer_d": "ephedrine",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫藥理學",
+        "question": "甲基黃嘌呤（methylxanthines）藥物作為支氣管擴張劑的作用機制為抑制下列何種酵素？",
+        "answer_a": "phosphodiesterase",
+        "answer_b": "acetylcholinesterase",
+        "answer_c": "alcohol dehydrogenase",
+        "answer_d": "aldehyde dehydrogenase",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "獸醫藥理學",
+        "question": "抗癌藥物methotrexate主要作用於細胞生長週期的那一期？",
+        "answer_a": "G1",
+        "answer_b": "G2",
+        "answer_c": "M",
+        "answer_d": "S",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "獸醫藥理學",
+        "question": "下列何種抗焦慮劑在犬懷孕3個月內投藥，容易產生畸胎的風險？",
+        "answer_a": "alprazolam",
+        "answer_b": "clorazepate",
+        "answer_c": "buspirone",
+        "answer_d": "lorazepam",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫藥理學",
+        "question": "在牛常用somatribove的目的為何？",
+        "answer_a": "增加排卵",
+        "answer_b": "促進泌乳",
+        "answer_c": "增加體脂肪",
+        "answer_d": "改善肉質",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫藥理學",
+        "question": "藥物在豬的生物轉化（biotransformation），下列何者較容易被飽和？",
+        "answer_a": "acetylation",
+        "answer_b": "amino acid conjugation",
+        "answer_c": "sulfate conjugation",
+        "answer_d": "glucuronidation",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "獸醫藥理學",
+        "question": "下列何種維生素可於動物體內轉化成calcitriol，促進小腸對鈣的吸收和利用？",
+        "answer_a": "A",
+        "answer_b": "B",
+        "answer_c": "C",
+        "answer_d": "D",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "獸醫實驗診斷學",
+        "question": "4歲母馬，突然出現盜汗、發熱、體軀僵硬、觸摸臀肌（gluteal muscles）有痛感之反應。血檢出現白血球、嗜中性球與帶狀核嗜中性球均高之現象；生化檢查可見BUN、creatinine、AST、CK、glucose均高，且有高血磷之現象。其最有可能之鑑別診斷為何？",
+        "answer_a": "心臟衰竭",
+        "answer_b": "膽汁鬱積",
+        "answer_c": "嚴重的肌肉損傷",
+        "answer_d": "嚴重脫水",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "獸醫實驗診斷學",
+        "question": "下列何者會造成循環中gamma glutamyl transferase (GGT）的活性值上升？",
+        "answer_a": "肝細胞粒線體受損時",
+        "answer_b": "迪氏隙（space of Disse）星狀細胞的完整性改變時",
+        "answer_c": "肝細胞與微膽管膜受刺激時",
+        "answer_d": "肝細胞核膜受損時",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "獸醫實驗診斷學",
+        "question": "下列何者最容易造成肝小葉中心性病變？",
+        "answer_a": "馬志賀菌病",
+        "answer_b": "黃麴毒素中毒",
+        "answer_c": "綿羊的硒中毒",
+        "answer_d": "心臟功能不足",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "獸醫實驗診斷學",
+        "question": "何種健康動物的尿通常是混濁的？",
+        "answer_a": "牛",
+        "answer_b": "馬",
+        "answer_c": "犬",
+        "answer_d": "貓",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫實驗診斷學",
+        "question": "有關嗜中性球之敘述，下列何者正確？（MNP: marginal neutrophil pool; CNP: circulating neutrophil pool）",
+        "answer_a": "MNP包含於末梢血液常規檢查所計之白血球總數",
+        "answer_b": "嗜中性球絕對值約等於CNP加上MNP",
+        "answer_c": "馬之MNP與CNP大約相等",
+        "answer_d": "犬之MNP約為CNP之3倍",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "獸醫實驗診斷學",
+        "question": "何種白血球在移行到組織後，可能還會再進入循環中？",
+        "answer_a": "嗜酸性球",
+        "answer_b": "嗜中性球",
+        "answer_c": "淋巴球",
+        "answer_d": "嗜鹼性球",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "獸醫實驗診斷學",
+        "question": "胰臟性脂肪漏瀉（pancreatogenous steatorrhea）主要因缺乏下列何者？",
+        "answer_a": "澱粉酶",
+        "answer_b": "羧基多胜分解酶原A",
+        "answer_c": "胰脂酶",
+        "answer_d": "乳糜胰蛋白酶原",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "獸醫實驗診斷學",
+        "question": "以EDTA採血管用於血小板計數時，何種動物之血小板最易產生聚集（clumping）？",
+        "answer_a": "馬",
+        "answer_b": "犬",
+        "answer_c": "牛",
+        "answer_d": "豬",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "獸醫實驗診斷學",
+        "question": "淋巴瘤之分型及預後判斷，通常並不包括下列何種分析因子？",
+        "answer_a": "解剖位置及結構分布",
+        "answer_b": "細胞表面抗原（CD markers）分析",
+        "answer_c": "分裂細胞數量",
+        "answer_d": "細胞大小及分化",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "獸醫實驗診斷學",
+        "question": "有關尿糖檢測之判讀，下列何者正確？",
+        "answer_a": "牛的腎小管對葡萄糖之重吸收閾值為180 mg/dL",
+        "answer_b": "犬的腎小管對葡萄糖之重吸收閾值為100 mg/dL",
+        "answer_c": "原發性腎小管之葡萄糖再吸收障礙會出現腎前性糖尿症",
+        "answer_d": "犬范可尼症候群（Fanconi syndrome）會出現腎性糖尿症",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "獸醫普通疾病學",
+        "question": "下列那一種乳房炎病原菌一旦侵入乳牛乳房內部，其主要感染及分布密度最高的區域並非在乳腺表面之上皮細胞？",
+        "answer_a": "乳房鏈球菌（Streptococcus uberis）",
+        "answer_b": "異乳鏈球菌（Streptococcus dysgalactiae）",
+        "answer_c": "無乳鏈球菌（Streptococcus agalactiae）",
+        "answer_d": "凝固酶陰性葡萄球菌（coagulase-negative Staphylococci）",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "獸醫普通疾病學",
+        "question": "下列何種犬隻血相變化最能支持免疫性溶血性貧血的診斷？",
+        "answer_a": "棘狀紅血球增多症",
+        "answer_b": "強烈再生性貧血",
+        "answer_c": "霍威爾－喬利（Howell-Jolly）小粒",
+        "answer_d": "球形紅血球增多症（spherocytosis）",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "獸醫普通疾病學",
+        "question": "母牛的胎盤能分泌下列那種內泌素？",
+        "answer_a": "激乳素（lactogen）",
+        "answer_b": "抑制素（inhibin）",
+        "answer_c": "泌乳素釋放刺激素（prolactin releasing hormone）",
+        "answer_d": "生長素釋放刺激素（somatotropin releasing hormone）",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "獸醫普通疾病學",
+        "question": "犬隻患有頸部上呼吸道阻塞時，常出現急性呼吸窘迫（acute respiratory distress），最不需要下列何種處置？",
+        "answer_a": "鎮靜",
+        "answer_b": "氧氣",
+        "answer_c": "類固醇",
+        "answer_d": "支氣管擴張劑",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "獸醫普通疾病學",
+        "question": "有關使用ventral midline approach進行帝王切開術之敘述，下列何者錯誤？",
+        "answer_a": "對心血管與呼吸系統負擔，比flank approach小",
+        "answer_b": "牛隻需仰臥",
+        "answer_c": "比起乳牛，較適合使用在肉牛",
+        "answer_d": "比起flank approach，可較容易將子宮與胎牛拉出腹腔外",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "獸醫普通疾病學",
+        "question": "有關女牛蹄葉炎發生的風險因子中，下列何者最不重要？",
+        "answer_a": "體重過重",
+        "answer_b": "年齡",
+        "answer_c": "餵飼過多精料",
+        "answer_d": "飼養在水泥地面",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫普通疾病學",
+        "question": "下列那⼀種藥物可能影響淚液分泌，乾眼症時應避免使⽤？",
+        "answer_a": "類固醇眼藥⽔（steroid eye drops）",
+        "answer_b": "氯黴素眼藥⽔（chloramphenicol eye drops）",
+        "answer_c": "⾒⼤黴素眼藥⽔（gentamicin eye drops）",
+        "answer_d": "磺胺劑眼藥⽔（sulfadiazine eye drops）",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "獸醫普通疾病學",
+        "question": "乳牛場流行黴漿菌性乳房炎時，場內小牛若喝入未消毒生乳常引發其他疾病，下列何者最不常見？",
+        "answer_a": "肺炎",
+        "answer_b": "多發性漿膜炎",
+        "answer_c": "關節炎",
+        "answer_d": "中耳炎",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫普通疾病學",
+        "question": "⽜隻腎病之急性期，較不易發⽣下列何種情況？",
+        "answer_a": "蛋⽩尿",
+        "answer_b": "⾎中⾕丙轉胺酶（ALT）下降",
+        "answer_c": "尿沉渣有玻璃樣和顆粒樣圓柱",
+        "answer_d": "選擇性低蛋⽩⾎症",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫普通疾病學",
+        "question": "血液中的下列何者最不適用於母犬的懷孕診斷？",
+        "answer_a": "C-reactive protein",
+        "answer_b": "fibrinogen",
+        "answer_c": "progesterone",
+        "answer_d": "relaxin",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "獸醫傳染病學",
+        "question": "下列有關pullorum disease之敘述，何者錯誤？",
+        "answer_a": "排稀薄⾎樣下痢便",
+        "answer_b": "常以⾎清平板凝集法檢出陽性雞",
+        "answer_c": "常造成盲腸腫⼤且內含乾酪樣圓柱",
+        "answer_d": "易造成排菌現象",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "獸醫傳染病學",
+        "question": "有關家禽大腸桿菌感染症之敘述，下列何者錯誤？",
+        "answer_a": "所引起的腸炎相當少見",
+        "answer_b": "所引起的肉芽腫於肝臟可見融合性凝固性壞死",
+        "answer_c": "所引起的敗血症常可見到心囊炎與心肌炎",
+        "answer_d": "多為原發性感染",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "獸醫傳染病學",
+        "question": "下列有關豬⼩病毒感染的敘述，何者正確？",
+        "answer_a": "主要造成豬隻⽔樣下痢",
+        "answer_b": "對懷孕⺟豬會造成繁殖障礙",
+        "answer_c": "主要藉由消化道感染",
+        "answer_d": "常造成⾼死亡率",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫傳染病學",
+        "question": "有關豬隻傳染性胃腸炎之敘述，下列何者錯誤？",
+        "answer_a": "由betacoronavirus感染所致",
+        "answer_b": "哺乳期仔豬死亡率高",
+        "answer_c": "可見小腸絨毛萎縮",
+        "answer_d": "豬隻是唯一可自然感染本病的動物",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "獸醫傳染病學",
+        "question": "山羊關節炎腦炎在仔羊造成下列何種主要腦病變？",
+        "answer_a": "白質腦脊髓炎",
+        "answer_b": "灰質腦脊髓炎",
+        "answer_c": "小腦缺損",
+        "answer_d": "水腦",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "獸醫傳染病學",
+        "question": "下列何種動物對於雷氏桿菌Riemerella anatipestifer具有抵抗力？",
+        "answer_a": "火雞",
+        "answer_b": "鵪鶉",
+        "answer_c": "鴿",
+        "answer_d": "鴨",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "獸醫傳染病學",
+        "question": "下列何種犬的病原可在血液抹片上之嗜中性球內看到膠囊樣的配子體（gamont）？",
+        "answer_a": "Babesia vogeli",
+        "answer_b": "Hepatozoon canis",
+        "answer_c": "Ehrlichia canis",
+        "answer_d": "Babesia gibsoni",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫傳染病學",
+        "question": "在臺灣，犬艾利希體（Ehrlichia canis）主要由何種壁蝨傳染？",
+        "answer_a": "Rhipicephalus sanguineus",
+        "answer_b": "Dermacentor variabilis",
+        "answer_c": "Amblyomma americanum",
+        "answer_d": "Ixodes ovatus",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "獸醫傳染病學",
+        "question": "有關鳥型結核菌之敘述，下列何者錯誤？",
+        "answer_a": "所有鳥類皆對此菌具有感受性",
+        "answer_b": "豬、牛及兔有感染的病例發生",
+        "answer_c": "珠雞與火雞感受性較雞高",
+        "answer_d": "本菌為抗酸性染色陽性",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "獸醫傳染病學",
+        "question": "為預防新胞蟲症造成牛隻的流產，牧場首先應當隔離控制下列那種媒介？",
+        "answer_a": "野兔",
+        "answer_b": "犬",
+        "answer_c": "糠蚊",
+        "answer_d": "壁蝨",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫公共衛生學",
+        "question": "依據優良農產品驗證管理辦法，水產品之腸炎弧菌檢驗基準為多少MPN／g以下？",
+        "answer_a": "10",
+        "answer_b": "5",
+        "answer_c": "2",
+        "answer_d": "不得檢出",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "獸醫公共衛生學",
+        "question": "⼀牧場有⽜隻400頭，包括泌乳⽜200頭，女⽜100頭，乾乳⽜50頭，仔⽜50頭，以分層比例抽樣調查欲抽取總數144頭⽜隻，其中應採集幾頭女⽜樣本？",
+        "answer_a": "10",
+        "answer_b": "18",
+        "answer_c": "36",
+        "answer_d": "80",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "獸醫公共衛生學",
+        "question": "在實驗性流行病學中，下列有關交叉設計法（cross-over-design trials）的敘述何者錯誤？",
+        "answer_a": "適合用於研究罕見疾病",
+        "answer_b": "需要的研究個體較少",
+        "answer_c": "適用於可以將疾病治癒的藥物研究",
+        "answer_d": "有利於排除個體的差異，讓結果更精確",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "獸醫公共衛生學",
+        "question": "依動物傳染病防治條例進行燒燬動物屍體時，下列何者錯誤？",
+        "answer_a": "應於焚化爐為之",
+        "answer_b": "緊急時得於野外挖坑燒燬",
+        "answer_c": "燒燬場宜近飲用水源地避免火災",
+        "answer_d": "燒燬至僅留骨灰並加以掩埋",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "獸醫公共衛生學",
+        "question": "依據屠宰衛生檢查規則，家畜於屠宰前斃死應如何處置？",
+        "answer_a": "稽留",
+        "answer_b": "緊急屠宰",
+        "answer_c": "屠宰後檢查合格者可供食用",
+        "answer_d": "不得屠宰供為食用",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "獸醫公共衛生學",
+        "question": "胞生絛蟲症（echinococcosis）在發育上需要一個以上的脊椎動物作為宿主，屬於下列那一種類型人畜共通傳染病？",
+        "answer_a": "直接傳染型",
+        "answer_b": "循環型",
+        "answer_c": "異型（媒介傳播型）",
+        "answer_d": "複合型",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "獸醫公共衛生學",
+        "question": "根據食品安全管制系統所規定之危害分析重要管制點制度（hazard analysis and critical control point system；HACCP），所謂熟煮是指針對家畜及家禽肉品之加熱煮熟過程，其中心溫度應各達攝氏多少度以上？",
+        "answer_a": "68、70",
+        "answer_b": "70、72",
+        "answer_c": "72、72",
+        "answer_d": "72、74",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "獸醫公共衛生學",
+        "question": "氯常用在水的消毒，一般常用的氯消毒原料中，下列何者之含氯量為50～70%？",
+        "answer_a": "強力漂白粉精",
+        "answer_b": "液氯",
+        "answer_c": "氨氯",
+        "answer_d": "漂白粉",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "獸醫公共衛生學",
+        "question": "進⾏病例對照研究時，病例組選取以新發⽣病例為佳之原因為何？",
+        "answer_a": "較不易有病例存活偏差（survivoship bias），有利於因果關係推論",
+        "answer_b": "較易選取",
+        "answer_c": "為了與橫斷式研究產⽣區別",
+        "answer_d": "較不易發⽣暴露測量偏差",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "獸醫公共衛生學",
+        "question": "Student's t-test 是比較二個族群的那一個數值的不同？",
+        "answer_a": "平均數",
+        "answer_b": "變異數",
+        "answer_c": "中位數",
+        "answer_d": "標準差",
+        "correct_answer": "A"
+    }
+]

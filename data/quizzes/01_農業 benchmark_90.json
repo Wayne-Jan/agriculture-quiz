@@ -1,0 +1,823 @@
+[
+    {
+        "topic": "技藝競賽-造景園藝職種",
+        "question": "有關工程估價單及預算書的敘述，下列何者錯誤？",
+        "answer_a": "設計師提供之工程估價單或預算書為經詢價與單價分析後的計算結果。",
+        "answer_b": "工程預算詳表中的單位需與單價分析之單位相同。",
+        "answer_c": "提給業主的工程估價單可分成二式，其中之一不列出價格。",
+        "answer_d": "設計師需依工程圖說及施工規範列施工材料、數量、總價，提供給業主。",
+        "answer_e": "預算書中包含的工程費用不需計入稅金及工程利潤。",
+        "correct_answer": "E"
+    },
+    {
+        "topic": "技藝競賽-造景園藝職種",
+        "question": "下列有關繪圖工具之敘述，何者有誤?",
+        "answer_a": "擦鉛筆使用軟橡皮擦，墨水使用硬橡皮擦",
+        "answer_b": "鉛筆按筆芯軟硬之不同區分為6H-6B",
+        "answer_c": "三角板兩塊為一副，一塊為兩角45度，一角90度；一塊為30度、60度、90度各一",
+        "answer_d": "曲線板又名雲形定規",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技藝競賽-造景園藝職種",
+        "question": "下列為部分設計方法與程序，其最佳排序為何? (1)訂定目標  (2)設計原則確立  (3)基地調查與環境分析  (4)工程預算書  (5)細部設計。",
+        "answer_a": "1 3 2 5 4",
+        "answer_b": "3 1 2 5 4",
+        "answer_c": "3 1 2 4 5",
+        "answer_d": "1 3 2 4 5",
+        "answer_e": "1 2 3 4 5",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "技藝競賽-造景園藝職種",
+        "question": "下列關於施工圖之說明，何者錯誤？",
+        "answer_a": "鋼筋混凝土施工圖上常以 Ew 表示雙向。",
+        "answer_b": "施工圖具有規範承包商的施工過程的功能。",
+        "answer_c": "園景施工常用的施工圖有結構體施工圖、步道施工圖、圍牆施工圖及排水系統施工圖。",
+        "answer_d": "施工圖的內容需對地面下不可見的工程標註精確的尺寸。",
+        "answer_e": "鋼筋混凝土施工圖上常以 @ 表示圓鋼筋。",
+        "correct_answer": "E"
+    },
+    {
+        "topic": "技藝競賽-造景園藝職種",
+        "question": "栽培管理上的修剪和病蟲害防治方法，下列敘述何者正確？",
+        "answer_a": "為了使花木類的植物每年皆有適當的開花樹，防隔年結果，應盡可能保留植株的枝條數和枝條生長，避免移除側枝。",
+        "answer_b": "欲保持直立幹形的植物，在定植不久後須將莖的頂部摘除。",
+        "answer_c": "觀賞性質的造園植物需要適當的修剪，以人工修飾其外觀。",
+        "answer_d": "植物病害不包含營養不平衡或缺乏某種養分而發生症狀的情況。",
+        "answer_e": "毒素病的根治必須使用相關的農藥，依照說明書上的方法、濃度來使用，以免發生藥害等副作用。",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "技藝競賽-造景園藝職種",
+        "question": "造園分類多樣，下列何者說明有誤?",
+        "answer_a": "牆垣式庭園中以牆面做為園景的主要元素，可作為庭園植栽的背景。",
+        "answer_b": "安置假山、曲水或其他仿自然裝飾品為自然式庭園的特點之一。",
+        "answer_c": "依特性分為附屬於建築物、高山、水濱等。",
+        "answer_d": "依位置分為私人所有、宗教所有以及公共所有。",
+        "answer_e": "以上描述均正確",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技藝競賽-造景園藝職種",
+        "question": "對於繪製植物之立面圖時，需要注意了解所繪製植物特質之敘述，下列何者錯誤？",
+        "answer_a": "型態、特徵。",
+        "answer_b": "質地、分枝情形。",
+        "answer_c": "植物年齡長幼。",
+        "answer_d": "常綠或落葉。",
+        "answer_e": "外型、高低比例。",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "技藝競賽-造景園藝職種",
+        "question": "有關一定規模造園景觀工程預算的編列，下列何者錯誤？",
+        "answer_a": "喬木：20株x1,000 元/株 = 20,000元。",
+        "answer_b": "灌木：50株x300元/株 = 15,000元。",
+        "answer_c": "地被：200m2x250 元/m2 = 50,000 元。",
+        "answer_d": "草花：100株x350元/m2 = 35,000元。",
+        "answer_e": "雜項設施(含土木、水電等) = 350,000元。",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技藝競賽-造景園藝職種",
+        "question": "題中何者符合以下造園範疇之敘述:「重視生態與自然科學，強調視覺品質，為一偏向大區域系統的研究；其結果為一種土地使用計畫或是土地發展型態和分配的政策性建議」?",
+        "answer_a": "敷地計畫",
+        "answer_b": "景觀評估與規劃",
+        "answer_c": "都市設計",
+        "answer_d": "細部景觀規劃",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技藝競賽-造景園藝職種",
+        "question": "下列有關「石材」的敘述，何者有誤?",
+        "answer_a": "是最原始的材料之一",
+        "answer_b": "石造建築從古埃及開始發展",
+        "answer_c": "在古典建築中列用石材特別講究裝飾功能",
+        "answer_d": "少部分特殊岩石，是由有機物或非結晶態的玻璃所組成",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "技藝競賽-森林職種",
+        "question": "下列何種上膠方式是將條狀膠液均勻分布在單板表面，並在板坯加壓時展開或利用輥筒將其展開？",
+        "answer_a": "輥膠法",
+        "answer_b": "淋膠法",
+        "answer_c": "擠膠法",
+        "answer_d": "噴膠法",
+        "answer_e": "浸膠",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "技藝競賽-森林職種",
+        "question": "下列何者屬於乳化性防腐劑？",
+        "answer_a": "環烷酸銅（NCU）",
+        "answer_b": "鉻化砷酸銅（CCA）",
+        "answer_c": "銅烷基安化合物（ACQ）",
+        "answer_d": "五氯酚（PCP）",
+        "answer_e": "當耐力C（Tanalith C）",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "技藝競賽-森林職種",
+        "question": "在苗木生長的過程中會受到生育地周遭環境因子影響，常導入一些方式改善生育地，下列何種方式使其生長不佳？",
+        "answer_a": "適當施肥",
+        "answer_b": "除草",
+        "answer_c": "栽種於密實土壤",
+        "answer_d": "建立防風林",
+        "answer_e": "適當澆水",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "技藝競賽-森林職種",
+        "question": "下列敘述何者正確？",
+        "answer_a": "系統誤差為在相同情況下所產生誤差，因此誤差常具有方向性(正者常正，負者常負)",
+        "answer_b": "偶然誤差一般具有方向性",
+        "answer_c": "測距時如捲尺太長或太短最容易造成偶然誤差",
+        "answer_d": "誤視覘標可能造成系統誤差",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "技藝競賽-森林職種",
+        "question": "羅盤儀在斜坡量距長25公尺、仰角為30º，求得水平距離A公尺、高低差B公尺及坡度百分比C%，請問A + B + C約為何？",
+        "answer_a": "48.584",
+        "answer_b": "91.886",
+        "answer_c": "109.986",
+        "answer_d": "143.301",
+        "answer_e": "207.356",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技藝競賽-森林職種",
+        "question": "下列何者非森林經理之指導原則？",
+        "answer_a": "經濟性",
+        "answer_b": "公益性",
+        "answer_c": "遊樂性",
+        "answer_d": "保續性",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "技藝競賽-森林職種",
+        "question": "樹皮為樹體最外層的保護組織，共分成5層，請問下列那一層為不具有生理作用的死細胞？",
+        "answer_a": "韌皮部",
+        "answer_b": "皮層",
+        "answer_c": "木栓形成層",
+        "answer_d": "木栓層",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技藝競賽-森林職種",
+        "question": "下列有關木材塗裝步驟的敘述，何者錯誤？",
+        "answer_a": "材面整修是塗裝良否的必要塗裝步驟，包括污染去除、孔洞修補、心邊材材色的調整等，但為增加塗裝效率，可以不理會木材含水率",
+        "answer_b": "下塗的目的是可以抑制樹脂的滲出，降低木材的收縮膨脹，所用的塗料稱為頭度底漆",
+        "answer_c": "中塗的目的是要得到平滑的塗面及增加膜厚，所用的塗料稱為二度底漆",
+        "answer_d": "上塗的目的是完成塗裝的保護、美觀或賦予機能性的功能，所用的塗料稱為面漆",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "技藝競賽-森林職種",
+        "question": "林班之劃分首先應考慮？",
+        "answer_a": "林地價",
+        "answer_b": "林況",
+        "answer_c": "地況",
+        "answer_d": "林相",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "技藝競賽-森林職種",
+        "question": "何者非森林副產物其效益？",
+        "answer_a": "用於製漿造紙",
+        "answer_b": "用於人造纖維",
+        "answer_c": "工藝原料",
+        "answer_d": "供於藥用",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技藝競賽-園藝職種",
+        "question": "以下何者不屬於不結球白菜類？",
+        "answer_a": "青梗白菜",
+        "answer_b": "油菜心",
+        "answer_c": "鳳山白菜",
+        "answer_d": "蕹菜",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技藝競賽-園藝職種",
+        "question": "蔬菜產銷組織成立主要目的為?",
+        "answer_a": "降低人事成本",
+        "answer_b": "避免生產技術外流",
+        "answer_c": "維持生產規模",
+        "answer_d": "建立共同品牌",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技藝競賽-園藝職種",
+        "question": "下列何種球根花卉的成熟植株生長期中每形成四片葉可進入花芽分化？",
+        "answer_a": "金花石蒜",
+        "answer_b": "中國水仙",
+        "answer_c": "鐵炮百合",
+        "answer_d": "孤挺花",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技藝競賽-園藝職種",
+        "question": "球根花卉植物於原產地之氣候，一年內需有暖季-冷涼-暖季之週期變化，始能正常發育而開花的特性稱之為？",
+        "answer_a": "感溫週期性",
+        "answer_b": "低溫需求性",
+        "answer_c": "積溫需求性",
+        "answer_d": "感光週期性",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "技藝競賽-園藝職種",
+        "question": "假如番木瓜栽培行株距2.5 m x 2 m，則每分地栽種株數約為",
+        "answer_a": "100",
+        "answer_b": "200",
+        "answer_c": "300",
+        "answer_d": "400",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技藝競賽-園藝職種",
+        "question": "下列何者是叢生竹類？",
+        "answer_a": "孟宗竹",
+        "answer_b": "麻竹",
+        "answer_c": "桂竹",
+        "answer_d": "以上皆是",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技藝競賽-園藝職種",
+        "question": "下列哪一類群蘿蔔為板葉種？",
+        "answer_a": "杙仔群蘿蔔",
+        "answer_b": "梅花群蘿蔔",
+        "answer_c": "美濃早生群蘿蔔",
+        "answer_d": "青皮群蘿蔔",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "技藝競賽-園藝職種",
+        "question": "屬於單子葉植物的蔬菜不包含下列何者？",
+        "answer_a": "荸薺",
+        "answer_b": "山藥",
+        "answer_c": "慈菇",
+        "answer_d": "菱角",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技藝競賽-園藝職種",
+        "question": "就蔬菜作物行營養繁殖之器官，以下何者為不正確？",
+        "answer_a": "馬鈴薯球莖",
+        "answer_b": "草莓走莖",
+        "answer_c": "大蒜鱗莖",
+        "answer_d": "薑根莖",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "技藝競賽-園藝職種",
+        "question": "下列何者為薔薇科果樹？",
+        "answer_a": "枇杷",
+        "answer_b": "葡萄",
+        "answer_c": "番木瓜",
+        "answer_d": "楊桃",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "技藝競賽-農場經營職種",
+        "question": "棉的栽培種中，佔全球栽培面積70%以上的重要棉種，稱為?",
+        "answer_a": "陸地棉",
+        "answer_b": "亞洲棉",
+        "answer_c": "埃及棉",
+        "answer_d": "海島棉",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "技藝競賽-農場經營職種",
+        "question": "在臺灣負責生產「原原種」種子的單位是？",
+        "answer_a": "農會",
+        "answer_b": "專業農戶",
+        "answer_c": "農業試驗所與農業改良場",
+        "answer_d": "縣市政府",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "技藝競賽-農場經營職種",
+        "question": "植物新品種權利登記後，其權利保護年限最長幾年？",
+        "answer_a": "5年",
+        "answer_b": "10年",
+        "answer_c": "15年",
+        "answer_d": "20年",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "技藝競賽-農場經營職種",
+        "question": "哪種作物的染色體數最多？",
+        "answer_a": "水稻",
+        "answer_b": "玉米",
+        "answer_c": "甘蔗",
+        "answer_d": "普通小麥",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "技藝競賽-農場經營職種",
+        "question": "下列何者是臺灣茶別名紅玉的品種名?",
+        "answer_a": "臺茶1號",
+        "answer_b": "臺茶2號",
+        "answer_c": "臺茶21號",
+        "answer_d": "臺茶18號",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技藝競賽-農場經營職種",
+        "question": "目前經由植物新品種審議通過的植物新品種，哪一類作物最多？",
+        "answer_a": "蔬菜作物",
+        "answer_b": "花卉作物",
+        "answer_c": "糧食作物",
+        "answer_d": "果樹作物",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技藝競賽-農場經營職種",
+        "question": "下列何組皆為軸根系？",
+        "answer_a": "草莓、馬鈴薯、豌豆",
+        "answer_b": "狼尾草、玉米、椰子",
+        "answer_c": "草莓、菠菜、白菜",
+        "answer_d": "豌豆、菠菜、白菜",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技藝競賽-農場經營職種",
+        "question": "「三生農業」是指？",
+        "answer_a": "生命、生產、生活",
+        "answer_b": "生命、生產、生態",
+        "answer_c": "生命、生活、生態",
+        "answer_d": "生產、生活、生態",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技藝競賽-農場經營職種",
+        "question": "下列哪一種花序為無限花序？",
+        "answer_a": "單頂花序",
+        "answer_b": "隱頭花序",
+        "answer_c": "聚繖花序",
+        "answer_d": "複聚繖花序",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技藝競賽-農場經營職種",
+        "question": "下列何種作物不屬於根莖類作物?",
+        "answer_a": "甘藷",
+        "answer_b": "馬鈴薯",
+        "answer_c": "芋頭",
+        "answer_d": "落花生",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技術士能力檢定-製茶技術",
+        "question": "於新北市文山茶區主要種植俗稱『種仔』為茶樹何種品種？",
+        "answer_a": "大蔓種",
+        "answer_b": "四季春",
+        "answer_c": "青心烏龍",
+        "answer_d": "臺茶 12 號",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "技術士能力檢定-製茶技術",
+        "question": "下列何者屬重萎凋、輕發酵之茶類？",
+        "answer_a": "白茶類",
+        "answer_b": "紅茶",
+        "answer_c": "綠茶",
+        "answer_d": "凍頂烏龍茶",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "技術士能力檢定-製茶技術",
+        "question": "一般炒菁機設有哪些控制裝置，以利控制炒菁品質？",
+        "answer_a": "溫度、壓力、時間",
+        "answer_b": "溫度、轉速、時間",
+        "answer_c": "溫度、濕度、時間",
+        "answer_d": "溫度、濕度、轉速",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技術士能力檢定-製茶技術",
+        "question": "紅茶乾燥之溫度宜控制在？",
+        "answer_a": "110～120℃",
+        "answer_b": "60～70℃",
+        "answer_c": "130℃以上",
+        "answer_d": "90～100℃",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技術士能力檢定-製茶技術",
+        "question": "東方美人茶製程中，日光萎凋完成時之茶菁重量減少率約？",
+        "answer_a": "10～15％",
+        "answer_b": "5～10％",
+        "answer_c": "25～35％",
+        "answer_d": "50％以上",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "技術士能力檢定-製茶技術",
+        "question": "下列茶類製程中，其萎凋程度輕重依序為？",
+        "answer_a": "黃茶＞白茶＞青茶",
+        "answer_b": "白茶＞紅茶＞青茶",
+        "answer_c": "白茶＞青茶＞綠茶",
+        "answer_d": "綠茶＞紅茶＞黃茶",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技術士能力檢定-製茶技術",
+        "question": "有關設置及維護曬菁場地之衛生清潔，下列何者認知不正確？",
+        "answer_a": "遠離垃圾場",
+        "answer_b": "曬菁場地排水良好不積水",
+        "answer_c": "舖設水泥等硬質地面",
+        "answer_d": "使用馬路路肩曬菁",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技術士能力檢定-製茶技術",
+        "question": "目前臺灣年產最多的茶類為？",
+        "answer_a": "紅茶",
+        "answer_b": "半球形及球形包種茶",
+        "answer_c": "綠茶",
+        "answer_d": "白茶",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技術士能力檢定-製茶技術",
+        "question": "下列何種茶樹品種所製成之包種茶常具有奶香味?",
+        "answer_a": "臺茶13號",
+        "answer_b": "臺茶12號",
+        "answer_c": "臺茶18號",
+        "answer_d": "四季春",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技術士能力檢定-製茶技術",
+        "question": "臺灣茶產量最多的鄉鎮是哪裡？",
+        "answer_a": "花蓮瑞穗",
+        "answer_b": "臺東鹿野",
+        "answer_c": "屏東滿州",
+        "answer_d": "南投名間",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技術士能力檢定-造園景觀",
+        "question": "下列何者不是臺灣原生樹種？",
+        "answer_a": "垂榕",
+        "answer_b": "烏來杜鵑",
+        "answer_c": "臺灣欒樹",
+        "answer_d": "臺灣櫸",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "技術士能力檢定-造園景觀",
+        "question": "圖說上所註明的客土是指？",
+        "answer_a": "植穴裡原有的土壤",
+        "answer_b": "工地以外富含有機質的肥沃土壤",
+        "answer_c": "不適植物生長的土壤",
+        "answer_d": "工地以外，排水不良的廢棄土壤",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技術士能力檢定-造園景觀",
+        "question": "以直接或間接方法，阻礙同業參與造園工程招標，將抵觸？",
+        "answer_a": "公平交易法",
+        "answer_b": "消費者保護法",
+        "answer_c": "消防法",
+        "answer_d": "森林法",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "技術士能力檢定-造園景觀",
+        "question": "下列何者非一、二年生草花植物？",
+        "answer_a": "波斯菊",
+        "answer_b": "矮牽牛",
+        "answer_c": "百日草",
+        "answer_d": "馬纓丹",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技術士能力檢定-造園景觀",
+        "question": "將生態學概念運用於造園工程，稱？",
+        "answer_a": "農業工程",
+        "answer_b": "生態工法",
+        "answer_c": "景觀工程",
+        "answer_d": "大地工程",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技術士能力檢定-造園景觀",
+        "question": "褐根腐病罹病基地土壤於清除病株殘體後可利用？",
+        "answer_a": "大量噴灑消毒水並予以攪拌",
+        "answer_b": "邁隆薰蒸",
+        "answer_c": "混合殺菌劑攪拌",
+        "answer_d": "淹水的方式處理",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技術士能力檢定-造園景觀",
+        "question": "3 公尺長 3 公尺寬的花槽，填入 30 公分厚的土方，共需？",
+        "answer_a": "270 立方公尺",
+        "answer_b": "30 立方公尺",
+        "answer_c": "9 立方公尺",
+        "answer_d": "2.7 立方公尺",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技術士能力檢定-造園景觀",
+        "question": "綠籬種植的密度，不需要考慮何項因素？",
+        "answer_a": "苗木規格",
+        "answer_b": "樹種特性",
+        "answer_c": "使用功能",
+        "answer_d": "枝葉色彩",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技術士能力檢定-造園景觀",
+        "question": "景觀建築結構物正上方有遮蓋物之平台稱為？",
+        "answer_a": "露台",
+        "answer_b": "塔台",
+        "answer_c": "陽台",
+        "answer_d": "屋台",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "技術士能力檢定-造園景觀",
+        "question": "行道樹為避免妨礙行人行走，需在樹幹何處以下落枝修剪？",
+        "answer_a": "1 公尺",
+        "answer_b": "2.5 公尺",
+        "answer_c": "1.5 公尺",
+        "answer_d": "0.5 公尺",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技術士能力檢定-園藝",
+        "question": "百合及水仙大多以？",
+        "answer_a": "根莖繁殖",
+        "answer_b": "塊根繁殖",
+        "answer_c": "塊莖繁殖",
+        "answer_d": "鱗莖繁殖",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技術士能力檢定-園藝",
+        "question": "1ppm是指？",
+        "answer_a": "一兆分之一",
+        "answer_b": "十億分之一",
+        "answer_c": "千萬分之一",
+        "answer_d": "百萬分之一",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技術士能力檢定-園藝",
+        "question": "最小的土壤粒子是？",
+        "answer_a": "細砂土",
+        "answer_b": "黏土",
+        "answer_c": "粗砂土",
+        "answer_d": "坋土",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技術士能力檢定-園藝",
+        "question": "棗外銷日本檢疫之殺蟲(東方果實蠅)方法是使用？",
+        "answer_a": "高溫",
+        "answer_b": "冷藏",
+        "answer_c": "輻射",
+        "answer_d": "蒸熱處理",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技術士能力檢定-園藝",
+        "question": "臺灣荔枝栽培最廣泛的品種為？",
+        "answer_a": "黑葉",
+        "answer_b": "糯米滋",
+        "answer_c": "桂味",
+        "answer_d": "玉荷包",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "技術士能力檢定-園藝",
+        "question": "香蕉組織培養最常用的培養基配方為？",
+        "answer_a": "MS",
+        "answer_b": "B5",
+        "answer_c": "PDA",
+        "answer_d": "京都",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "技術士能力檢定-園藝",
+        "question": "番木瓜不適用下列何種方法繁殖？",
+        "answer_a": "實生法",
+        "answer_b": "分株法",
+        "answer_c": "組織培養",
+        "answer_d": "嫁接法",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技術士能力檢定-園藝",
+        "question": "下列何者常建於簡易溫室邊，可以捲起或放下塑膠布，以調節通風狀態？",
+        "answer_a": "防蟲網",
+        "answer_b": "捲揚器",
+        "answer_c": "除濕器",
+        "answer_d": "遮陰網",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技術士能力檢定-園藝",
+        "question": "豆科植物的根瘤菌，可固定空氣中的？",
+        "answer_a": "氮",
+        "answer_b": "銅",
+        "answer_c": "鎂",
+        "answer_d": "鋅",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "技術士能力檢定-園藝",
+        "question": "蘿蔔於何種情況下會發生提早抽苔現象？",
+        "answer_a": "低溫長日",
+        "answer_b": "低溫短日",
+        "answer_c": "高溫長日",
+        "answer_d": "高溫短日",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "技術士能力檢定-農藝",
+        "question": "坡地果園最普遍採用的搬運機具是？",
+        "answer_a": "單軌車",
+        "answer_b": "動力搬運車",
+        "answer_c": "架空索道",
+        "answer_d": "木馬",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "技術士能力檢定-農藝",
+        "question": "肥料成分中之N、P、K，其中K代表？",
+        "answer_a": "鎂",
+        "answer_b": "磷",
+        "answer_c": "氮",
+        "answer_d": "鉀",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技術士能力檢定-農藝",
+        "question": "在製茶過程中，不須經過殺菁的是？",
+        "answer_a": "不發酵茶",
+        "answer_b": "半發酵茶",
+        "answer_c": "全發酵茶",
+        "answer_d": "微發酵茶",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "技術士能力檢定-農藝",
+        "question": "大豆在中國最早稱之為？",
+        "answer_a": "菽",
+        "answer_b": "稷",
+        "answer_c": "黃豆",
+        "answer_d": "黍",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "技術士能力檢定-農藝",
+        "question": "下列有關作物栽培管理的敘述，何者錯誤？",
+        "answer_a": "追肥一般以速效性肥料為主",
+        "answer_b": "好光性種子宜淺播",
+        "answer_c": "整地可擴大作物根系生長範圍",
+        "answer_d": "中耕一般在整地播種前實施",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技術士能力檢定-農藝",
+        "question": "撒播之最大缺點為？",
+        "answer_a": "病蟲發生多",
+        "answer_b": "需要較多勞力",
+        "answer_c": "管理工作不方便",
+        "answer_d": "播種不均勻",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "技術士能力檢定-農藝",
+        "question": "下列何者為鉀肥？",
+        "answer_a": "氯化鉀",
+        "answer_b": "過磷酸鈣",
+        "answer_c": "硫酸銨",
+        "answer_d": "白雲石粉",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "技術士能力檢定-農藝",
+        "question": "水稻機械插秧苗齡宜在本葉具有幾葉為最適期？",
+        "answer_a": "9～10葉",
+        "answer_b": "5～6葉",
+        "answer_c": "2～3 葉",
+        "answer_d": "7～8葉",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "技術士能力檢定-農藝",
+        "question": "牛筋草為何種科別的雜草？",
+        "answer_a": "莎草科",
+        "answer_b": "大科",
+        "answer_c": "菊科",
+        "answer_d": "禾本科",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "技術士能力檢定-農藝",
+        "question": "增加土壤肥力最有效的作用是？",
+        "answer_a": "固氮作用",
+        "answer_b": "硝化作用",
+        "answer_c": "氨化作用",
+        "answer_d": "脫氮作用",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "統測-農業概論",
+        "question": "臺灣 CAS標章是由下列何種單位所推動？",
+        "answer_a": "中華民國消費者文教基金會",
+        "answer_b": "行政院農業委員會",
+        "answer_c": "行政院衛生署",
+        "answer_d": "行政院消費者保護會",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "統測-農業概論",
+        "question": "民國 109 年 10 月 1 日農田水利會改制為行政院農業委員會農田水利署，該單位改制前原為：",
+        "answer_a": "公法人",
+        "answer_b": "自然人",
+        "answer_c": "財團法人",
+        "answer_d": "公司法人",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "統測-農業概論",
+        "question": "下列有關池塘管理之敘述，何者正確？",
+        "answer_a": "一天中，清晨池水之溶氧最高",
+        "answer_b": "「氣泡病」是溶氧過低所引起",
+        "answer_c": "一天中，清晨之 pH值最低",
+        "answer_d": "H 2 S對魚類無害",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "統測-農業概論",
+        "question": "小祐在屏東縣萬丹鄉同一塊農地上種植一期紅豆收成後，再種植一期水稻。此種耕作方式稱為：",
+        "answer_a": "輪作",
+        "answer_b": "間作",
+        "answer_c": "混作",
+        "answer_d": "連作",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "統測-農業概論",
+        "question": "想要得到最佳的蘋果果實品質，一果應留多少葉片？",
+        "answer_a": "40 ～ 45 片",
+        "answer_b": "30 ～ 35 片",
+        "answer_c": "20 ～ 25 片",
+        "answer_d": "10 ～ 15 片",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "統測-農業概論",
+        "question": "目前臺灣地區設立之農田水利會不包括下列何者？",
+        "answer_a": "七星農田水利會",
+        "answer_b": "石門農田水利會",
+        "answer_c": "阿公店農田水利會",
+        "answer_d": "雲林農田水利會",
+        "correct_answer": "C"
+    },
+    {
+        "topic": "統測-農業概論",
+        "question": "下列有關臺灣農會的敘述，何者正確？",
+        "answer_a": "三級農會的組織成立順序是由下而上",
+        "answer_b": "下級農會必須服從上級農會的指揮與調度",
+        "answer_c": "權能集中在總幹事身上，做事才會有效率",
+        "answer_d": "會員代表及理監事均應有 1/2 以上為自耕農、佃農或雇農",
+        "correct_answer": "A"
+    },
+    {
+        "topic": "統測-農業概論",
+        "question": "臺灣人工林造林已將近 20年，接續而至之永續經營作業，下列何者較為重要？",
+        "answer_a": "加強除草修蔓",
+        "answer_b": "全林皆伐利用",
+        "answer_c": "全林皆伐更新",
+        "answer_d": "撫育疏伐利用",
+        "correct_answer": "D"
+    },
+    {
+        "topic": "統測-農業概論",
+        "question": "下列有關「休閒農業」的描述，何者正確？",
+        "answer_a": "最小申請面積不得小於0.1公頃",
+        "answer_b": "是農業的經營型態之一",
+        "answer_c": "屬於生產型的二級產業",
+        "answer_d": "屬於加工型的三級產業",
+        "correct_answer": "B"
+    },
+    {
+        "topic": "統測-農業概論",
+        "question": "阿美和小明在河邊柳樹下野餐，享用自己準備的蔥油餅及草莓等食材，開心討論著暑期的旅遊。以上柳樹、蔥及草莓等植物相對應的花序及果實依序為：",
+        "answer_a": "穗狀花序、總狀花序、單果",
+        "answer_b": "總狀花序、葇荑花序、複果",
+        "answer_c": "繖形花序、穗狀花序、聚合果",
+        "answer_d": "葇荑花序、繖形花序、聚合果",
+        "correct_answer": "D"
+    }
+]
