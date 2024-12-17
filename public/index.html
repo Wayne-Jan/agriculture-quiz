@@ -1085,9 +1085,120 @@
           margin: 0.25rem 0;
         }
       }
+      /* 漢堡選單按鈕樣式 */
+      .mobile-menu-button {
+        display: none;
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 1000;
+        background: var(--primary-color);
+        color: white;
+        padding: 0.5rem;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      /* 手機選單樣式 */
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 300px;
+        height: 100vh;
+        background: white;
+        z-index: 1001;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+        transition: right 0.3s ease;
+      }
+
+      .mobile-menu.active {
+        right: 0;
+      }
+
+      .menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background: var(--primary-color);
+        color: white;
+      }
+
+      .close-menu {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+
+      .menu-items {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .menu-btn {
+        width: 100%;
+        padding: 0.8rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: white;
+      }
+
+      /* 媒體查詢 */
+      @media (max-width: 768px) {
+        .mobile-menu-button {
+          display: block;
+        }
+
+        .mobile-menu {
+          display: block;
+        }
+
+        .user-info {
+          display: none !important;
+        }
+      }
     </style>
   </head>
   <body>
+    <div class="mobile-menu-button">
+      <i class="fas fa-bars"></i>
+    </div>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <div class="menu-header">
+        <span id="mobile-username-display"></span>
+        <button class="close-menu">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="menu-items">
+        <button
+          class="menu-btn admin-btn"
+          id="mobile-admin-btn"
+          onclick="goToAdmin()"
+        >
+          <i class="fas fa-cog"></i> 管理系統
+        </button>
+        <button class="menu-btn home-btn" onclick="goHome()">
+          <i class="fas fa-home"></i> 返回主頁
+        </button>
+        <button class="menu-btn logout-btn" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> 登出
+        </button>
+      </div>
+    </div>
     <!-- 用戶資訊區塊 -->
     <!-- 修改 user-info div 的內容 -->
     <div class="animation-background"></div>
@@ -1306,9 +1417,11 @@
           document.getElementById("main-container").style.display = "block";
           document.getElementById("user-info").style.display = "block";
 
-          // 設置用戶資訊
+          // 設置用戶名稱時同時更新手機版選單
           const username = localStorage.getItem("username");
           document.getElementById("username-display").textContent = username;
+          document.getElementById("mobile-username-display").textContent =
+            username;
 
           // 設置管理員按鈕
           const adminBtn = document.getElementById("admin-btn");
@@ -1954,6 +2067,34 @@
         }
 
         checkAuth();
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const menuButton = document.querySelector(".mobile-menu-button");
+        const mobileMenu = document.querySelector(".mobile-menu");
+        const closeMenu = document.querySelector(".close-menu");
+
+        // 打開選單
+        menuButton.addEventListener("click", () => {
+          mobileMenu.classList.add("active");
+          document.getElementById("mobile-username-display").textContent =
+            document.getElementById("username-display").textContent;
+        });
+
+        // 關閉選單
+        closeMenu.addEventListener("click", () => {
+          mobileMenu.classList.remove("active");
+        });
+
+        // 點擊選單外區域關閉選單
+        document.addEventListener("click", (e) => {
+          if (
+            !mobileMenu.contains(e.target) &&
+            !menuButton.contains(e.target)
+          ) {
+            mobileMenu.classList.remove("active");
+          }
+        });
       });
     </script>
   </body>
