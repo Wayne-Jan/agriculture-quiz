@@ -22,7 +22,6 @@ router.get("/questions/:type", async (req, res) => {
 
     const filePath = path.join(__dirname, "..", "data", "quizzes", filename);
     const data = await fs.readFile(filePath, "utf8");
-    console.log("讀取到的資料:", data); // 添加這行來檢查讀取到的資料
     res.json(JSON.parse(data));
   } catch (error) {
     console.error("讀取題庫檔案失敗:", error);
