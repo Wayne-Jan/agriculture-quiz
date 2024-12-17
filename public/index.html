@@ -129,6 +129,8 @@
         margin-bottom: 1.5rem;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        image-orientation: from-image; /* 自動從 EXIF 數據讀取方向 */
+        -webkit-image-orientation: from-image; /* Safari 支援 */
       }
 
       .question-card.image-question {
@@ -428,6 +430,14 @@
 
       .stats-table tr:hover {
         background: #f8f9fa;
+      }
+
+      .stats-table img {
+        max-width: 150px;
+        max-height: 150px;
+        object-fit: contain;
+        image-orientation: from-image;
+        -webkit-image-orientation: from-image;
       }
 
       .answer-status {
