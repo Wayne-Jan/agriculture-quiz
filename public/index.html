@@ -588,6 +588,7 @@
     </div>
 
     <script>
+      let authToken = localStorage.getItem("token"); // 初始化 authToken
       // API 設定
       const API_URL = (() => {
         if (
@@ -602,30 +603,48 @@
 
       // 檢查登入狀態
       async function checkAuth() {
-        if (authToken) {
-          try {
-            // 檢查是否是管理員
-            const response = await fetch(`${API_URL}/auth/check-role`, {
-              headers: {
-                Authorization: `Bearer ${authToken}`,
-              },
-            });
-            const data = await response.json();
+        // 先取得 token
+        authToken = localStorage.getItem("token");
 
-            document.getElementById("auth-container").style.display = "none";
-            document.getElementById("main-container").style.display = "block";
-            document.getElementById("user-info").style.display = "block";
-            const username = localStorage.getItem("username");
-            document.getElementById("username-display").textContent = username;
+        if (!authToken) {
+          // 如果沒有 token，顯示登入頁面
+          document.getElementById("auth-container").style.display = "block";
+          document.getElementById("main-container").style.display = "none";
+          document.getElementById("user-info").style.display = "none";
+          return;
+        }
 
-            // 如果是管理員，顯示管理按鈕
-            if (data.role === "admin") {
-              document.getElementById("admin-btn").style.display =
-                "inline-block";
-            }
-          } catch (error) {
-            console.error("檢查角色失敗:", error);
+        try {
+          const response = await fetch(`${API_URL}/auth/check-role`, {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error("認證失敗");
           }
+
+          const data = await response.json();
+
+          document.getElementById("auth-container").style.display = "none";
+          document.getElementById("main-container").style.display = "block";
+          document.getElementById("user-info").style.display = "block";
+          const username = localStorage.getItem("username");
+          document.getElementById("username-display").textContent = username;
+
+          if (data.role === "admin") {
+            document.getElementById("admin-btn").style.display = "inline-block";
+          }
+        } catch (error) {
+          console.error("檢查角色失敗:", error);
+          // 如果驗證失敗，清除 token 並顯示登入頁面
+          localStorage.removeItem("token");
+          localStorage.removeItem("username");
+          authToken = null;
+          document.getElementById("auth-container").style.display = "block";
+          document.getElementById("main-container").style.display = "none";
+          document.getElementById("user-info").style.display = "none";
         }
       }
 
