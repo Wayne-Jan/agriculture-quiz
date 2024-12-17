@@ -1,4 +1,3 @@
-// models/QuizRecord.js
 const mongoose = require("mongoose");
 const fs = require("fs").promises;
 const os = require("os");
@@ -13,6 +12,13 @@ const quizRecordSchema = new mongoose.Schema({
   topic: {
     type: String,
     required: true,
+  },
+  quizFormat: {
+    // 新增題庫形式欄位
+    type: String,
+    enum: ["text", "image"],
+    required: true,
+    default: "text",
   },
   score: {
     type: Number,
@@ -29,6 +35,10 @@ const quizRecordSchema = new mongoose.Schema({
       correctAnswer: String,
       isCorrect: Boolean,
       topic: String,
+      // 新增圖片相關欄位
+      imagePath: String, // 圖片路徑
+      userAnswerText: String, // 使用者答案的文字內容
+      correctAnswerText: String, // 正確答案的文字內容
     },
   ],
   completedAt: {
@@ -41,43 +51,58 @@ const quizRecordSchema = new mongoose.Schema({
   },
 });
 
-// 添加一個方法來計算百分比
+// 計算百分比方法
 quizRecordSchema.methods.getPercentage = function () {
   return ((this.score / this.totalQuestions) * 100).toFixed(2);
 };
 
-// 修改生成報告方法，使用臨時目錄
+// 修改後的報告生成方法，支援圖片題庫
 quizRecordSchema.methods.generateReport = async function (
   modelName = "農業知識測驗系統"
 ) {
-  const tempDir = os.tmpdir(); // 使用系統臨時目錄
+  const tempDir = os.tmpdir();
   const timestamp = new Date().toISOString().replace(/[:\.]/g, "-");
   const filename = path.join(tempDir, `quiz-record-${timestamp}.txt`);
 
-  let content = `No.1 Model: ${modelName}, Correct: ${this.score} / ${
-    this.totalQuestions
-  }, Accuracy: ${this.getPercentage()}%, Time: ${this.timeSpent.toFixed(
-    2
-  )} seconds\n`;
+  let content = `測驗報告\n`;
+  content += `===================\n`;
+  content += `模型: ${modelName}\n`;
+  content += `題庫類型: ${
+    this.quizFormat === "image" ? "圖片題庫" : "文字題庫"
+  }\n`;
+  content += `正確題數: ${this.score} / ${this.totalQuestions}\n`;
+  content += `正確率: ${this.getPercentage()}%\n`;
+  content += `作答時間: ${this.timeSpent.toFixed(2)} 秒\n`;
+  content += `完成時間: ${new Date(this.completedAt).toLocaleString()}\n`;
+  content += `===================\n\n`;
 
   this.answers.forEach((answer, index) => {
-    content += `Question ${index + 1}, AI answer: ${answer.userAnswer}, True: ${
-      answer.correctAnswer
-    }, ${answer.isCorrect ? "correct" : "incorrect"}, Topic: ${answer.topic}\n`;
+    content += `題目 ${index + 1}\n`;
+    content += `題型: ${answer.topic}\n`;
+    if (answer.imagePath) {
+      content += `圖片路徑: ${answer.imagePath}\n`;
+    }
+    content += `問題: ${answer.question}\n`;
+    content += `使用者答案: ${answer.userAnswerText || answer.userAnswer}\n`;
+    content += `正確答案: ${
+      answer.correctAnswerText || answer.correctAnswer
+    }\n`;
+    content += `結果: ${answer.isCorrect ? "正確" : "錯誤"}\n`;
+    content += `-------------------\n`;
   });
 
   try {
     await fs.writeFile(filename, content, "utf8");
 
-    // 設定自動刪除文件的定時器（例如 5 分鐘後）
+    // 設定自動刪除文件（5分鐘後）
     setTimeout(async () => {
       try {
         await fs.unlink(filename);
-        console.log(`已自動刪除臨時文件: ${filename}`);
+        console.log(`臨時報告文件已自動刪除: ${filename}`);
       } catch (err) {
         console.error("刪除臨時文件失敗:", err);
       }
-    }, 5 * 60 * 1000); // 5分鐘後刪除
+    }, 5 * 60 * 1000);
 
     return filename;
   } catch (error) {
@@ -87,5 +112,4 @@ quizRecordSchema.methods.generateReport = async function (
 };
 
 const QuizRecord = mongoose.model("QuizRecord", quizRecordSchema);
-
 module.exports = QuizRecord;

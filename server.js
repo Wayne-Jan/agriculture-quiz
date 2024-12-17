@@ -37,6 +37,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // 靜態文件服務
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/quizzes", express.static(path.join(__dirname, "data", "quizzes")));
 
 // API 路由
 app.use("/api/auth", authRoutes);

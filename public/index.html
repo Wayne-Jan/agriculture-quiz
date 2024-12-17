@@ -122,6 +122,83 @@
         gap: 1rem; /* 確保所有元素間距一致 */
       }
 
+      .question-image {
+        max-width: 100%;
+        max-height: 400px;
+        object-fit: contain;
+        margin-bottom: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .question-card.image-question {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* 修改返回按鈕位置和樣式 */
+      .format-back-btn {
+        position: static;
+        margin-top: 1rem;
+        padding: 0.8rem 1.5rem;
+        background: var(--text-secondary);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+      }
+
+      .format-back-btn:hover {
+        background: #555;
+        transform: translateY(-2px);
+      }
+
+      /* 調整選擇按鈕的佈局 */
+      .selection-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+
+      .quiz-format-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
+        background: white;
+        border: 2px solid var(--primary-color);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .quiz-format-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .format-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+      }
+
+      .format-title {
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+      }
+
+      .format-description {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        text-align: center;
+      }
+
       /* 用戶名稱樣式 */
       #username-display {
         margin-right: auto; /* 將用戶名稱推到左邊 */
@@ -639,24 +716,46 @@
         <p>選擇題庫開始測驗</p>
       </div>
 
-      <div class="topic-selection-container">
-        <h2>請選擇題庫類型</h2>
-        <div class="topic-buttons">
-          <button
-            class="topic-select-btn"
-            onclick="loadQuestions('veterinary')"
-          >
-            <i class="fas fa-stethoscope"></i>
-            獸醫題庫
+      <div class="topic-selection-container" id="format-selection">
+        <h2>請選擇題庫形式</h2>
+        <div class="selection-grid">
+          <button class="quiz-format-btn" onclick="selectQuizFormat('text')">
+            <i class="fas fa-file-alt format-icon"></i>
+            <span class="format-title">文字題庫</span>
+            <span class="format-description">純文字知識測驗題目</span>
           </button>
-          <button
-            class="topic-select-btn"
-            onclick="loadQuestions('agriculture')"
-          >
-            <i class="fas fa-seedling"></i>
-            農業題庫
+          <button class="quiz-format-btn" onclick="selectQuizFormat('image')">
+            <i class="fas fa-images format-icon"></i>
+            <span class="format-title">圖片題庫</span>
+            <span class="format-description">包含圖片的辨識測驗</span>
           </button>
         </div>
+      </div>
+
+      <div
+        class="topic-selection-container"
+        id="category-selection"
+        style="display: none"
+      >
+        <h2>請選擇題庫類別</h2>
+        <div class="selection-grid">
+          <button class="quiz-format-btn" onclick="loadQuestions('veterinary')">
+            <i class="fas fa-stethoscope format-icon"></i>
+            <span class="format-title">獸醫題庫</span>
+            <span class="format-description">動物醫療相關測驗</span>
+          </button>
+          <button
+            class="quiz-format-btn"
+            onclick="loadQuestions('agriculture')"
+          >
+            <i class="fas fa-seedling format-icon"></i>
+            <span class="format-title">農業題庫</span>
+            <span class="format-description">農作物相關測驗</span>
+          </button>
+        </div>
+        <button class="format-back-btn" onclick="backToFormatSelection()">
+          <i class="fas fa-arrow-left"></i> 返回形式選擇
+        </button>
       </div>
 
       <div id="topics-container" class="topic-list"></div>
@@ -826,15 +925,37 @@
         document.getElementById("user-info").style.display = "none";
       }
 
+      let currentQuizFormat = ""; // 儲存當前選擇的題庫形式
+
+      function selectQuizFormat(format) {
+        currentQuizFormat = format;
+        // 隱藏形式選擇
+        document.querySelector(".topic-selection-container").style.display =
+          "none";
+        // 顯示類別選擇
+        document.getElementById("category-selection").style.display = "block";
+      }
+
+      function backToFormatSelection() {
+        // 隱藏類別選擇
+        document.getElementById("category-selection").style.display = "none";
+        // 顯示形式選擇
+        document.querySelector(".topic-selection-container").style.display =
+          "block";
+      }
       async function loadQuestions(type) {
         try {
-          const response = await fetch(`${API_URL}/quiz/questions/${type}`);
+          const endpoint =
+            currentQuizFormat === "image"
+              ? `${API_URL}/quiz/questions/image/${type}`
+              : `${API_URL}/quiz/questions/${type}`;
+
+          const response = await fetch(endpoint);
           if (!response.ok) {
             throw new Error("載入題庫失敗");
           }
 
           const data = await response.json();
-          console.log("收到的題庫資料:", data); // 添加這行來檢查接收到的資料
 
           if (!Array.isArray(data) || data.length === 0) {
             throw new Error("題庫格式不正確或是空的");
@@ -850,8 +971,7 @@
           showTopicButtons();
 
           // 隱藏選擇區，顯示題目列表
-          document.querySelector(".topic-selection-container").style.display =
-            "none";
+          document.getElementById("category-selection").style.display = "none";
           document.getElementById("topics-container").style.display = "grid";
         } catch (error) {
           console.error("載入題庫失敗:", error);
@@ -961,27 +1081,27 @@
         const questionData = currentQuestions[currentQuestion];
         const container = document.getElementById("question-container");
 
-        // 添加除錯日誌
-        console.log("顯示題目:", {
-          questionNumber: currentQuestion + 1,
-          question: questionData,
-        });
+        let questionHtml = `<h2>${questionData.question}</h2>`;
 
-        // 確保容器可見
-        container.style.display = "block";
+        // 如果是圖片題庫且有圖片路徑
+        if (currentQuizFormat === "image" && questionData.filepath) {
+          questionHtml = `
+            <img src="/quizzes/${questionData.filepath}" alt="題目圖片" style="max-width: 100%; margin-bottom: 1rem;">
+            <h2>${questionData.question}</h2>
+          `;
+        }
 
         // 設置題目內容
         container.innerHTML = `
-                <h2>${questionData.question}</h2>
-                <div class="options">
-                  <button class="option-btn" onclick="checkAnswer('A')">${questionData.answer_a}</button>
-                  <button class="option-btn" onclick="checkAnswer('B')">${questionData.answer_b}</button>
-                  <button class="option-btn" onclick="checkAnswer('C')">${questionData.answer_c}</button>
-                  <button class="option-btn" onclick="checkAnswer('D')">${questionData.answer_d}</button>
-                </div>
-              `;
+          ${questionHtml}
+          <div class="options">
+            <button class="option-btn" onclick="checkAnswer('A')">${questionData.answer_a}</button>
+            <button class="option-btn" onclick="checkAnswer('B')">${questionData.answer_b}</button>
+            <button class="option-btn" onclick="checkAnswer('C')">${questionData.answer_c}</button>
+            <button class="option-btn" onclick="checkAnswer('D')">${questionData.answer_d}</button>
+          </div>
+        `;
 
-        // 更新進度條
         updateProgress();
       }
 
@@ -1118,13 +1238,17 @@
       // 頁面載入時檢查認證狀態
       document.addEventListener("DOMContentLoaded", checkAuth);
 
+      // 修改 goHome 函數
       function goHome() {
-        // 顯示主題選擇容器
+        // 顯示初始的形式選擇容器
         document.querySelector(".topic-selection-container").style.display =
           "block";
-        // 隱藏其他可能顯示的容器
+        // 隱藏其他容器
+        document.getElementById("category-selection").style.display = "none";
         document.getElementById("topics-container").style.display = "none";
         document.getElementById("quiz-container").style.display = "none";
+        // 重置當前選擇的形式
+        currentQuizFormat = "";
       }
     </script>
   </body>
