@@ -321,7 +321,16 @@
     </div>
 
     <script>
-      const API_URL = "http://localhost:5000/api";
+      const API_URL = (() => {
+        if (
+          window.location.hostname === "localhost" ||
+          window.location.hostname === "127.0.0.1"
+        ) {
+          return "http://localhost:5000/api";
+        } else {
+          return "https://agriculture-quiz.onrender.com/api"; // 替換成您的 Render URL
+        }
+      })();
       let authToken = localStorage.getItem("token");
 
       // 檢查管理者權限
@@ -334,14 +343,18 @@
           });
 
           if (!response.ok) {
-            alert("您沒有管理者權限");
-            window.location.href = "/";
+            // 不直接跳轉，而是先清除認證信息
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+            window.location.href = "index.html"; // 明確指定跳轉到 index.html
             return false;
           }
           return true;
         } catch (error) {
           console.error("權限檢查失敗:", error);
-          window.location.href = "/";
+          localStorage.removeItem("token");
+          localStorage.removeItem("username");
+          window.location.href = "index.html";
           return false;
         }
       }
@@ -609,9 +622,24 @@
 
       // 初始化
       document.addEventListener("DOMContentLoaded", async () => {
+        // 先檢查是否有 token
+        if (!authToken) {
+          window.location.href = "index.html";
+          return;
+        }
+
+        // 再檢查管理員權限
         if (await checkAdminAccess()) {
-          loadStatistics();
-          loadUsers();
+          try {
+            await loadStatistics();
+            await loadUsers();
+          } catch (error) {
+            console.error("載入數據失敗:", error);
+            alert("載入數據失敗，請重新登入");
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+            window.location.href = "index.html";
+          }
         }
       });
 
@@ -631,7 +659,7 @@
 
       // 添加獨立的 goBack 函數
       function goBack() {
-        window.history.back();
+        window.location.href = "index.html"; // 直接指定返回首頁，而不是使用 history.back()
       }
     </script>
   </body>
