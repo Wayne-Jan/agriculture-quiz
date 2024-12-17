@@ -17,6 +17,7 @@ router.get("/questions/:type", async (req, res) => {
     } else {
       return res.status(400).json({ message: "無效的題庫類型" });
     }
+    // 修改文件路徑以匹配新的目錄結構
     const filePath = path.join(__dirname, "..", "data", "quizzes", filename);
     const data = await fs.readFile(filePath, "utf8");
     res.json(JSON.parse(data));
@@ -30,6 +31,7 @@ router.get("/questions/:type", async (req, res) => {
 router.get("/questions/image/:type", async (req, res) => {
   try {
     const { type } = req.params;
+    // 修改文件路徑以匹配新的目錄結構
     const filePath = path.join(
       __dirname,
       "..",
@@ -41,10 +43,10 @@ router.get("/questions/image/:type", async (req, res) => {
     const data = await fs.readFile(filePath, "utf8");
     let questions = JSON.parse(data);
 
-    // 處理圖片路徑
+    // 修改圖片路徑處理
     questions = questions.map((q) => ({
       ...q,
-      // 添加完整的圖片路徑，這裡假設圖片存放在 public/quizzes/{type}/image/ 目錄下
+      // 由於在 server.js 中設定了 /quizzes 對應到 data/quizzes
       imagePath: q.filepath ? `/quizzes/${type}/image/${q.filepath}` : null,
     }));
 
@@ -65,7 +67,7 @@ router.post("/record", auth, async (req, res) => {
       score,
       totalQuestions,
       answers,
-      quizFormat, // 新增欄位記錄是文字還是圖片題庫
+      quizFormat,
     });
     await quizRecord.save();
     res.status(201).json({ message: "測驗記錄已保存" });

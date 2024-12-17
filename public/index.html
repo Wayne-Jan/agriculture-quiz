@@ -1489,23 +1489,19 @@
         let questionHtml = `<h2>${questionData.question}</h2>`;
 
         // 如果是圖片題庫且有圖片路徑
-        if (currentQuizFormat === "image" && questionData.filepath) {
-          // 構建完整的圖片路徑
-          const imagePath = `/quizzes/agriculture/${questionData.filepath}`;
-
+        if (currentQuizFormat === "image" && questionData.imagePath) {
           console.log("圖片資訊：", {
             format: currentQuizFormat,
-            originalPath: questionData.filepath,
-            fullPath: imagePath,
+            imagePath: questionData.imagePath,
             questionData: questionData,
           });
 
           questionHtml = `
             <img 
-              src="${imagePath}" 
+              src="${questionData.imagePath}" 
               alt="題目圖片" 
               class="question-image"
-              onerror="console.error('圖片載入失敗，路徑:', '${imagePath}')"
+              onerror="console.error('圖片載入失敗，路徑:', '${questionData.imagePath}')"
             >
             <h2>${questionData.question}</h2>
           `;
@@ -1604,10 +1600,10 @@
                         ${
                           currentQuizFormat === "image"
                             ? `<td>
-                            <img src="/quizzes/agriculture/${currentQuestions[index].filepath}" 
-                                alt="題目圖片" 
-                                style="max-width: 150px; max-height: 150px; object-fit: contain;">
-                           </td>`
+                                <img src="${currentQuestions[index].imagePath}" 
+                                     alt="題目圖片" 
+                                     style="max-width: 150px; max-height: 150px; object-fit: contain;">
+                               </td>`
                             : ""
                         }
                         <td>${record.question}</td>
@@ -1684,7 +1680,7 @@
       // 生成漂浮的葉子
       function createFloatingElements() {
         const background = document.querySelector(".animation-background");
-        const leafTypes = ["leaf-1", "leaf-2", "leaf-3"];
+        const leafTypes = ["leaf-1"];
         const numberOfLeaves = 25; // 增加葉子數量
 
         for (let i = 0; i < numberOfLeaves; i++) {
