@@ -1432,9 +1432,276 @@
           padding: 0 0.5rem;
         }
       }
+
+      .ai-modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .ai-modal {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 800px;
+        width: 90%;
+        position: relative;
+        font-family: "Noto Sans TC", sans-serif;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      }
+
+      .ai-modal-close {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #666;
+      }
+
+      .ai-comparison-container {
+        position: relative;
+        padding: 1rem 2rem;
+      }
+
+      .ai-page {
+        display: none;
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      .ai-page.active {
+        display: block;
+      }
+
+      .ai-nav-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #2e7d32;
+        transition: all 0.3s ease;
+      }
+
+      .ai-nav-button:hover {
+        background: #f0f9f0;
+        transform: translateY(-50%) scale(1.1);
+      }
+
+      .ai-nav-prev {
+        left: 0;
+      }
+
+      .ai-nav-next {
+        right: 0;
+      }
+
+      .ai-dots {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+
+      .ai-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #e0e0e0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .ai-dot.active {
+        background: #2e7d32;
+        transform: scale(1.2);
+      }
+
+      .score-circle {
+        position: relative;
+        width: 200px;
+        height: 200px;
+      }
+
+      .score-display {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+
+      .score-value {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #2e7d32;
+      }
+
+      .score-label {
+        font-size: 0.875rem;
+        color: #666;
+      }
+
+      .bar-chart {
+        display: flex;
+        align-items: flex-end;
+        height: 300px;
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+
+      .bar {
+        flex: 1;
+        background: #2e7d32;
+        transition: all 0.3s ease;
+        border-radius: 8px 8px 0 0;
+        position: relative;
+        min-width: 40px;
+      }
+
+      .bar:hover {
+        transform: scaleY(1.02);
+      }
+
+      .bar-label {
+        position: absolute;
+        bottom: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.75rem;
+        text-align: center;
+        color: #666;
+        width: 80px;
+      }
+
+      .bar-value {
+        position: absolute;
+        top: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #2e7d32;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .ai-modal {
+          width: 95%;
+          padding: 1.5rem;
+        }
+
+        .score-circle {
+          width: 150px;
+          height: 150px;
+        }
+
+        .score-value {
+          font-size: 2rem;
+        }
+
+        .bar-chart {
+          height: 200px;
+        }
+
+        .bar-label {
+          font-size: 0.7rem;
+          width: 60px;
+        }
+      }
     </style>
   </head>
   <body>
+    <div class="ai-modal-overlay" id="aiModal">
+      <div class="ai-modal">
+        <button class="ai-modal-close" onclick="closeAiModal()">
+          <i class="fas fa-times"></i>
+        </button>
+
+        <div class="ai-comparison-container">
+          <div class="ai-page active" data-page="1">
+            <h2 class="card-title">測驗成績概覽</h2>
+            <div class="score-circle">
+              <svg width="200" height="200">
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="90"
+                  fill="none"
+                  stroke="#e8f5e9"
+                  stroke-width="12"
+                />
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="90"
+                  fill="none"
+                  stroke="#2e7d32"
+                  stroke-width="12"
+                  id="scoreCircle"
+                  stroke-dasharray="0 565.48"
+                  transform="rotate(-90 100 100)"
+                />
+              </svg>
+              <div class="score-display">
+                <div class="score-value">0%</div>
+                <div class="score-label">測驗得分</div>
+              </div>
+            </div>
+            <div id="comparisonText" class="comparison-text"></div>
+          </div>
+
+          <div class="ai-page" data-page="2">
+            <h2 class="card-title">AI模型比較</h2>
+            <div id="barChart" class="bar-chart"></div>
+          </div>
+
+          <button class="ai-nav-button ai-nav-prev" onclick="changePage(-1)">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="ai-nav-button ai-nav-next" onclick="changePage(1)">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+
+        <div class="ai-dots">
+          <div class="ai-dot active" onclick="goToPage(1)"></div>
+          <div class="ai-dot" onclick="goToPage(2)"></div>
+        </div>
+
+        <div class="footnote">
+          * 數據來源：AI模型在農業圖像識別測驗中的平均表現<br />
+          * 顯示的是各模型在相似題目上的正確率
+        </div>
+      </div>
+    </div>
     <div class="mobile-menu-button">
       <i class="fas fa-bars"></i>
     </div>
@@ -2036,6 +2303,11 @@
           const percentage = ((score / currentQuestions.length) * 100).toFixed(
             1
           );
+          showAiModal(
+            percentage,
+            currentQuestions[0].topic,
+            currentQuestions[0].category
+          );
           const isMobile = window.innerWidth <= 768;
 
           // 映射中文主題到英文鍵值
@@ -2543,6 +2815,172 @@
       function showAuthForm() {
         document.getElementById("auth-container").style.display = "block";
         document.querySelector(".main-title").style.display = "none";
+      }
+
+      let currentPage = 1;
+
+      async function showAiModal(userScore, topic, category) {
+        try {
+          // 獲取 AI 模型成績數據
+          const response = await fetch(`${API_URL}/quiz/ai-models`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const aiData = await response.json();
+
+          // 根據類別和主題獲取對應的 AI 成績
+          let aiScores = [];
+          if (category === "agriculture") {
+            // 農業類別
+            const topicParts = topic.split("_");
+            let cropType, subType;
+
+            if (topic.includes("水稻")) {
+              cropType = "rice";
+            } else if (topic.includes("茶樹")) {
+              cropType = "tea";
+            } else if (topic.includes("葡萄")) {
+              cropType = "grape";
+            }
+
+            if (topic.includes("病害")) {
+              subType = "disease";
+            } else if (topic.includes("害蟲")) {
+              subType = "pest";
+            } else if (topic.includes("營養")) {
+              subType = "nutrition";
+            }
+
+            if (aiData.agriculture[cropType]?.[subType]) {
+              aiScores = aiData.agriculture[cropType][subType];
+            }
+          } else {
+            // 獸醫類別
+            let mappedTopic;
+            if (topic === "獸醫病理學") mappedTopic = "pathology";
+            else if (topic === "獸醫實驗診斷學") mappedTopic = "diagnostic";
+            else if (topic === "獸醫普通疾病學") mappedTopic = "general";
+            else if (topic === "獸醫傳染病學") mappedTopic = "infectious";
+            else if (topic === "獸醫公共衛生學") mappedTopic = "public_health";
+
+            if (aiData.veterinary[mappedTopic]) {
+              aiScores = aiData.veterinary[mappedTopic];
+            }
+          }
+
+          // 更新介面
+          document.getElementById("aiModal").style.display = "flex";
+          updateScoreCircle(userScore);
+          updateComparisonText(userScore, aiScores);
+          initializeBarChart(aiScores);
+        } catch (error) {
+          console.error("載入AI成績數據失敗:", error);
+          console.log("錯誤詳情:", error.message);
+        }
+      }
+
+      /*************  ✨ Codeium Command ⭐  *************/
+      /**
+       * 關閉AI成績比較模態框
+       */
+      /******  61f68bda-92fb-42dc-a0ad-b3e63f6b70a4  *******/ function closeAiModal() {
+        document.getElementById("aiModal").style.display = "none";
+      }
+
+      function updateScoreCircle(score) {
+        const circle = document.getElementById("scoreCircle");
+        const circumference = 2 * Math.PI * 90;
+        const offset = circumference - (score / 100) * circumference;
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = offset;
+        document.querySelector(".score-value").textContent = `${score}%`;
+      }
+
+      function updateComparisonText(userScore, aiScores) {
+        const betterThanCount = aiScores.filter(
+          (ai) => userScore > ai.score
+        ).length;
+        const message = getComparisonMessage(betterThanCount);
+        document.getElementById("comparisonText").innerHTML = `
+          <div class="comparison-highlight">${message.highlight}</div>
+          <div class="comparison-count">${message.count}</div>
+          <div class="comparison-subtext">${message.subtext}</div>
+        `;
+      }
+
+      function getComparisonMessage(betterThanCount) {
+        if (betterThanCount >= 5) {
+          return {
+            highlight: "超越AI的實力！",
+            count: `您已經贏過 ${betterThanCount} 個AI模型`,
+            subtext: "您展現了極高的專業判斷能力，繼續保持！",
+          };
+        } else if (betterThanCount >= 3) {
+          return {
+            highlight: "表現優異！",
+            count: `您已經贏過 ${betterThanCount} 個AI模型`,
+            subtext: "您的專業能力正在穩定提升中",
+          };
+        } else {
+          return {
+            highlight: "繼續加油！",
+            count: `您已經贏過 ${betterThanCount} 個AI模型`,
+            subtext: "透過更多練習，您可以超越更多AI模型",
+          };
+        }
+      }
+
+      function initializeBarChart(aiScores) {
+        const chart = document.getElementById("barChart");
+        if (!aiScores || aiScores.length === 0) {
+          chart.innerHTML =
+            '<div class="text-center text-gray-500">暫無AI比較數據</div>';
+          return;
+        }
+
+        const colorScheme = [
+          "#2e7d32",
+          "#388e3c",
+          "#43a047",
+          "#4caf50",
+          "#66bb6a",
+          "#81c784",
+        ];
+
+        chart.innerHTML = aiScores
+          .map(
+            (ai, index) => `
+          <div class="bar" style="height: ${ai.score}%; background-color: ${
+              colorScheme[index % colorScheme.length]
+            }">
+            <div class="bar-value">${ai.score}%</div>
+            <div class="bar-label">${ai.name}</div>
+          </div>
+        `
+          )
+          .join("");
+      }
+
+      function changePage(delta) {
+        const newPage = currentPage + delta;
+        if (newPage >= 1 && newPage <= 2) {
+          goToPage(newPage);
+        }
+      }
+
+      function goToPage(pageNum) {
+        const pages = document.querySelectorAll(".ai-page");
+        const dots = document.querySelectorAll(".ai-dot");
+
+        pages.forEach((page) => page.classList.remove("active"));
+        dots.forEach((dot) => dot.classList.remove("active"));
+
+        document
+          .querySelector(`[data-page="${pageNum}"]`)
+          .classList.add("active");
+        dots[pageNum - 1].classList.add("active");
+
+        currentPage = pageNum;
       }
     </script>
   </body>
