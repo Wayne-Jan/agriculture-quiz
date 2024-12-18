@@ -28,7 +28,7 @@ app.use(
   cors({
     origin: isDevelopment
       ? "http://localhost:5000"
-      : "https://agriculture-quiz.onrender.com", // 移除最後的斜線
+      : "https://agriculture-quiz.onrender.com",
     credentials: true,
   })
 );
@@ -58,9 +58,9 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// 啟動伺服器
+// 啟動伺服器並保存server實例
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`伺服器運行在 port ${PORT}`);
   console.log(`環境: ${process.env.NODE_ENV || "development"}`);
 });
@@ -68,8 +68,18 @@ app.listen(PORT, () => {
 // 優雅關閉
 process.on("SIGTERM", () => {
   console.log("收到 SIGTERM 信號，準備關閉伺服器");
-  app.close(() => {
-    console.log("伺服器已關閉");
-    process.exit(0);
+  server.close(() => {
+    console.log("HTTP 伺服器已關閉");
+    // 關閉 MongoDB 連接
+    mongoose.connection.close(false).then(() => {
+      console.log("MongoDB 連接已關閉");
+      process.exit(0);
+    });
   });
+
+  // 設定強制關閉的超時時間
+  setTimeout(() => {
+    console.error("無法正常關閉，強制終止程序");
+    process.exit(1);
+  }, 10000);
 });
