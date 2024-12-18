@@ -48,36 +48,48 @@ router.get("/statistics", auth, checkAdmin, async (req, res) => {
       completedAt: { $gte: today },
     });
 
-    // 獲取平均分數
-    const scoreStats = await QuizRecord.aggregate([
-      {
-        $group: {
-          _id: null,
-          avgScore: { $avg: "$score" },
-        },
-      },
-    ]);
+    // 使用新的統計方法獲取平均分數
+    const stats = await QuizRecord.getStatistics();
 
-    // 獲取主題統計
-    const topicStats = await QuizRecord.aggregate([
-      {
-        $group: {
-          _id: "$topic",
-          avgScore: { $avg: "$score" },
-          totalAttempts: { $sum: 1 },
-        },
-      },
-    ]);
+    // 使用新的主題統計方法
+    const topicStats = await QuizRecord.getTopicStatistics();
 
     res.json({
       totalUsers,
       todayQuizzes,
-      avgScore: scoreStats[0]?.avgScore || 0,
-      topicStats,
+      avgScore: parseFloat(stats.avgScore.toFixed(1)),
+      topicStats: topicStats.map((topic) => ({
+        ...topic,
+        avgScore: parseFloat(topic.avgScore.toFixed(1)),
+      })),
     });
   } catch (error) {
     console.error("獲取統計數據錯誤:", error);
     res.status(500).json({ message: "伺服器錯誤" });
+  }
+});
+
+// 新增獲取主題詳細記錄的路由
+router.get("/topic/:topicName/details", auth, checkAdmin, async (req, res) => {
+  try {
+    const records = await QuizRecord.find({ topic: req.params.topicName })
+      .populate("user", "username")
+      .sort("-completedAt")
+      .select("score totalQuestions completedAt timeSpent user");
+
+    const detailedRecords = records.map((record) => ({
+      username: record.user.username,
+      score: parseFloat(
+        ((record.score / record.totalQuestions) * 100).toFixed(1)
+      ),
+      completedAt: record.completedAt,
+      timeSpent: record.timeSpent,
+    }));
+
+    res.json(detailedRecords);
+  } catch (error) {
+    console.error("獲取主題詳細記錄失敗:", error);
+    res.status(500).json({ message: "獲取詳細記錄失敗" });
   }
 });
 

@@ -272,6 +272,40 @@
         cursor: pointer;
         flex: 1;
       }
+      .topic-card {
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .topic-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .topic-summary {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background: var(--background);
+        border-radius: 8px;
+      }
+
+      .topic-records {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .record-card {
+        background: var(--background);
+        padding: 1rem;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .record-card:hover {
+        background: #f0f0f0;
+      }
     </style>
   </head>
   <body>
@@ -320,6 +354,15 @@
       </div>
     </div>
 
+    <div class="modal" id="topicModal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeTopicModal()">&times;</span>
+        <h2 id="topicModalTitle">主題測驗記錄</h2>
+        <div class="topic-summary"></div>
+        <div class="topic-records"></div>
+      </div>
+    </div>
+
     <script>
       const API_URL = (() => {
         if (
@@ -362,26 +405,96 @@
       // 載入統計數據
       async function loadStatistics() {
         try {
+          // 先顯示載入中
+          document.getElementById("total-users").textContent = "載入中...";
+          document.getElementById("today-quizzes").textContent = "載入中...";
+          document.getElementById("avg-score").textContent = "載入中...";
+
           const response = await fetch(`${API_URL}/admin/statistics`, {
             headers: {
               Authorization: `Bearer ${authToken}`,
             },
           });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
           const stats = await response.json();
+          console.log("Received stats:", stats); // 添加日誌
 
-          document.getElementById("total-users").textContent = stats.totalUsers;
+          // 確保數據存在且格式正確
+          document.getElementById("total-users").textContent =
+            stats.totalUsers ?? "無數據";
           document.getElementById("today-quizzes").textContent =
-            stats.todayQuizzes;
-          document.getElementById(
-            "avg-score"
-          ).textContent = `${stats.avgScore.toFixed(1)}%`;
+            stats.todayQuizzes ?? "無數據";
+          document.getElementById("avg-score").textContent = stats.avgScore
+            ? `${parseFloat(stats.avgScore).toFixed(1)}%`
+            : "無數據";
 
-          createChart(stats.topicStats);
+          if (stats.topicStats && Array.isArray(stats.topicStats)) {
+            createChart(stats.topicStats);
+          } else {
+            document.querySelector(".chart-container").innerHTML =
+              "<p>無法載入主題統計</p>";
+          }
         } catch (error) {
           console.error("載入統計數據失敗:", error);
-          alert("載入統計數據失敗");
+          // 顯示錯誤訊息而不是繼續顯示載入中
+          document.getElementById("total-users").textContent = "載入失敗";
+          document.getElementById("today-quizzes").textContent = "載入失敗";
+          document.getElementById("avg-score").textContent = "載入失敗";
+          document.querySelector(".chart-container").innerHTML =
+            "<p>載入統計數據失敗，請重新整理頁面</p>";
+
+          // 可以選擇是否要顯示錯誤提示
+          alert("載入統計數據失敗，請檢查網路連接或重新登入");
         }
       }
+
+      // 在初始化時添加錯誤處理
+      document.addEventListener("DOMContentLoaded", async () => {
+        try {
+          if (!authToken) {
+            throw new Error("未登入");
+          }
+
+          // 先檢查管理員權限
+          const isAdmin = await checkAdminAccess();
+          if (!isAdmin) {
+            throw new Error("無管理員權限");
+          }
+
+          // 同時載入數據
+          await Promise.all([loadStatistics(), loadUsers()]);
+        } catch (error) {
+          console.error("初始化失敗:", error);
+
+          // 根據錯誤類型顯示不同訊息
+          if (error.message === "未登入") {
+            alert("請先登入");
+            window.location.href = "index.html";
+          } else if (error.message === "無管理員權限") {
+            alert("您沒有管理員權限");
+            window.location.href = "index.html";
+          } else {
+            alert("載入失敗，請重新整理頁面");
+          }
+        }
+      });
+
+      // 添加一個簡單的 loading 指示器函數
+      function showLoading(show) {
+        const elements = document.querySelectorAll(".stat-card div");
+        elements.forEach((el) => {
+          el.style.opacity = show ? "0.5" : "1";
+        });
+      }
+
+      // 在 loadStatistics 開始時顯示
+      showLoading(true);
+      // 在完成或錯誤時隱藏
+      showLoading(false);
 
       async function loadUsers() {
         try {
@@ -715,60 +828,101 @@
       }
 
       // 創建統計圖表
+      // 創建統計圖表
       function createChart(data) {
         const container = document.querySelector(".chart-container");
         container.innerHTML = `
-            <h3>各主題統計</h3>
-            <div style="padding: 1rem;">
-                ${data
-                  .map(
-                    (d) => `
-                    <div style="margin-bottom: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
-                        <h4>${d._id}</h4>
-                        <p>平均分數: ${d.avgScore.toFixed(1)}%</p>
-                        <p>測驗次數: ${d.totalAttempts} 次</p>
-                    </div>
-                `
-                  )
-                  .join("")}
-            </div>
-        `;
+    <h3>各主題統計</h3>
+    <div style="padding: 1rem;">
+      ${data
+        .map(
+          (d) => `
+          <div 
+            class="topic-card" 
+            style="margin-bottom: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;"
+            onclick="showTopicDetails('${d._id}')"
+          >
+            <h4>${d._id}</h4>
+            <p>平均分數: ${d.avgScore.toFixed(1)}%</p>
+            <p>測驗次數: ${d.totalAttempts} 次</p>
+          </div>
+        `
+        )
+        .join("")}
+    </div>
+  `;
       }
 
-      // 初始化
-      document.addEventListener("DOMContentLoaded", async () => {
-        // 先檢查是否有 token
-        if (!authToken) {
-          window.location.href = "index.html";
-          return;
+      // 顯示主題詳細資訊
+      async function showTopicDetails(topicName) {
+        try {
+          const response = await fetch(
+            `${API_URL}/admin/topic/${encodeURIComponent(topicName)}/details`,
+            {
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+              },
+            }
+          );
+          const records = await response.json();
+
+          // 更新模態框標題
+          document.getElementById(
+            "topicModalTitle"
+          ).textContent = `${topicName} - 測驗記錄`;
+
+          // 計算並顯示摘要資訊
+          const totalRecords = records.length;
+          const avgScore =
+            records.reduce((sum, r) => sum + r.score, 0) / totalRecords;
+
+          document.querySelector(".topic-summary").innerHTML = `
+      <h3>摘要資訊</h3>
+      <p>總測驗次數: ${totalRecords}</p>
+      <p>平均分數: ${avgScore.toFixed(1)}%</p>
+    `;
+
+          // 顯示個別記錄
+          document.querySelector(".topic-records").innerHTML = records
+            .map(
+              (record) => `
+        <div class="record-card">
+          <div>
+            <strong>${record.username}</strong>
+            <p>分數: ${record.score}%</p>
+            <p>完成時間: ${new Date(record.completedAt).toLocaleString()}</p>
+            <p>作答時間: ${
+              record.timeSpent ? record.timeSpent.toFixed(1) + "秒" : "無資料"
+            }</p>
+          </div>
+        </div>
+      `
+            )
+            .join("");
+
+          // 顯示模態框
+          document.getElementById("topicModal").style.display = "flex";
+        } catch (error) {
+          console.error("載入主題詳細資訊失敗:", error);
+          alert("載入主題詳細資訊失敗");
         }
+      }
 
-        // 再檢查管理員權限
-        if (await checkAdminAccess()) {
-          try {
-            await loadStatistics();
-            await loadUsers();
-          } catch (error) {
-            console.error("載入數據失敗:", error);
-            alert("載入數據失敗，請重新登入");
-            localStorage.removeItem("token");
-            localStorage.removeItem("username");
-            window.location.href = "index.html";
-          }
-        }
-      });
+      // 關閉主題模態框
+      function closeTopicModal() {
+        document.getElementById("topicModal").style.display = "none";
+      }
 
-      // 模態框關閉功能
-      document.querySelector(".close-btn").onclick = function () {
-        document.getElementById("userModal").style.display = "none";
-      };
-
-      // 點擊模態框外部關閉
-      // 移除原本在 window.onclick 裡面的 goBack 函數
+      // 修改 window.onclick 事件處理
       window.onclick = function (event) {
-        const modal = document.getElementById("userModal");
-        if (event.target == modal) {
-          modal.style.display = "none";
+        const userModal = document.getElementById("userModal");
+        const topicModal = document.getElementById("topicModal");
+
+        if (event.target == userModal) {
+          userModal.style.display = "none";
+        }
+        if (event.target == topicModal) {
+          topicModal.style.display = "none";
         }
       };
 
