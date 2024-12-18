@@ -1185,6 +1185,99 @@
           display: none !important;
         }
       }
+      /* 圖片展示區域樣式 */
+      .image-showcase {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+        perspective: 1000px;
+      }
+
+      .image-card {
+        width: 200px;
+        height: 280px;
+        margin: 0 -1rem;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .image-card:first-child {
+        transform: rotate(-12deg);
+      }
+
+      .image-card:last-child {
+        transform: rotate(12deg);
+      }
+
+      .image-card:hover {
+        transform: rotate(0) translateY(-10px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+      }
+
+      .image-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .main-title {
+        text-align: center;
+        margin: 2rem auto;
+        padding: 2rem;
+        max-width: 600px;
+      }
+
+      .image-showcase {
+        display: flex;
+        justify-content: center;
+        margin: 2rem auto;
+        gap: -2rem;
+      }
+
+      .image-card {
+        width: 180px;
+        height: 240px;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        background: white;
+        transition: transform 0.3s ease;
+      }
+
+      .image-card:first-child {
+        transform: rotate(-12deg);
+        z-index: 1;
+      }
+
+      .image-card:last-child {
+        transform: rotate(12deg);
+        margin-left: -30px;
+      }
+
+      .image-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .start-btn {
+        margin-top: 2rem;
+        padding: 1rem 3rem;
+        font-size: 1.2rem;
+        background-color: #2e7d32;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+      }
+
+      .start-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(46, 125, 50, 0.3);
+      }
     </style>
   </head>
   <body>
@@ -1231,8 +1324,22 @@
       </button>
     </div>
 
+    <div class="main-title">
+      <div class="image-showcase">
+        <div class="image-card">
+          <img src="/images/agriculture1.jpg" alt="農業圖片1" />
+        </div>
+        <div class="image-card">
+          <img src="/images/agriculture2.jpg" alt="農業圖片2" />
+        </div>
+      </div>
+      <h1>農業知識測驗系統</h1>
+      <p>測試您的農業專業知識</p>
+      <button class="start-btn" onclick="showAuthForm()">開始測驗</button>
+    </div>
+
     <!-- 認證表單容器 -->
-    <div id="auth-container" class="auth-container">
+    <div id="auth-container" class="auth-container" style="display: none">
       <!-- 登入表單 -->
       <div class="auth-form" id="login-form">
         <h2>登入</h2>
@@ -1374,11 +1481,8 @@
           ".animation-background"
         );
         const existingTitle = document.querySelector(".main-title");
+        const authContainer = document.getElementById("auth-container");
 
-        // 移除現有的主標題元素（如果存在）
-        if (existingTitle) existingTitle.remove();
-
-        // 確保背景動畫一直存在
         if (!existingBackground) {
           const background = document.createElement("div");
           background.className = "animation-background";
@@ -1386,18 +1490,11 @@
           createFloatingElements();
         }
 
-        // 只在登入頁面（shouldShow 為 true）時顯示標題
         if (shouldShow) {
-          const title = document.createElement("div");
-          title.className = "main-title";
-          title.innerHTML = `
-      <h1>農業知識測驗系統</h1>
-      <p>測試您的農業專業知識</p>
-    `;
-          document.body.insertBefore(
-            title,
-            document.getElementById("auth-container")
-          );
+          if (existingTitle) existingTitle.style.display = "block";
+          authContainer.style.display = "none";
+        } else {
+          if (existingTitle) existingTitle.style.display = "none";
         }
       }
 
@@ -1548,30 +1645,22 @@
         }
       }
 
-      // 修改登出功能
+      // 登出功能
       function logout() {
         localStorage.removeItem("token");
         localStorage.removeItem("username");
         localStorage.removeItem("userRole");
         authToken = null;
 
-        // 重新顯示標題（只在登入頁面）
-        if (!document.querySelector(".main-title")) {
-          const mainTitle = document.createElement("div");
-          mainTitle.className = "main-title";
-          mainTitle.innerHTML = `
-      <h1>農業知識測驗系統</h1>
-      <p>測試您的農業專業知識</p>
-    `;
-          document.body.insertBefore(
-            mainTitle,
-            document.getElementById("auth-container")
-          );
-        }
-
-        document.getElementById("auth-container").style.display = "block";
+        // 顯示首頁的圖片介面
+        document.querySelector(".main-title").style.display = "block";
+        // 隱藏其他元素
+        document.getElementById("auth-container").style.display = "none";
         document.getElementById("main-container").style.display = "none";
         document.getElementById("user-info").style.display = "none";
+
+        // 確保背景動畫存在
+        ensureAnimationBackground();
       }
 
       function selectQuizFormat(format) {
@@ -2034,52 +2123,40 @@
       function logout() {
         localStorage.removeItem("token");
         localStorage.removeItem("username");
+        localStorage.removeItem("userRole");
         authToken = null;
 
-        // 重新顯示動畫背景和標題
-        if (!document.querySelector(".animation-background")) {
-          const animationBackground = document.createElement("div");
-          animationBackground.className = "animation-background";
-          document.body.insertBefore(
-            animationBackground,
-            document.body.firstChild
-          );
-          createFloatingElements();
-        }
-        if (!document.querySelector(".main-title")) {
-          const mainTitle = document.createElement("div");
-          mainTitle.className = "main-title";
-          mainTitle.innerHTML = `
-          <h1>農業知識測驗系統</h1>
-          <p>測試您的農業專業知識</p>
-      `;
-          document.body.insertBefore(
-            mainTitle,
-            document.getElementById("auth-container")
-          );
+        // 移除現有背景（如果存在）
+        const existingBackground = document.querySelector(
+          ".animation-background"
+        );
+        if (existingBackground) {
+          existingBackground.remove();
         }
 
-        document.getElementById("auth-container").style.display = "block";
+        // 重新創建背景和動畫
+        ensureAnimationBackground();
+
+        // 顯示首頁的圖片介面
+        document.querySelector(".main-title").style.display = "block";
+
+        // 隱藏其他元素
+        document.getElementById("auth-container").style.display = "none";
         document.getElementById("main-container").style.display = "none";
         document.getElementById("user-info").style.display = "none";
       }
 
-      // 當 DOM 載入完成後初始化動畫
+      // 在頁面載入時初始化
       document.addEventListener("DOMContentLoaded", () => {
         if (!localStorage.getItem("token")) {
+          // 確保背景動畫正確初始化
           const existingBackground = document.querySelector(
             ".animation-background"
           );
-          if (existingBackground) existingBackground.remove();
-
-          const animationBackground = document.createElement("div");
-          animationBackground.className = "animation-background";
-          document.body.insertBefore(
-            animationBackground,
-            document.body.firstChild
-          );
-
-          createFloatingElements();
+          if (existingBackground) {
+            existingBackground.remove();
+          }
+          ensureAnimationBackground();
         }
 
         checkAuth();
@@ -2112,6 +2189,11 @@
           }
         });
       });
+
+      function showAuthForm() {
+        document.getElementById("auth-container").style.display = "block";
+        document.querySelector(".main-title").style.display = "none";
+      }
     </script>
   </body>
 </html>
