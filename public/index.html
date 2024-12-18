@@ -74,23 +74,7 @@
         gap: 0.5rem;
         min-width: 120px;
         justify-content: center;
-        color: white;
-      }
-
-      /* 統一按鈕基本樣式 */
-      .nav-btn {
-        padding: 0.8rem 1.5rem;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        min-width: 120px;
-        justify-content: center;
-        margin-left: 1rem; /* 統一按鈕間距 */
+        margin-left: 1rem;
         color: white;
       }
 
@@ -99,27 +83,29 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       }
 
-      /* 管理系統按鈕 */
       .admin-btn {
-        background-color: #1a237e; /* 深藍色 */
+        background-color: #1a237e;
+        display: none;
       }
 
-      /* 返回主頁按鈕 */
       .home-btn {
-        background-color: #666666; /* 灰色 */
+        background-color: #666666;
       }
 
-      /* 登出按鈕 */
       .logout-btn {
-        background-color: #2e7d32; /* 綠色 */
+        background-color: #2e7d32;
       }
 
-      /* 用戶資訊區塊樣式 */
       .user-info {
         display: flex;
         align-items: center;
         padding: 1rem;
-        gap: 1rem; /* 確保所有元素間距一致 */
+        gap: 1rem;
+        text-align: right;
+        background: var(--card-bg);
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
 
       .question-image {
@@ -129,8 +115,8 @@
         margin-bottom: 1.5rem;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        image-orientation: from-image; /* 自動從 EXIF 數據讀取方向 */
-        -webkit-image-orientation: from-image; /* Safari 支援 */
+        image-orientation: from-image;
+        -webkit-image-orientation: from-image;
       }
 
       .question-card.image-question {
@@ -139,7 +125,6 @@
         align-items: center;
       }
 
-      /* 修改返回按鈕位置和樣式 */
       .format-back-btn {
         position: static;
         margin-top: 1rem;
@@ -158,7 +143,6 @@
         transform: translateY(-2px);
       }
 
-      /* 調整選擇按鈕的佈局 */
       .selection-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -201,9 +185,8 @@
         text-align: center;
       }
 
-      /* 帳號稱樣式 */
       #username-display {
-        margin-right: auto; /* 將帳號稱推到左邊 */
+        margin-right: auto;
       }
 
       .topic-selection-container {
@@ -457,14 +440,16 @@
         color: #c62828;
       }
 
-      /* 新增的登入相關樣式 */
       .auth-container {
-        max-width: 400px;
+        max-width: 450px;
         margin: 2rem auto;
         padding: 2rem;
-        background: var(--card-bg);
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 16px;
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        animation: fadeIn 0.8s ease-out;
       }
 
       .auth-form {
@@ -477,12 +462,12 @@
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
+        margin-bottom: 1.5rem;
       }
 
-      /* 增加權重並設置更明顯的邊框 */
       .auth-container .form-group input {
         background-color: #ffffff;
-        border: 2px solid #c8e6c9 !important; /* 使用更明顯的綠色邊框 */
+        border: 2px solid #c8e6c9 !important;
         border-radius: 8px;
         padding: 1rem;
         font-size: 1rem;
@@ -491,19 +476,12 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
       }
 
-      /* 聚焦時的樣式 */
       .auth-container .form-group input:focus {
         border-color: #4caf50 !important;
         box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
         outline: none;
       }
 
-      /* 增加輸入框的間距 */
-      .auth-container .form-group {
-        margin-bottom: 1.5rem;
-      }
-
-      /* 標籤樣式 */
       .auth-container .form-group label {
         display: block;
         margin-bottom: 0.8rem;
@@ -512,7 +490,6 @@
         font-size: 1.1rem;
       }
 
-      /* 新增的表單樣式 */
       .form-group select {
         background-color: rgba(255, 255, 255, 0.9);
         border: 2px solid #e8f5e9;
@@ -540,170 +517,14 @@
         cursor: pointer;
         font-size: 1rem;
         transition: all 0.3s ease;
-      }
-
-      .auth-btn:hover {
-        background: var(--primary-dark);
-      }
-
-      .auth-switch {
-        text-align: center;
-        margin-top: 1rem;
-      }
-
-      .auth-switch button {
-        background: none;
-        border: none;
-        color: var(--primary-color);
-        cursor: pointer;
-        text-decoration: underline;
-      }
-      /* 在原有的 style 標籤中添加 */
-      .admin-btn {
-        padding: 0.8rem 1.5rem;
-        background: #1a237e; /* 深藍色，區別於其他按鈕 */
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
-        margin-left: 1rem;
-        display: none; /* 預設隱藏 */
-      }
-
-      .admin-btn:hover {
-        background: #283593;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      }
-
-      .admin-btn i {
-        margin-right: 0.5rem;
-      }
-
-      .user-info {
-        text-align: right;
-        padding: 1rem;
-        background: var(--card-bg);
-        margin-bottom: 1rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      /* 添加動畫背景容器 */
-      .animation-background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        background: linear-gradient(120deg, #e0f2f1, #b2dfdb);
-        overflow: hidden;
-      }
-
-      /* 漂浮元素的基本樣式 */
-      .floating-element {
-        position: absolute;
-        opacity: 0.2;
-        animation: float 15s infinite linear;
-      }
-
-      /* 為不同元素設置不同的大小和顏色 */
-      .leaf {
-        width: 30px;
-        height: 30px;
-        background-color: #4caf50;
-        clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-      }
-
-      .circle {
-        width: 20px;
-        height: 20px;
-        background-color: #81c784;
-        border-radius: 50%;
-      }
-
-      .square {
-        width: 25px;
-        height: 25px;
-        background-color: #66bb6a;
-        transform: rotate(45deg);
-      }
-
-      /* 漂浮動畫 */
-      @keyframes float {
-        0% {
-          transform: translate(0, -100%) rotate(0);
-          opacity: 0;
-        }
-        10% {
-          opacity: 0.2;
-        }
-        90% {
-          opacity: 0.2;
-        }
-        100% {
-          transform: translate(var(--translate-x), 100vh) rotate(360deg);
-          opacity: 0;
-        }
-      }
-
-      /* 修改登入表單容器樣式 */
-      .auth-container {
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        animation: fadeIn 0.8s ease-out;
-      }
-
-      /* 整體表單容器微調 */
-      .auth-container {
-        max-width: 450px;
-        margin: 2rem auto;
-        padding: 2rem;
-      }
-
-      .form-group label {
-        color: #2c3e50;
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-      }
-
-      /* 登入表單出現動畫 */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* 為輸入框添加動畫效果 */
-      .form-group input {
-        transition: all 0.3s ease;
-        border: 2px solid transparent;
-      }
-
-      .form-group input:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-      }
-
-      /* 登入按鈕懸停效果增強 */
-      .auth-btn {
         position: relative;
         overflow: hidden;
-        transition: all 0.3s ease;
       }
 
       .auth-btn:hover {
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        background: var(--primary-dark);
       }
 
       .auth-btn::after {
@@ -724,7 +545,19 @@
         height: 300px;
       }
 
-      /* 添加動畫背景容器 */
+      .auth-switch {
+        text-align: center;
+        margin-top: 1rem;
+      }
+
+      .auth-switch button {
+        background: none;
+        border: none;
+        color: var(--primary-color);
+        cursor: pointer;
+        text-decoration: underline;
+      }
+
       .animation-background {
         position: fixed;
         top: 0;
@@ -736,11 +569,11 @@
         overflow: hidden;
       }
 
-      /* 大標題容器 */
       .main-title {
         text-align: center;
-        margin-bottom: 2rem;
-        padding: 2rem 0;
+        margin: 2rem auto;
+        padding: 2rem;
+        max-width: 600px;
         animation: titleFloat 3s ease-in-out infinite;
       }
 
@@ -758,150 +591,16 @@
         animation: titleFadeIn 1.5s ease-out 0.3s backwards;
       }
 
-      /* 標題動畫 */
-      @keyframes titleFloat {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-
-      @keyframes titleFadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(-20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* 漂浮元素的基本樣式 */
       .floating-element {
         position: absolute;
         opacity: 0.2;
         animation: float 15s infinite linear;
       }
 
-      /* 為不同元素設置不同的大小和顏色 */
-      .leaf {
-        width: 30px;
-        height: 30px;
-        background-color: #4caf50;
-        clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-      }
-
-      .circle {
-        width: 20px;
-        height: 20px;
-        background-color: #81c784;
-        border-radius: 50%;
-      }
-
-      .square {
-        width: 25px;
-        height: 25px;
-        background-color: #66bb6a;
-        transform: rotate(45deg);
-      }
-
-      /* 漂浮動畫 */
-      @keyframes float {
-        0% {
-          transform: translate(0, -100%) rotate(0);
-          opacity: 0;
-        }
-        10% {
-          opacity: 0.2;
-        }
-        90% {
-          opacity: 0.2;
-        }
-        100% {
-          transform: translate(var(--translate-x), 100vh) rotate(360deg);
-          opacity: 0;
-        }
-      }
-
-      /* 修改登入表單容器樣式 */
-      .auth-container {
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        animation: fadeIn 0.8s ease-out;
-        margin-top: 1rem;
-      }
-
-      /* 登入表單出現動畫 */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* 為輸入框添加動畫效果 */
-      .form-group input {
-        transition: all 0.3s ease;
-        border: 2px solid transparent;
-      }
-
-      .form-group input:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-      }
-
-      /* 登入按鈕懸停效果增強 */
-      .auth-btn {
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
-      }
-
-      .auth-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      }
-
-      .auth-btn::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        transition: width 0.6s ease, height 0.6s ease;
-      }
-
-      .auth-btn:active::after {
-        width: 300px;
-        height: 300px;
-      }
-
-      /* 漂浮元素的基本樣式 */
-      .floating-element {
-        position: absolute;
-        opacity: 0.2;
-        animation: float 15s infinite linear;
-      }
-
-      /* 三種不同的葉子樣式 */
       .leaf-1 {
         width: 30px;
         height: 30px;
         background-color: #4caf50;
-        /* 橢圓形葉子 */
         clip-path: polygon(
           50% 0%,
           80% 25%,
@@ -919,7 +618,6 @@
         width: 25px;
         height: 25px;
         background-color: #66bb6a;
-        /* 心形葉子 */
         clip-path: polygon(
           50% 0%,
           90% 20%,
@@ -936,7 +634,6 @@
         width: 35px;
         height: 35px;
         background-color: #81c784;
-        /* 圓形葉子 */
         clip-path: polygon(
           30% 0%,
           70% 0%,
@@ -949,159 +646,63 @@
         );
       }
 
-      /* 漂浮動畫 */
-      @keyframes float {
-        0% {
-          transform: translate(0, -100%) rotate(0);
-          opacity: 0;
-        }
-        10% {
-          opacity: 0.2;
-        }
-        90% {
-          opacity: 0.2;
-        }
-        100% {
-          transform: translate(var(--translate-x), 100vh) rotate(360deg);
-          opacity: 0;
-        }
-      }
-      /* 響應式設計 */
-      @media (max-width: 768px) {
-        .main-title h1 {
-          font-size: 2rem;
-        }
-
-        .main-title p {
-          font-size: 1rem;
-        }
+      .image-showcase {
+        display: flex;
+        justify-content: center;
+        margin: 2rem auto;
+        gap: -2rem;
+        perspective: 1000px;
       }
 
-      @media (max-width: 480px) {
-        .main-title h1 {
-          font-size: 1.8rem;
-        }
+      .image-card {
+        width: 180px;
+        height: 240px;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        background: white;
+        transition: transform 0.3s ease;
       }
 
-      /* 修改現有的媒體查詢樣式 */
-      @media (max-width: 768px) {
-        body {
-          padding: 0.5rem; /* 減少body的padding */
-        }
-
-        .container {
-          padding: 1rem;
-          margin: 0.5rem; /* 加入margin控制 */
-          width: auto; /* 自動寬度 */
-        }
-
-        /* 優化題庫選擇按鈕 */
-        .topic-buttons {
-          flex-direction: column; /* 改為垂直排列 */
-          gap: 1rem;
-        }
-
-        .topic-select-btn {
-          padding: 1rem;
-          width: 100%; /* 讓按鈕佔滿寬度 */
-          margin: 0; /* 移除margin */
-        }
-
-        /* 用戶資訊區塊調整 */
-        .user-info {
-          flex-wrap: wrap; /* 允許換行 */
-          gap: 0.5rem;
-          padding: 0.5rem;
-          justify-content: center; /* 置中對齊 */
-        }
-
-        /* 導航按鈕調整 */
-        .nav-btn {
-          margin: 0.25rem; /* 減少按鈕間距 */
-          min-width: auto; /* 移除最小寬度限制 */
-          width: calc(50% - 0.5rem); /* 讓按鈕平均分配寬度 */
-          padding: 0.5rem 1rem;
-          font-size: 0.8rem;
-        }
-
-        /* 問題卡片調整 */
-        .question-card {
-          padding: 1rem;
-          margin: 1rem 0;
-        }
-
-        .question-card h2 {
-          font-size: 1.1rem;
-        }
-
-        /* 選項按鈕調整 */
-        .option-btn {
-          padding: 0.8rem 1rem;
-          font-size: 0.9rem;
-        }
-
-        /* 進度條容器調整 */
-        .progress {
-          margin: 1rem 0;
-          padding: 0.5rem;
-        }
-
-        /* 測驗結果表格調整 */
-        .stats-table {
-          display: block;
-          overflow-x: auto;
-          white-space: nowrap;
-          font-size: 0.8rem;
-        }
-
-        .stats-table th,
-        .stats-table td {
-          padding: 0.5rem;
-        }
-
-        /* 登入/註冊表單容器 */
-        .auth-container {
-          margin: 1rem auto;
-          padding: 1rem;
-          width: auto;
-          max-width: 100%;
-        }
-
-        .auth-form {
-          gap: 0.8rem;
-        }
-
-        .form-group input {
-          padding: 0.6rem;
-        }
-
-        /* 標題調整 */
-        .header h1 {
-          font-size: 1.8rem;
-        }
-
-        /* 修正按鈕在行動裝置上的大小 */
-        .admin-btn,
-        .home-btn,
-        .logout-btn {
-          padding: 0.5rem 1rem;
-          font-size: 0.8rem;
-          margin: 0.25rem;
-        }
+      .image-card:first-child {
+        transform: rotate(-12deg);
+        z-index: 1;
       }
 
-      /* 新增超小螢幕的優化 */
-      @media (max-width: 320px) {
-        .header h1 {
-          font-size: 1.5rem;
-        }
-
-        .nav-btn {
-          width: 100%; /* 在超小螢幕上按鈕佔滿寬度 */
-          margin: 0.25rem 0;
-        }
+      .image-card:last-child {
+        transform: rotate(12deg);
+        margin-left: -30px;
       }
-      /* 漢堡選單按鈕樣式 */
+
+      .image-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .image-card:hover {
+        transform: rotate(0) translateY(-10px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+      }
+
+      .start-btn {
+        margin-top: 2rem;
+        padding: 1rem 3rem;
+        font-size: 1.2rem;
+        background-color: #2e7d32;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+      }
+
+      .start-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(46, 125, 50, 0.3);
+      }
+
       .mobile-menu-button {
         display: none;
         position: fixed;
@@ -1116,7 +717,6 @@
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       }
 
-      /* 手機選單樣式 */
       .mobile-menu {
         display: none;
         position: fixed;
@@ -1171,8 +771,161 @@
         color: white;
       }
 
-      /* 媒體查詢 */
+      /* Animations */
+      @keyframes titleFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes titleFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes float {
+        0% {
+          transform: translate(0, -100%) rotate(0);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.2;
+        }
+        90% {
+          opacity: 0.2;
+        }
+        100% {
+          transform: translate(var(--translate-x), 100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* Media Queries */
       @media (max-width: 768px) {
+        body {
+          padding: 0.5rem;
+        }
+
+        .container {
+          padding: 1rem;
+          margin: 0.5rem;
+          width: auto;
+        }
+
+        .topic-buttons {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .topic-select-btn {
+          padding: 1rem;
+          width: 100%;
+          margin: 0;
+        }
+
+        .user-info {
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          padding: 0.5rem;
+          justify-content: center;
+          display: none !important;
+        }
+
+        .nav-btn {
+          margin: 0.25rem;
+          min-width: auto;
+          width: calc(50% - 0.5rem);
+          padding: 0.5rem 1rem;
+          font-size: 0.8rem;
+        }
+
+        .question-card {
+          padding: 1rem;
+          margin: 1rem 0;
+        }
+
+        .question-card h2 {
+          font-size: 1.1rem;
+        }
+
+        .option-btn {
+          padding: 0.8rem 1rem;
+          font-size: 0.9rem;
+        }
+
+        .progress {
+          margin: 1rem 0;
+          padding: 0.5rem;
+        }
+
+        .stats-table {
+          display: block;
+          overflow-x: auto;
+          white-space: nowrap;
+          font-size: 0.8rem;
+        }
+
+        .stats-table th,
+        .stats-table td {
+          padding: 0.5rem;
+        }
+
+        .auth-container {
+          margin: 1rem auto;
+          padding: 1rem;
+          width: auto;
+          max-width: 100%;
+        }
+
+        .auth-form {
+          gap: 0.8rem;
+        }
+
+        .form-group input {
+          padding: 0.6rem;
+        }
+
+        .header h1 {
+          font-size: 1.8rem;
+        }
+
+        .admin-btn,
+        .home-btn,
+        .logout-btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.8rem;
+          margin: 0.25rem;
+        }
+
+        .main-title h1 {
+          font-size: 2rem;
+        }
+
+        .main-title p {
+          font-size: 1rem;
+        }
+
         .mobile-menu-button {
           display: block;
         }
@@ -1181,134 +934,20 @@
           display: block;
         }
 
-        .user-info {
-          display: none !important;
-        }
-      }
-      /* 圖片展示區域樣式 */
-      .image-showcase {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 2rem;
-        perspective: 1000px;
-      }
-
-      .image-card {
-        width: 200px;
-        height: 280px;
-        margin: 0 -1rem;
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-      }
-
-      .image-card:first-child {
-        transform: rotate(-12deg);
-      }
-
-      .image-card:last-child {
-        transform: rotate(12deg);
-      }
-
-      .image-card:hover {
-        transform: rotate(0) translateY(-10px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-      }
-
-      .image-card img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-      .main-title {
-        text-align: center;
-        margin: 2rem auto;
-        padding: 2rem;
-        max-width: 600px;
-      }
-
-      .image-showcase {
-        display: flex;
-        justify-content: center;
-        margin: 2rem auto;
-        gap: -2rem;
-      }
-
-      .image-card {
-        width: 180px;
-        height: 240px;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        background: white;
-        transition: transform 0.3s ease;
-      }
-
-      .image-card:first-child {
-        transform: rotate(-12deg);
-        z-index: 1;
-      }
-
-      .image-card:last-child {
-        transform: rotate(12deg);
-        margin-left: -30px;
-      }
-
-      .image-card img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .start-btn {
-        margin-top: 2rem;
-        padding: 1rem 3rem;
-        font-size: 1.2rem;
-        background-color: #2e7d32;
-        color: white;
-        border: none;
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
-      }
-
-      .start-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(46, 125, 50, 0.3);
-      }
-      @media (max-width: 768px) {
-        /* 答題統計表格的容器 */
         .stats-table-container {
-          margin: 0 -1rem; /* 負邊距讓表格可以橫向滾動 */
+          margin: 0 -1rem;
           padding: 0 1rem;
           overflow-x: auto;
-          -webkit-overflow-scrolling: touch; /* iOS 平滑滾動 */
+          -webkit-overflow-scrolling: touch;
         }
 
-        /* 表格本身的優化 */
-        .stats-table {
-          font-size: 0.875rem; /* 縮小字體 */
-          min-width: 100%;
-        }
-
-        /* 調整表格單元格內距 */
-        .stats-table th,
-        .stats-table td {
-          padding: 0.5rem;
-          white-space: normal; /* 允許文字換行 */
-        }
-
-        /* 圖片欄位特別處理 */
         .stats-table td img {
-          max-width: 80px; /* 縮小圖片 */
+          max-width: 80px;
           height: auto;
-          display: block; /* 讓圖片置中 */
+          display: block;
           margin: 0 auto;
         }
 
-        /* 卡片式布局，每個問題獨立成卡片 */
         .mobile-result-card {
           background: white;
           border-radius: 8px;
@@ -1317,34 +956,10 @@
           padding: 1rem;
         }
 
-        .mobile-result-card .question-header {
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: 0.5rem;
-          color: #666;
-        }
-
-        .mobile-result-card .question-image {
-          width: 100%;
-          max-height: 200px;
-          object-fit: contain;
-          margin: 0.5rem 0;
-        }
-
-        .mobile-result-card .answer-detail {
-          margin-top: 0.5rem;
-        }
-
-        /* 狀態標籤優化 */
         .answer-status {
-          display: inline-block;
-          padding: 0.25rem 0.5rem;
-          border-radius: 4px;
           font-size: 0.75rem;
-          font-weight: 500;
         }
 
-        /* 分數顯示優化 */
         .score-section {
           text-align: center;
           padding: 1.5rem;
@@ -1361,8 +976,22 @@
         }
       }
 
-      /* 超小螢幕的額外優化 */
+      @media (max-width: 480px) {
+        .main-title h1 {
+          font-size: 1.8rem;
+        }
+      }
+
       @media (max-width: 320px) {
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .nav-btn {
+          width: 100%;
+          margin: 0.25rem 0;
+        }
+
         .stats-table {
           font-size: 0.75rem;
         }
