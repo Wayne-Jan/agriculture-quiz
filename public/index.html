@@ -1371,6 +1371,67 @@
           padding: 0.75rem;
         }
       }
+
+      .ai-comparison {
+        margin: 2rem 0;
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .ai-comparison h3 {
+        margin-bottom: 1.5rem;
+        color: var(--text-primary);
+        font-size: 1.2rem;
+      }
+
+      .chart-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+
+      .score-bar {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .bar-label {
+        min-width: 120px;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      .bar {
+        height: 24px;
+        color: white;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        padding: 0 0.8rem;
+        font-size: 0.9rem;
+        transition: width 0.8s ease;
+        min-width: 40px;
+      }
+
+      @media (max-width: 768px) {
+        .ai-comparison {
+          padding: 1rem;
+        }
+
+        .bar-label {
+          min-width: 90px;
+          font-size: 0.8rem;
+        }
+
+        .bar {
+          height: 20px;
+          font-size: 0.8rem;
+          padding: 0 0.5rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1785,21 +1846,19 @@
           }
 
           const data = await response.json();
+          // 為所有題目添加 category
+          allQuestions = data.map((q) => ({
+            ...q,
+            category: type, // 添加 category 欄位
+          }));
 
-          if (!Array.isArray(data) || data.length === 0) {
+          if (!Array.isArray(allQuestions) || allQuestions.length === 0) {
             throw new Error("題庫格式不正確或是空的");
           }
 
-          allQuestions = data;
           const topics = [...new Set(allQuestions.map((q) => q.topic))];
-
-          if (topics.length === 0) {
-            throw new Error("沒有找到任何主題");
-          }
-
           showTopicButtons();
 
-          // 隱藏選擇區，顯示題目列表
           document.getElementById("category-selection").style.display = "none";
           document.getElementById("topics-container").style.display = "grid";
         } catch (error) {
@@ -1822,7 +1881,8 @@
               score,
               totalQuestions,
               answers,
-              quizFormat: currentQuizFormat, // 添加這行
+              quizFormat: currentQuizFormat,
+              category: currentQuestions[0].category, // 添加 category 資訊
             }),
           });
 
@@ -1832,7 +1892,7 @@
 
           console.log("測驗結果已保存");
         } catch (error) {
-          console.error("保存測驗結果失敗:", error);
+          console.error("保存測驗記錄失敗:", error);
           alert("保存測驗結果時發生錯誤，請稍後再試");
         }
       }
@@ -1970,7 +2030,7 @@
       }
 
       // 顯示結果
-      function showResult() {
+      async function showResult() {
         try {
           const container = document.getElementById("quiz-container");
           const percentage = ((score / currentQuestions.length) * 100).toFixed(
@@ -1978,8 +2038,109 @@
           );
           const isMobile = window.innerWidth <= 768;
 
+          // 映射中文主題到英文鍵值
+          const topicMappings = {
+            // 農業類別
+            水稻病害: { crop: "rice", type: "disease" },
+            水稻害蟲: { crop: "rice", type: "pest" },
+            水稻營養障礙: { crop: "rice", type: "nutrition" },
+            茶樹病害: { crop: "tea", type: "disease" },
+            茶樹害蟲: { crop: "tea", type: "pest" },
+            茶樹營養障礙: { crop: "tea", type: "nutrition" },
+            葡萄病害: { crop: "grape", type: "disease" },
+            葡萄害蟲: { crop: "grape", type: "pest" },
+            葡萄營養障礙: { crop: "grape", type: "nutrition" },
+            // 獸醫類別
+            獸醫病理學: "pathology",
+            獸醫實驗診斷學: "diagnostic",
+            獸醫普通疾病學: "general",
+            獸醫傳染病學: "infectious",
+            獸醫公共衛生學: "public_health",
+          };
+
+          const topic = currentQuestions[0].topic;
+          let aiScores = [];
+
+          // 獲取 AI 模型成績數據
+          try {
+            const response = await fetch(`${API_URL}/quiz/ai-models`);
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const aiData = await response.json();
+
+            // 判斷是農業還是獸醫類別
+            if (currentQuestions[0].category === "agriculture") {
+              // 農業類別
+              const topicParts = topic.split("_"); // 例如: "水稻病害" => ["水稻", "病害"]
+              let cropType, subType;
+
+              if (topic.includes("水稻")) {
+                cropType = "rice";
+              } else if (topic.includes("茶樹")) {
+                cropType = "tea";
+              } else if (topic.includes("葡萄")) {
+                cropType = "grape";
+              }
+
+              if (topic.includes("病害")) {
+                subType = "disease";
+              } else if (topic.includes("害蟲")) {
+                subType = "pest";
+              } else if (topic.includes("營養")) {
+                subType = "nutrition";
+              }
+
+              if (aiData.agriculture[cropType]?.[subType]) {
+                aiScores = aiData.agriculture[cropType][subType];
+              }
+            } else {
+              // 獸醫類別
+              let mappedTopic;
+              if (topic === "獸醫病理學") mappedTopic = "pathology";
+              else if (topic === "獸醫實驗診斷學") mappedTopic = "diagnostic";
+              else if (topic === "獸醫普通疾病學") mappedTopic = "general";
+              else if (topic === "獸醫傳染病學") mappedTopic = "infectious";
+              else if (topic === "獸醫公共衛生學")
+                mappedTopic = "public_health";
+
+              if (aiData.veterinary[mappedTopic]) {
+                aiScores = aiData.veterinary[mappedTopic];
+              }
+            }
+          } catch (error) {
+            console.error("載入AI成績數據失敗:", error);
+            console.log("錯誤詳情:", error.message);
+          }
+
+          // 生成 AI 比較圖表 HTML
+          const aiComparisonHtml =
+            aiScores.length > 0
+              ? `
+            <div class="ai-comparison">
+              <h3>與 AI 模型比較</h3>
+              <div class="chart-container">
+                <div class="score-bar">
+                  <div class="bar-label">您的成績</div>
+                  <div class="bar" style="width: ${percentage}%; background-color: #2e7d32;">${percentage}%</div>
+                </div>
+                ${aiScores
+                  .map(
+                    (score) => `
+                  <div class="score-bar">
+                    <div class="bar-label">${score.name}</div>
+                    <div class="bar" style="width: ${score.score}%; background-color: #1976d2;">${score.score}%</div>
+                  </div>
+                `
+                  )
+                  .join("")}
+              </div>
+            </div>
+          `
+              : "";
+
           // 儲存測驗結果
-          saveQuizResult(
+          await saveQuizResult(
             currentQuestions[0].topic,
             score,
             currentQuestions.length,
@@ -1989,142 +2150,130 @@
           if (isMobile) {
             // 移動版布局
             const mobileStatsHtml = `
-                    <div class="quiz-content">
-                        <div class="result">
-                            <h2>測驗完成！</h2>
-                            <div class="score" style="font-size: 2.5rem; margin: 1.5rem 0;">${percentage}%</div>
-                            <p style="font-size: 1.1rem;">答對題數：${score} / ${
+              <div class="quiz-content">
+                <div class="result">
+                  <h2>測驗完成！</h2>
+                  <div class="score" style="font-size: 2.5rem; margin: 1.5rem 0;">${percentage}%</div>
+                  <p style="font-size: 1.1rem;">答對題數：${score} / ${
               currentQuestions.length
             }</p>
-                            
-                            <div style="margin-top: 2rem;">
-                                ${answerHistory
-                                  .map(
-                                    (record, index) => `
-                                    <div class="mobile-question-card" style="background: white; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                                            <strong>題號 ${index + 1}</strong>
-                                            <span class="answer-status ${
-                                              record.isCorrect
-                                                ? "answer-correct"
-                                                : "answer-incorrect"
-                                            }"
-                                                  style="padding: 0.25rem 0.5rem; border-radius: 4px;">
-                                                ${
-                                                  record.isCorrect
-                                                    ? "正確"
-                                                    : "錯誤"
-                                                }
-                                            </span>
-                                        </div>
-                                        
-                                        ${
-                                          currentQuizFormat === "image"
-                                            ? `
-                                            <div style="text-align: center; margin: 0.5rem 0;">
-                                                <img src="${currentQuestions[index].imagePath}"
-                                                     alt="題目圖片"
-                                                     style="max-width: 100%; max-height: 200px; object-fit: contain;">
-                                            </div>
-                                        `
-                                            : ""
-                                        }
-                                        
-                                        <div style="margin: 0.5rem 0;">
-                                            <div style="font-weight: 500; margin-bottom: 0.5rem;">${
-                                              record.question
-                                            }</div>
-                                            <div style="color: #666; font-size: 0.9rem;">
-                                                <div>你的答案：${
-                                                  record.userAnswerText
-                                                }</div>
-                                                <div>正確答案：${
-                                                  record.correctAnswerText
-                                                }</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `
-                                  )
-                                  .join("")}
-                            </div>
+                  
+                  ${aiComparisonHtml}
+                  
+                  <div style="margin-top: 2rem;">
+                    ${answerHistory
+                      .map(
+                        (record, index) => `
+                      <div class="mobile-question-card" style="background: white; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                          <strong>題號 ${index + 1}</strong>
+                          <span class="answer-status ${
+                            record.isCorrect
+                              ? "answer-correct"
+                              : "answer-incorrect"
+                          }"
+                                style="padding: 0.25rem 0.5rem; border-radius: 4px;">
+                            ${record.isCorrect ? "正確" : "錯誤"}
+                          </span>
                         </div>
-                    </div>
-                    <div class="quiz-footer" style="position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 1rem; box-shadow: 0 -2px 10px rgba(0,0,0,0.1);">
-                        <button class="back-btn" onclick="showTopics()" style="width: 100%; padding: 0.8rem;">返回主題選擇</button>
-                    </div>
-                `;
+                        
+                        ${
+                          currentQuizFormat === "image"
+                            ? `
+                          <div style="text-align: center; margin: 0.5rem 0;">
+                            <img src="${currentQuestions[index].imagePath}"
+                                 alt="題目圖片"
+                                 style="max-width: 100%; max-height: 200px; object-fit: contain;">
+                          </div>
+                        `
+                            : ""
+                        }
+                        
+                        <div style="margin: 0.5rem 0;">
+                          <div style="font-weight: 500; margin-bottom: 0.5rem;">${
+                            record.question
+                          }</div>
+                          <div style="color: #666; font-size: 0.9rem;">
+                            <div>你的答案：${record.userAnswerText}</div>
+                            <div>正確答案：${record.correctAnswerText}</div>
+                          </div>
+                        </div>
+                      </div>
+                    `
+                      )
+                      .join("")}
+                  </div>
+                </div>
+              </div>
+              <div class="quiz-footer" style="position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 1rem; box-shadow: 0 -2px 10px rgba(0,0,0,0.1);">
+                <button class="back-btn" onclick="showTopics()" style="width: 100%; padding: 0.8rem;">返回主題選擇</button>
+              </div>
+            `;
             container.innerHTML = mobileStatsHtml;
           } else {
             // 桌面版布局
             const desktopStatsHtml = `
-                    <div class="quiz-content">
-                        <div class="result">
-                            <h2>測驗完成！</h2>
-                            <div class="score">${percentage}%</div>
-                            <p>答對題數：${score} / ${
-              currentQuestions.length
-            }</p>
-                    
-                            <h3 style="margin-top: 2rem;">答題統計</h3>
-                            <table class="stats-table">
-                                <thead>
-                                    <tr>
-                                        <th>題號</th>
-                                        ${
-                                          currentQuizFormat === "image"
-                                            ? "<th>圖片</th>"
-                                            : ""
-                                        }
-                                        <th>題目</th>
-                                        <th>你的答案</th>
-                                        <th>正確答案</th>
-                                        <th>結果</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${answerHistory
-                                      .map(
-                                        (record, index) => `
-                                        <tr>
-                                            <td>${index + 1}</td>
-                                            ${
-                                              currentQuizFormat === "image"
-                                                ? `<td>
-                                                    <img src="${currentQuestions[index].imagePath}"
-                                                         alt="題目圖片"
-                                                         style="max-width: 150px; max-height: 150px; object-fit: contain;">
-                                                   </td>`
-                                                : ""
-                                            }
-                                            <td>${record.question}</td>
-                                            <td>${record.userAnswerText}</td>
-                                            <td>${record.correctAnswerText}</td>
-                                            <td>
-                                                <span class="answer-status ${
-                                                  record.isCorrect
-                                                    ? "answer-correct"
-                                                    : "answer-incorrect"
-                                                }">
-                                                    ${
-                                                      record.isCorrect
-                                                        ? "正確"
-                                                        : "錯誤"
-                                                    }
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    `
-                                      )
-                                      .join("")}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="quiz-footer">
-                        <button class="back-btn" onclick="showTopics()">返回主題選擇</button>
-                    </div>
-                `;
+              <div class="quiz-content">
+                <div class="result">
+                  <h2>測驗完成！</h2>
+                  <div class="score">${percentage}%</div>
+                  <p>答對題數：${score} / ${currentQuestions.length}</p>
+                  
+                  ${aiComparisonHtml}
+              
+                  <h3 style="margin-top: 2rem;">答題統計</h3>
+                  <table class="stats-table">
+                    <thead>
+                      <tr>
+                        <th>題號</th>
+                        ${currentQuizFormat === "image" ? "<th>圖片</th>" : ""}
+                        <th>題目</th>
+                        <th>你的答案</th>
+                        <th>正確答案</th>
+                        <th>結果</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${answerHistory
+                        .map(
+                          (record, index) => `
+                        <tr>
+                          <td>${index + 1}</td>
+                          ${
+                            currentQuizFormat === "image"
+                              ? `
+                            <td>
+                              <img src="${currentQuestions[index].imagePath}"
+                                   alt="題目圖片"
+                                   style="max-width: 150px; max-height: 150px; object-fit: contain;">
+                            </td>
+                          `
+                              : ""
+                          }
+                          <td>${record.question}</td>
+                          <td>${record.userAnswerText}</td>
+                          <td>${record.correctAnswerText}</td>
+                          <td>
+                            <span class="answer-status ${
+                              record.isCorrect
+                                ? "answer-correct"
+                                : "answer-incorrect"
+                            }">
+                              ${record.isCorrect ? "正確" : "錯誤"}
+                            </span>
+                          </td>
+                        </tr>
+                      `
+                        )
+                        .join("")}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="quiz-footer">
+                <button class="back-btn" onclick="showTopics()">返回主題選擇</button>
+              </div>
+            `;
             container.innerHTML = desktopStatsHtml;
           }
 
@@ -2139,16 +2288,16 @@
         } catch (error) {
           console.error("顯示結果時發生錯誤:", error);
           container.innerHTML = `
-                <div class="quiz-content">
-                    <div class="result">
-                        <h2>發生錯誤</h2>
-                        <p>顯示結果時發生問題，請重新嘗試。</p>
-                    </div>
-                    <div class="quiz-footer">
-                        <button class="back-btn" onclick="showTopics()">返回主題選擇</button>
-                    </div>
-                </div>
-            `;
+            <div class="quiz-content">
+              <div class="result">
+                <h2>發生錯誤</h2>
+                <p>顯示結果時發生問題，請重新嘗試。</p>
+              </div>
+              <div class="quiz-footer">
+                <button class="back-btn" onclick="showTopics()">返回主題選擇</button>
+              </div>
+            </div>
+          `;
         }
       }
 

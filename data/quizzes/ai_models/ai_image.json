@@ -1,0 +1,124 @@
+{
+  "agriculture": {
+    "rice": {
+      "pest": [
+        { "name": "Claude-3.5-Sonnet", "score": 73.68 },
+        { "name": "Gemini-2.0-flash", "score": 68.42 },
+        { "name": "GPT-4o", "score": 71.93 },
+        { "name": "Gemini-1.5-flash", "score": 73.68 },
+        { "name": "GPT-4o-mini", "score": 59.65 },
+        { "name": "Claude-3-haiju", "score": 49.12 }
+      ],
+      "nutrition": [
+        { "name": "Claude-3.5-Sonnet", "score": 83.33 },
+        { "name": "Gemini-2.0-flash", "score": 100.0 },
+        { "name": "GPT-4o", "score": 100.0 },
+        { "name": "Gemini-1.5-flash", "score": 100.0 },
+        { "name": "GPT-4o-mini", "score": 16.67 },
+        { "name": "Claude-3-haiju", "score": 0.0 }
+      ],
+      "disease": [
+        { "name": "Claude-3.5-Sonnet", "score": 93.94 },
+        { "name": "Gemini-2.0-flash", "score": 81.82 },
+        { "name": "GPT-4o", "score": 75.76 },
+        { "name": "Gemini-1.5-flash", "score": 63.64 },
+        { "name": "GPT-4o-mini", "score": 60.61 },
+        { "name": "Claude-3-haiju", "score": 45.45 }
+      ]
+    },
+    "tea": {
+      "nutrition": [
+        { "name": "Claude-3.5-Sonnet", "score": 50.0 },
+        { "name": "Gemini-2.0-flash", "score": 33.33 },
+        { "name": "GPT-4o", "score": 56.67 },
+        { "name": "Gemini-1.5-flash", "score": 50.0 },
+        { "name": "GPT-4o-mini", "score": 36.67 },
+        { "name": "Claude-3-haiju", "score": 30.0 }
+      ],
+      "disease": [
+        { "name": "Claude-3.5-Sonnet", "score": 77.08 },
+        { "name": "Gemini-2.0-flash", "score": 93.75 },
+        { "name": "GPT-4o", "score": 87.5 },
+        { "name": "Gemini-1.5-flash", "score": 75.0 },
+        { "name": "GPT-4o-mini", "score": 70.83 },
+        { "name": "Claude-3-haiju", "score": 60.42 }
+      ],
+      "pest": [
+        { "name": "Claude-3.5-Sonnet", "score": 72.62 },
+        { "name": "Gemini-2.0-flash", "score": 65.48 },
+        { "name": "GPT-4o", "score": 64.29 },
+        { "name": "Gemini-1.5-flash", "score": 75.0 },
+        { "name": "GPT-4o-mini", "score": 52.38 },
+        { "name": "Claude-3-haiju", "score": 48.81 }
+      ]
+    },
+    "grape": {
+      "pest": [
+        { "name": "Claude-3.5-Sonnet", "score": 100.0 },
+        { "name": "Gemini-2.0-flash", "score": 100.0 },
+        { "name": "GPT-4o", "score": 95.24 },
+        { "name": "Gemini-1.5-flash", "score": 100.0 },
+        { "name": "GPT-4o-mini", "score": 85.71 },
+        { "name": "Claude-3-haiju", "score": 71.43 }
+      ],
+      "nutrition": [
+        { "name": "Claude-3.5-Sonnet", "score": 100.0 },
+        { "name": "Gemini-2.0-flash", "score": 100.0 },
+        { "name": "GPT-4o", "score": 100.0 },
+        { "name": "Gemini-1.5-flash", "score": 100.0 },
+        { "name": "GPT-4o-mini", "score": 88.89 },
+        { "name": "Claude-3-haiju", "score": 100.0 }
+      ],
+      "disease": [
+        { "name": "Claude-3.5-Sonnet", "score": 93.33 },
+        { "name": "Gemini-2.0-flash", "score": 100.0 },
+        { "name": "GPT-4o", "score": 90.0 },
+        { "name": "Gemini-1.5-flash", "score": 70.0 },
+        { "name": "GPT-4o-mini", "score": 70.0 },
+        { "name": "Claude-3-haiju", "score": 33.33 }
+      ]
+    }
+  },
+  "veterinary": {
+    "pathology": [
+      { "name": "Claude-3.5-Sonnet", "score": 76.04 },
+      { "name": "Gemini-2.0-flash", "score": 78.64 },
+      { "name": "GPT-4o", "score": 73.96 },
+      { "name": "Gemini-1.5-flash", "score": 46.56 },
+      { "name": "GPT-4o-mini", "score": 53.64 },
+      { "name": "Claude-3-haiju", "score": 43.75 }
+    ],
+    "diagnostic": [
+      { "name": "Claude-3.5-Sonnet", "score": 57.58 },
+      { "name": "Gemini-2.0-flash", "score": 69.7 },
+      { "name": "GPT-4o", "score": 62.12 },
+      { "name": "Gemini-1.5-flash", "score": 63.64 },
+      { "name": "GPT-4o-mini", "score": 56.06 },
+      { "name": "Claude-3-haiju", "score": 37.88 }
+    ],
+    "general": [
+      { "name": "Claude-3.5-Sonnet", "score": 70.11 },
+      { "name": "Gemini-2.0-flash", "score": 68.39 },
+      { "name": "GPT-4o", "score": 81.04 },
+      { "name": "Gemini-1.5-flash", "score": 52.3 },
+      { "name": "GPT-4o-mini", "score": 56.9 },
+      { "name": "Claude-3-haiju", "score": 48.85 }
+    ],
+    "infectious": [
+      { "name": "Claude-3.5-Sonnet", "score": 72.13 },
+      { "name": "Gemini-2.0-flash", "score": 77.6 },
+      { "name": "GPT-4o", "score": 75.41 },
+      { "name": "Gemini-1.5-flash", "score": 62.84 },
+      { "name": "GPT-4o-mini", "score": 60.11 },
+      { "name": "Claude-3-haiju", "score": 50.27 }
+    ],
+    "public_health": [
+      { "name": "Claude-3.5-Sonnet", "score": 59.26 },
+      { "name": "Gemini-2.0-flash", "score": 68.52 },
+      { "name": "GPT-4o", "score": 53.7 },
+      { "name": "Gemini-1.5-flash", "score": 48.15 },
+      { "name": "GPT-4o-mini", "score": 50.0 },
+      { "name": "Claude-3-haiju", "score": 51.85 }
+    ]
+  }
+}

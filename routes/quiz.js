@@ -32,7 +32,6 @@ router.get("/questions/:type", async (req, res) => {
 router.get("/questions/image/:type", async (req, res) => {
   try {
     const { type } = req.params;
-    // 修改文件路徑以匹配新的目錄結構
     const filePath = path.join(
       __dirname,
       "..",
@@ -41,13 +40,14 @@ router.get("/questions/image/:type", async (req, res) => {
       type,
       `${type}_Total.json`
     );
+
     const data = await fs.readFile(filePath, "utf8");
     let questions = JSON.parse(data);
 
-    // 修改圖片路徑處理
+    // 添加類別資訊並修改圖片路徑
     questions = questions.map((q) => ({
       ...q,
-      // 由於在 server.js 中設定了 /quizzes 對應到 data/quizzes
+      category: type, // 添加類別標記
       imagePath: q.filepath ? `/quizzes/${type}/image/${q.filepath}` : null,
     }));
 
@@ -61,15 +61,25 @@ router.get("/questions/image/:type", async (req, res) => {
 // 儲存測驗記錄
 router.post("/record", auth, async (req, res) => {
   try {
-    const { topic, score, totalQuestions, answers, quizFormat } = req.body;
-    const quizRecord = new QuizRecord({
-      user: req.user.userId,
+    const {
       topic,
       score,
       totalQuestions,
       answers,
       quizFormat,
+      category, // 新增類別資訊
+    } = req.body;
+
+    const quizRecord = new QuizRecord({
+      user: req.user.userId,
+      topic,
+      category, // 儲存類別資訊
+      score,
+      totalQuestions,
+      answers,
+      quizFormat,
     });
+
     await quizRecord.save();
     res.status(201).json({ message: "測驗記錄已保存" });
   } catch (error) {
@@ -122,6 +132,26 @@ router.delete("/record/:recordId", auth, async (req, res) => {
   } catch (error) {
     console.error("刪除測驗記錄失敗:", error);
     res.status(500).json({ message: "伺服器錯誤" });
+  }
+});
+
+// 修改獲取題庫的路由
+router.get("/ai-models", async (req, res) => {
+  try {
+    const filePath = path.join(
+      __dirname,
+      "..",
+      "data",
+      "quizzes",
+      "ai_models",
+      "ai_image.json"
+    );
+    const data = await fs.readFile(filePath, "utf8");
+    res.setHeader("Content-Type", "application/json");
+    res.json(JSON.parse(data));
+  } catch (error) {
+    console.error("讀取AI模型數據失敗:", error);
+    res.status(500).json({ message: "載入AI模型數據失敗" });
   }
 });
 
