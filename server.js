@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const connectDB = require("./config/db");
+const mongoose = require("mongoose"); // 添加這行來引入 mongoose
 const bcrypt = require("bcryptjs");
 const User = require("./models/User");
 const authRoutes = require("./routes/auth");
@@ -68,13 +69,17 @@ const server = app.listen(PORT, () => {
 // 優雅關閉
 process.on("SIGTERM", () => {
   console.log("收到 SIGTERM 信號，準備關閉伺服器");
-  server.close(() => {
+  server.close(async () => {
     console.log("HTTP 伺服器已關閉");
-    // 關閉 MongoDB 連接
-    mongoose.connection.close(false).then(() => {
+    try {
+      // 關閉 MongoDB 連接
+      await mongoose.connection.close(false);
       console.log("MongoDB 連接已關閉");
       process.exit(0);
-    });
+    } catch (err) {
+      console.error("關閉 MongoDB 連接時發生錯誤:", err);
+      process.exit(1);
+    }
   });
 
   // 設定強制關閉的超時時間
