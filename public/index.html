@@ -1151,6 +1151,67 @@
         border-top: 1px solid #e0e0e0;
         line-height: 1.6;
       }
+
+      .model-circles-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-top: 2rem;
+        padding: 0 1rem;
+      }
+
+      .model-circle {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .circle-container {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        margin-bottom: 0.5rem;
+      }
+
+      .model-progress-ring {
+        transform: rotate(-90deg);
+      }
+
+      .model-circle-base {
+        stroke: #e8f5e9;
+        fill: transparent;
+      }
+
+      .model-circle-progress {
+        stroke: #a5d6a7;
+        fill: transparent;
+        stroke-linecap: round;
+        transition: stroke-dashoffset 1s ease;
+      }
+
+      .your-score-circle .model-circle-progress {
+        stroke: #2e7d32;
+      }
+
+      .model-score {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #2c3e50;
+      }
+
+      .model-name {
+        font-size: 0.9rem;
+        color: #666;
+        text-align: center;
+        margin-top: 0.25rem;
+        font-weight: 500;
+      }
     </style>
   </head>
   <body>
@@ -1687,9 +1748,9 @@
           });
 
           questionHtml = `
-            <img 
-              src="${questionData.imagePath}" 
-              alt="題目圖片" 
+            <img
+              src="${questionData.imagePath}"
+              alt="題目圖片"
               class="question-image"
               onerror="console.error('圖片載入失敗，路徑:', '${questionData.imagePath}')"
             >
@@ -1795,45 +1856,28 @@
           ).length;
 
           if (isMobile) {
-            // 移動版布局
+            // 移動版布局 HTML
             const mobileStatsHtml = `
               <div class="quiz-content">
                 <div class="comparison-card">
-                  <h2 class="card-title">答題表現比較</h2>
-                  
-                  <div class="score-section">
-                    <div class="score-circle-container">
-                      <svg class="progress-ring" width="200" height="200">
-                        <circle class="progress-ring-circle" stroke-width="8" cx="100" cy="100" r="90"/>
-                        <circle class="progress-ring-circle-progress" stroke-width="8" cx="100" cy="100" r="90"/>
-                      </svg>
-                      <div class="score-text">
-                        <div id="scoreValue" class="score-value">0.0%</div>
-                        <div class="score-label">測驗得分</div>
-                      </div>
+                  <div style="text-align: center; padding: 2rem 0;">
+                    <div style="font-size: 4rem; font-weight: bold; color: #2e7d32; margin-bottom: 1rem;">
+                      ${percentage}%
                     </div>
-                    <div class="comparison-text" id="comparisonText"></div>
+                    <div style="font-size: 1.2rem; color: #666;">
+                      答對題數：${score} / ${currentQuestions.length}
+                    </div>
                   </div>
-      
-                  <div class="bar-chart">
-                    <div class="bar-container" id="barContainer"></div>
-                  </div>
-      
-                    <div class="footnote">
+
+                  <div class="model-circles-container"></div>
+
+                  <div class="footnote">
                     * 數據來源：AI模型在${
                       categoryType === "veterinary" ? "獸醫" : "農業"
-                    }圖像識別測驗中的平均表現<br/>
-                    * 顯示的是各模型在相同題目上的正確率<br/>
-                    * 模型版本資訊：<br/>
-                      - GPT-4o: gpt-4o-2024-08-06<br/>
-                      - GPT-4o-mini: gpt-4o-mini-2024-07-18<br/>
-                      - Claude-3.5: claude-3-5-sonnet-20241022<br/>
-                      - Claude-3: claude-3-haiku-20240307<br/>
-                      - Gemini-2.0: gemini-2.0-flash-exp<br/>
-                      - Gemini-1.5: gemini-1.5-flash
-                    </div>
+                    }圖像識別測驗中的平均表現
+                  </div>
                 </div>
-      
+
                 <div style="margin-top: 2rem;">
                   <h3 style="margin-bottom: 1rem;">詳細答題記錄</h3>
                   ${answerHistory
@@ -1851,7 +1895,7 @@
                           ${record.isCorrect ? "正確" : "錯誤"}
                         </span>
                       </div>
-                      
+
                       ${
                         currentQuizFormat === "image"
                           ? `
@@ -1863,7 +1907,7 @@
                       `
                           : ""
                       }
-                      
+
                       <div style="margin: 0.5rem 0;">
                         <div style="font-weight: 500; margin-bottom: 0.5rem;">${
                           record.question
@@ -1883,14 +1927,68 @@
                 <button class="back-btn" onclick="showTopics()" style="width: 100%; padding: 0.8rem;">返回主題選擇</button>
               </div>
             `;
+
+            // 更新容器內容
             container.innerHTML = mobileStatsHtml;
+
+            // 創建模型比較圓圈
+            const circlesContainer = container.querySelector(
+              ".model-circles-container"
+            );
+
+            // 創建圓形進度環的函數
+            function createCircleProgress(
+              container,
+              score,
+              modelName,
+              isUserScore = false
+            ) {
+              const radius = 55;
+              const circumference = radius * 2 * Math.PI;
+              const offset = circumference - (score / 100) * circumference;
+
+              const html = `
+                <div class="circle-container">
+                  <svg class="model-progress-ring" width="120" height="120">
+                    <circle class="model-circle-base" stroke-width="8" cx="60" cy="60" r="${radius}"/>
+                    <circle class="model-circle-progress"
+                            stroke-width="8"
+                            cx="60"
+                            cy="60"
+                            r="${radius}"
+                            style="stroke-dasharray: ${circumference} ${circumference};
+                                   stroke-dashoffset: ${offset}"/>
+                  </svg>
+                  <div class="model-score">${score.toFixed(1)}%</div>
+                </div>
+                <div class="model-name">${modelName}</div>
+              `;
+
+              const modelCircle = document.createElement("div");
+              modelCircle.className = `model-circle ${
+                isUserScore ? "your-score-circle" : ""
+              }`;
+              modelCircle.innerHTML = html;
+              container.appendChild(modelCircle);
+            }
+
+            // 添加圓形比較圖
+            createCircleProgress(
+              circlesContainer,
+              parseFloat(percentage),
+              "您的得分",
+              true
+            );
+            aiModelData.forEach((model) => {
+              createCircleProgress(circlesContainer, model.score, model.name);
+            });
           } else {
             // 桌面版布局
             const desktopStatsHtml = `
               <div class="quiz-content">
                 <div class="comparison-card">
                   <h2 class="card-title">答題表現比較</h2>
-                  
+
                   <div class="score-section">
                     <div class="score-circle-container">
                       <svg class="progress-ring" width="200" height="200">
@@ -1904,11 +2002,11 @@
                     </div>
                     <div class="comparison-text" id="comparisonText"></div>
                   </div>
-      
+
                   <div class="bar-chart">
                     <div class="bar-container" id="barContainer"></div>
                   </div>
-      
+
                     <div class="footnote">
                     * 數據來源：AI模型在${
                       categoryType === "veterinary" ? "獸醫" : "農業"
@@ -1923,7 +2021,7 @@
                       - Gemini-1.5: gemini-1.5-flash
                     </div>
                 </div>
-      
+
                 <div class="result" style="margin-top: 2rem;">
                   <h3>詳細答題統計</h3>
                   <table class="stats-table">
@@ -2018,8 +2116,8 @@
           barContainer.innerHTML = allData
             .map(
               (item) => `
-            <div class="bar" 
-                 style="height: ${item.score}%; 
+            <div class="bar"
+                 style="height: ${item.score}%;
                         background-color: ${
                           item.name === "您的得分" ? "#2e7d32" : "#a5d6a7"
                         }">
