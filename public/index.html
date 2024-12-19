@@ -2178,6 +2178,7 @@
         const questionData = currentQuestions[currentQuestion];
         const correct = selected === questionData.correct_answer;
 
+        // 在 checkAnswer 函數中，建立 answerHistory 物件時加入 imagePath
         answerHistory.push({
           question: questionData.question,
           userAnswer: selected,
@@ -2186,6 +2187,8 @@
           userAnswerText: questionData[`answer_${selected.toLowerCase()}`],
           correctAnswerText:
             questionData[`answer_${questionData.correct_answer.toLowerCase()}`],
+          imagePath:
+            currentQuizFormat === "image" ? questionData.imagePath : null,
         });
 
         if (correct) score++;
