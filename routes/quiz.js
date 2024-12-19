@@ -32,7 +32,7 @@ router.get("/questions/:type", async (req, res) => {
 router.get("/questions/image/:type", async (req, res) => {
   try {
     const { type } = req.params;
-    // 修改文件路徑以匹配新的目錄結構
+    // 須確認 data/quizzes/{type}/{type}_Total.json 檔案已存在於部署後的檔案系統中
     const filePath = path.join(
       __dirname,
       "..",
@@ -44,10 +44,11 @@ router.get("/questions/image/:type", async (req, res) => {
     const data = await fs.readFile(filePath, "utf8");
     let questions = JSON.parse(data);
 
-    // 修改圖片路徑處理
+    // 若在server.js中有設定
+    // app.use('/quizzes', express.static(path.join(__dirname, '..', 'data', 'quizzes')));
+    // 則此處的 imagePath 可以直接指定為 `/quizzes/...`
     questions = questions.map((q) => ({
       ...q,
-      // 由於在 server.js 中設定了 /quizzes 對應到 data/quizzes
       imagePath: q.filepath ? `/quizzes/${type}/image/${q.filepath}` : null,
     }));
 
