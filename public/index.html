@@ -776,23 +776,73 @@
         padding: 1rem;
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 0.5rem;
       }
 
-      .menu-btn {
+      /* 重置 menu-items 的樣式 */
+      .menu-items {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem; /* 統一間距 */
+      }
+
+      /* 統一所有選單按鈕的基本樣式 */
+      .menu-items .menu-btn {
         width: 100%;
-        padding: 0.8rem;
+        padding: 0.8rem 1rem;
         border: none;
-        border-radius: 5px;
+        border-radius: 8px;
         cursor: pointer;
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        height: 45px; /* 固定高度 */
         color: white;
+        font-size: 0.9rem;
+        margin: 0; /* 移除margin */
+        box-sizing: border-box;
       }
 
-      .menu-btn.record-btn {
-        background-color: var(--primary-color);
+      /* 圖示樣式統一 */
+      .menu-items .menu-btn i {
+        width: 20px;
+        font-size: 1rem;
+        text-align: center;
+        margin-right: 0.8rem;
+      }
+
+      /* 按鈕顏色設定 */
+      .menu-items .menu-btn.record-btn {
+        background-color: #4caf50;
+      }
+
+      .menu-items .menu-btn.admin-btn {
+        background-color: #1a237e;
+      }
+
+      .menu-items .menu-btn.home-btn {
+        background-color: #666666;
+      }
+
+      .menu-items .menu-btn.logout-btn {
+        background-color: #dc3545;
+      }
+
+      /* 確保按鈕內容對齊一致 */
+      .menu-items .menu-btn span {
+        flex-grow: 1;
+        text-align: left;
+      }
+
+      /* 移除任何可能的額外樣式 */
+      .menu-items .menu-btn.record-btn,
+      .menu-items .menu-btn.admin-btn,
+      .menu-items .menu-btn.home-btn,
+      .menu-items .menu-btn.logout-btn {
+        min-height: unset;
+        max-height: 45px;
+        margin-bottom: 0;
+        overflow: hidden;
       }
 
       /* Animations */
@@ -1522,25 +1572,30 @@
       </div>
       <div class="menu-items">
         <button class="menu-btn record-btn" onclick="showUserRecords()">
-          <i class="fas fa-history"></i> 測驗記錄
+          <i class="fas fa-history"></i>
+          <span>測驗記錄</span>
         </button>
         <button
           class="menu-btn admin-btn"
           id="mobile-admin-btn"
           onclick="goToAdmin()"
         >
-          <i class="fas fa-cog"></i> 管理系統
+          <i class="fas fa-cog"></i>
+          <span>管理系統</span>
         </button>
         <button class="menu-btn home-btn" onclick="goHome()">
-          <i class="fas fa-home"></i> 返回主頁
+          <i class="fas fa-home"></i>
+          <span>返回主頁</span>
         </button>
         <button class="menu-btn logout-btn" onclick="logout()">
-          <i class="fas fa-sign-out-alt"></i> 登出
+          <i class="fas fa-sign-out-alt"></i>
+          <span>登出</span>
         </button>
       </div>
     </div>
+
     <!-- 用戶資訊區塊 -->
-    <!-- 修改 user-info div 的內容 -->
+
     <div class="animation-background"></div>
     <div class="user-info" id="user-info" style="display: none">
       歡迎, <span id="username-display"></span>
@@ -1746,11 +1801,7 @@
         authToken = localStorage.getItem("token");
 
         if (!authToken) {
-          // 未登入狀態
-          document.getElementById("auth-container").style.display = "block";
-          document.getElementById("main-container").style.display = "none";
-          document.getElementById("user-info").style.display = "none";
-          manageBackground(true);
+          // 未登入狀態處理...
           return;
         }
 
@@ -1767,40 +1818,36 @@
 
           const data = await response.json();
 
-          // 登入成功
+          // 登入成功後的處理...
           manageBackground(false);
           document.getElementById("auth-container").style.display = "none";
           document.getElementById("main-container").style.display = "block";
           document.getElementById("user-info").style.display = "block";
 
-          // 設置帳號稱時同時更新手機版選單
+          // 設置帳號稱
           const username = localStorage.getItem("username");
           document.getElementById("username-display").textContent = username;
           document.getElementById("mobile-username-display").textContent =
             username;
 
-          // 設置管理員按鈕
+          // 更嚴格的管理員按鈕控制
           const adminBtn = document.getElementById("admin-btn");
-          if (data.role === "admin") {
-            adminBtn.style.display = "inline-block";
-          } else {
-            adminBtn.style.display = "none";
+          const mobileAdminBtn = document.getElementById("mobile-admin-btn");
+          const isAdmin = data.role === "admin";
+
+          // 桌面版管理按鈕
+          if (adminBtn) {
+            adminBtn.style.display = isAdmin ? "inline-flex" : "none";
+          }
+
+          // 手機版管理按鈕
+          if (mobileAdminBtn) {
+            mobileAdminBtn.style.display = isAdmin ? "block" : "none";
           }
 
           localStorage.setItem("userRole", data.role);
         } catch (error) {
-          console.error("檢查角色失敗:", error);
-          // 認證失敗，清除資料
-          localStorage.removeItem("token");
-          localStorage.removeItem("username");
-          localStorage.removeItem("userRole");
-          authToken = null;
-
-          // 返回登入畫面
-          document.getElementById("auth-container").style.display = "block";
-          document.getElementById("main-container").style.display = "none";
-          document.getElementById("user-info").style.display = "none";
-          manageBackground(true);
+          // 錯誤處理...
         }
       }
 
@@ -2828,10 +2875,28 @@
         const menuButton = document.querySelector(".mobile-menu-button");
         const mobileMenu = document.querySelector(".mobile-menu");
         const closeMenu = document.querySelector(".close-menu");
+        const mobileAdminBtn = document.getElementById("mobile-admin-btn");
 
-        // 打開選單
+        // 檢查用戶權限並控制管理系統按鈕的顯示
+        function updateAdminButtonVisibility() {
+          const userRole = localStorage.getItem("userRole");
+          const isAdmin = userRole === "admin";
+
+          // 同時更新桌面版和移動版的管理按鈕顯示狀態
+          const desktopAdminBtn = document.getElementById("admin-btn");
+          if (desktopAdminBtn) {
+            desktopAdminBtn.style.display = isAdmin ? "inline-flex" : "none";
+          }
+
+          if (mobileAdminBtn) {
+            mobileAdminBtn.style.display = isAdmin ? "block" : "none";
+          }
+        }
+
+        // 打開選單時更新權限
         menuButton.addEventListener("click", () => {
           mobileMenu.classList.add("active");
+          updateAdminButtonVisibility();
           document.getElementById("mobile-username-display").textContent =
             document.getElementById("username-display").textContent;
         });
@@ -2850,6 +2915,9 @@
             mobileMenu.classList.remove("active");
           }
         });
+
+        // 初始化時就執行一次權限檢查
+        updateAdminButtonVisibility();
       });
 
       function showAuthForm() {
