@@ -1979,15 +1979,41 @@
               container.appendChild(modelCircle);
             }
 
-            // 添加圓形比較圖
-            createCircleProgress(
-              circlesContainer,
-              parseFloat(percentage),
-              "您的得分",
-              true
-            );
-            aiModelData.forEach((model) => {
-              createCircleProgress(circlesContainer, model.score, model.name);
+            // 整合所有得分，包括使用者的得分
+            const allScores = [
+              {
+                score: parseFloat(percentage),
+                name: "您的得分",
+                isUser: true,
+              },
+              ...aiModelData.map((model) => ({
+                score: model.score,
+                name: model.name,
+                isUser: false,
+              })),
+            ];
+
+            // 排序：先按分數從高到低，若分數相同，使用者得分優先
+            allScores.sort((a, b) => {
+              if (b.score !== a.score) {
+                return b.score - a.score; // 分數高的在前
+              } else if (a.isUser && !b.isUser) {
+                return -1; // 使用者得分優先
+              } else if (!a.isUser && b.isUser) {
+                return 1;
+              } else {
+                return 0;
+              }
+            });
+
+            // 依序生成圓形比較圖
+            allScores.forEach((model) => {
+              createCircleProgress(
+                circlesContainer,
+                model.score,
+                model.name,
+                model.isUser
+              );
             });
           } else {
             // 桌面版布局
