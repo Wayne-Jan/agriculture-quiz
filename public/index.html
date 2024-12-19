@@ -1559,14 +1559,14 @@
     </style>
   </head>
   <body>
-    <div class="mobile-menu-button">
+    <div class="mobile-menu-button" id="mobile-menu-button">
       <i class="fas fa-bars"></i>
     </div>
 
     <div class="mobile-menu" id="mobile-menu">
       <div class="menu-header">
         <span id="mobile-username-display"></span>
-        <button class="close-menu">
+        <button class="close-menu" id="close-menu-button">
           <i class="fas fa-times"></i>
         </button>
       </div>
@@ -3225,6 +3225,28 @@
           modal.style.display = "none";
         }
       };
+
+      const mobileMenu = document.getElementById("mobile-menu");
+      const mobileMenuButton = document.getElementById("mobile-menu-button");
+      const closeMenuButton = document.getElementById("close-menu-button");
+      const menuItems = document.querySelectorAll(".menu-items .menu-btn");
+
+      // 點擊漢堡按鈕打開選單
+      mobileMenuButton.addEventListener("click", () => {
+        mobileMenu.classList.add("active");
+      });
+
+      // 點擊關閉按鈕關閉選單
+      closeMenuButton.addEventListener("click", () => {
+        mobileMenu.classList.remove("active");
+      });
+
+      // 點擊任一選單項目後關閉選單
+      menuItems.forEach((item) => {
+        item.addEventListener("click", () => {
+          mobileMenu.classList.remove("active");
+        });
+      });
     </script>
 
     <div id="imageModal" class="image-modal">
