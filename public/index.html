@@ -2999,26 +2999,36 @@
             },
           });
 
-          const records = await response.json();
+          let records = await response.json();
           const recordList = document.getElementById("userRecordList");
 
+          // 將 records 以 completedAt 時間倒序排序
+          records.sort(
+            (a, b) => new Date(b.completedAt) - new Date(a.completedAt)
+          );
+
+          // 接著再用 map 處理並顯示
           recordList.innerHTML = records
             .map(
               (record) => `
-      <div class="record-item">
-        <div class="record-content">
-          <h4>${record.topic}</h4>
-          <p>分數: ${record.score}/${record.totalQuestions} 
-             (${((record.score / record.totalQuestions) * 100).toFixed(1)}%)</p>
-          <p>完成時間: ${new Date(record.completedAt).toLocaleString()}</p>
-          <button class="view-details-btn" onclick="showRecordDetails('${
-            record._id
-          }')">
-            <i class="fas fa-eye"></i> 查看詳情
-          </button>
-        </div>
-      </div>
-    `
+              <div class="record-item">
+                <div class="record-content">
+                  <h4>${record.topic}</h4>
+                  <p>分數: ${record.score}/${record.totalQuestions} 
+                     (${((record.score / record.totalQuestions) * 100).toFixed(
+                       1
+                     )}%)</p>
+                  <p>完成時間: ${new Date(
+                    record.completedAt
+                  ).toLocaleString()}</p>
+                  <button class="view-details-btn" onclick="showRecordDetails('${
+                    record._id
+                  }')">
+                    <i class="fas fa-eye"></i> 查看詳情
+                  </button>
+                </div>
+              </div>
+            `
             )
             .join("");
 
