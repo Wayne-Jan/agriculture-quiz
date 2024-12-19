@@ -726,12 +726,35 @@
             throw new Error("下載失敗");
           }
 
+          // 從回應標頭獲取檔名
+          const contentDisposition = response.headers.get(
+            "content-disposition"
+          );
+          let filename;
+
+          if (contentDisposition) {
+            const filenameMatch = contentDisposition.match(
+              /filename\*=UTF-8''(.+)/i
+            );
+            if (filenameMatch) {
+              filename = decodeURIComponent(filenameMatch[1]);
+            } else {
+              const fallbackMatch =
+                contentDisposition.match(/filename="(.+)"/i);
+              filename = fallbackMatch
+                ? fallbackMatch[1]
+                : `quiz-record-${recordId}.txt`;
+            }
+          } else {
+            filename = `quiz-record-${recordId}.txt`;
+          }
+
           const blob = await response.blob();
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.style.display = "none";
           a.href = url;
-          a.download = `quiz-record-${recordId}.txt`;
+          a.download = filename;
           document.body.appendChild(a);
           a.click();
           window.URL.revokeObjectURL(url);

@@ -130,11 +130,11 @@ router.get(
   checkAdmin,
   async (req, res) => {
     try {
-      // 使用 populate 獲取用戶資訊
+      // 使用 populate 獲取完整的用戶資訊
       const record = await QuizRecord.findById(req.params.recordId)
         .populate({
           path: "user",
-          select: "username", // 只獲取用戶名
+          select: "username organization name", // 添加 organization 和 name 欄位
         })
         .exec();
 
@@ -151,8 +151,21 @@ router.get(
       );
       const timeSpent = record.timeSpent || 0;
 
-      // 生成報告內容，加入用戶名
-      let content = `No.1 Model: ${record.user.username}, Correct: ${
+      // 格式化日期
+      const dateStr = new Date(record.completedAt)
+        .toISOString()
+        .split("T")[0]
+        .replace(/-/g, "");
+
+      // 準備使用者資訊
+      const organization = record.user.organization || "未提供單位";
+      const name = record.user.name || "未提供姓名";
+
+      // 設置檔案名稱
+      const filename = `${organization}_${name}_${dateStr}.txt`;
+
+      // 生成報告內容
+      let content = `No.1 Model: ${organization}_${name}, Correct: ${
         record.score
       } / ${
         record.totalQuestions
@@ -169,12 +182,12 @@ router.get(
         });
       }
 
-      // 設置檔案名稱和標頭
-      const filename = `quiz-record-${record.user.username}-${new Date()
-        .toISOString()
-        .slice(0, 10)}.txt`;
+      // 設置回應標頭
       res.setHeader("Content-Type", "text/plain; charset=utf-8");
-      res.setHeader("Content-Disposition", `attachment; filename=${filename}`);
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename*=UTF-8''${encodeURIComponent(filename)}`
+      );
 
       // 發送檔案內容
       res.send(content);
