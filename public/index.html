@@ -1212,6 +1212,39 @@
         margin-top: 0.25rem;
         font-weight: 500;
       }
+      /* 新增返回按鈕容器的樣式 */
+      .back-button-container {
+        grid-column: 1 / -1; /* 讓返回按鈕佔滿整個行 */
+        display: flex;
+        justify-content: center; /* 置中對齊 */
+        margin-top: 2rem; /* 添加上邊距，使其與主題按鈕分開 */
+      }
+
+      /* 確保在桌面版本中使用 grid 布局 */
+      @media (min-width: 769px) {
+        .topic-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 2rem;
+        }
+
+        .back-button-container {
+          grid-column: 1 / -1; /* 確保返回按鈕在新行 */
+          justify-content: center; /* 置中對齊 */
+        }
+      }
+
+      /* 移動設備上的樣式保持不變 */
+      @media (max-width: 768px) {
+        .back-button-container {
+          margin-top: 1rem;
+        }
+
+        .format-back-btn {
+          width: 100%; /* 確保在移動設備上按鈕寬度為 100% */
+          padding: 0.8rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1696,15 +1729,34 @@
           return;
         }
 
-        container.innerHTML = topics
+        // 生成主題按鈕的 HTML
+        const topicsHtml = topics
           .map(
             (topic) => `
-                <button class="topic-button" onclick="startQuiz('${topic}')">
-                  ${topic}
-                </button>
-              `
+        <button class="topic-button" onclick="startQuiz('${topic}')">
+          ${topic}
+        </button>
+      `
           )
           .join("");
+
+        // 添加返回按鈕的 HTML，包裹在一個新的 div 中
+        const backButtonHtml = `
+    <div class="back-button-container">
+      <button class="format-back-btn" onclick="backToCategorySelection()">
+        <i class="fas fa-arrow-left"></i> 返回類別選擇
+      </button>
+    </div>
+  `;
+
+        // 將主題按鈕和返回按鈕組合起來
+        container.innerHTML = `
+    ${topicsHtml}
+    ${backButtonHtml}
+  `;
+
+        // 顯示 topics-container
+        container.style.display = "grid";
       }
 
       // 開始測驗
@@ -2391,6 +2443,15 @@
       function showAuthForm() {
         document.getElementById("auth-container").style.display = "block";
         document.querySelector(".main-title").style.display = "none";
+      }
+
+      // 返回類別選擇頁面
+      function backToCategorySelection() {
+        // 隱藏主題選擇容器
+        document.getElementById("topics-container").style.display = "none";
+
+        // 顯示類別選擇容器
+        document.getElementById("category-selection").style.display = "block";
       }
     </script>
   </body>
