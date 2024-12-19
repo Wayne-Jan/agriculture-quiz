@@ -62,16 +62,62 @@ router.get("/questions/image/:type", async (req, res) => {
 router.post("/record", auth, async (req, res) => {
   try {
     const { topic, score, totalQuestions, answers, quizFormat } = req.body;
+    const startTime = Date.now();
+
     const quizRecord = new QuizRecord({
       user: req.user.userId,
       topic,
       score,
       totalQuestions,
-      answers,
+      answers: answers.map((answer) => ({
+        ...answer,
+        topic: topic,
+        imagePath: answer.imagePath || null,
+      })),
       quizFormat,
+      timeSpent: Date.now() - startTime,
+      completedAt: new Date(),
     });
+
     await quizRecord.save();
-    res.status(201).json({ message: "測驗記錄已保存" });
+
+    // 獲取相關的 AI 模型數據以供比較
+    const aiModelFilePath = path.join(
+      __dirname,
+      "..",
+      "data",
+      "quizzes",
+      "ai_model.json"
+    );
+    let aiModelData = {};
+    try {
+      const aiModelContent = await fs.readFile(aiModelFilePath, "utf8");
+      aiModelData = JSON.parse(aiModelContent);
+    } catch (error) {
+      console.error("讀取 AI 模型數據失敗:", error);
+    }
+
+    // 計算並返回統計資訊
+    const percentage = (score / totalQuestions) * 100;
+    const categoryType = topic.includes("獸醫") ? "veterinary" : "agriculture";
+    const aiModels =
+      aiModelData[categoryType] && aiModelData[categoryType][topic]
+        ? aiModelData[categoryType][topic]
+        : [];
+
+    const betterThanCount = aiModels.filter(
+      (model) => percentage > model.score
+    ).length;
+
+    res.status(201).json({
+      message: "測驗記錄已保存",
+      statistics: {
+        percentage,
+        betterThanCount,
+        totalModels: aiModels.length,
+        aiModels,
+      },
+    });
   } catch (error) {
     console.error("保存測驗記錄失敗:", error);
     res.status(500).json({ message: "伺服器錯誤" });
@@ -122,6 +168,30 @@ router.delete("/record/:recordId", auth, async (req, res) => {
   } catch (error) {
     console.error("刪除測驗記錄失敗:", error);
     res.status(500).json({ message: "伺服器錯誤" });
+  }
+});
+
+router.get("/ai-models/:category/:topic", async (req, res) => {
+  try {
+    const { category, topic } = req.params;
+    const filePath = path.join(
+      __dirname,
+      "..",
+      "data",
+      "quizzes",
+      "ai_model.json"
+    );
+    const data = await fs.readFile(filePath, "utf8");
+    const aiModelData = JSON.parse(data);
+
+    if (!aiModelData[category] || !aiModelData[category][topic]) {
+      return res.status(404).json({ message: "找不到對應的 AI 模型數據" });
+    }
+
+    res.json(aiModelData[category][topic]);
+  } catch (error) {
+    console.error("讀取 AI 模型數據失敗:", error);
+    res.status(500).json({ message: "載入 AI 模型數據失敗" });
   }
 });
 

@@ -1750,7 +1750,7 @@
       }
 
       // 顯示結果
-      function showResult() {
+      async function showResult() {
         try {
           const container = document.getElementById("quiz-container");
           const percentage = ((score / currentQuestions.length) * 100).toFixed(
@@ -1758,13 +1758,41 @@
           );
           const isMobile = window.innerWidth <= 768;
 
+          // 儲存測驗結果並獲取 AI 模型數據
+          const topic = currentQuestions[0].topic;
+          const categoryType = topic.includes("獸醫")
+            ? "veterinary"
+            : "agriculture";
+
+          try {
+            const response = await fetch(
+              `${API_URL}/quiz/ai-models/${categoryType}/${topic}`
+            );
+            if (!response.ok) {
+              throw new Error("載入 AI 模型數據失敗");
+            }
+            aiModelData = await response.json();
+          } catch (error) {
+            console.error("獲取 AI 模型數據失敗，使用預設數據:", error);
+            aiModelData = [
+              { name: "Claude-3.5-Sonnet", score: 78.3 },
+              { name: "Gemini-2.0-flash", score: 76.1 },
+              { name: "GPT-4o", score: 75.79 },
+            ];
+          }
+
           // 儲存測驗結果
-          saveQuizResult(
+          await saveQuizResult(
             currentQuestions[0].topic,
             score,
             currentQuestions.length,
             answerHistory
           );
+
+          // 計算贏過幾個 AI 模型
+          const betterThanCount = aiModelData.filter(
+            (ai) => parseFloat(percentage) > ai.score
+          ).length;
 
           if (isMobile) {
             // 移動版布局
@@ -1792,7 +1820,9 @@
                   </div>
       
                   <div class="footnote">
-                    * 數據來源：AI模型在農業圖像識別測驗中的平均表現<br/>
+                    * 數據來源：AI模型在${
+                      categoryType === "veterinary" ? "獸醫" : "農業"
+                    }圖像識別測驗中的平均表現<br/>
                     * 顯示的是各模型在相似題目上的正確率
                   </div>
                 </div>
@@ -1802,42 +1832,42 @@
                   ${answerHistory
                     .map(
                       (record, index) => `
-                      <div class="mobile-question-card" style="background: white; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                          <strong>題號 ${index + 1}</strong>
-                          <span class="answer-status ${
-                            record.isCorrect
-                              ? "answer-correct"
-                              : "answer-incorrect"
-                          }"
-                                style="padding: 0.25rem 0.5rem; border-radius: 4px;">
-                            ${record.isCorrect ? "正確" : "錯誤"}
-                          </span>
+                    <div class="mobile-question-card" style="background: white; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <strong>題號 ${index + 1}</strong>
+                        <span class="answer-status ${
+                          record.isCorrect
+                            ? "answer-correct"
+                            : "answer-incorrect"
+                        }"
+                              style="padding: 0.25rem 0.5rem; border-radius: 4px;">
+                          ${record.isCorrect ? "正確" : "錯誤"}
+                        </span>
+                      </div>
+                      
+                      ${
+                        currentQuizFormat === "image"
+                          ? `
+                        <div style="text-align: center; margin: 0.5rem 0;">
+                          <img src="${currentQuestions[index].imagePath}"
+                               alt="題目圖片"
+                               style="max-width: 100%; max-height: 200px; object-fit: contain;">
                         </div>
-                        
-                        ${
-                          currentQuizFormat === "image"
-                            ? `
-                          <div style="text-align: center; margin: 0.5rem 0;">
-                            <img src="${currentQuestions[index].imagePath}"
-                                 alt="題目圖片"
-                                 style="max-width: 100%; max-height: 200px; object-fit: contain;">
-                          </div>
-                          `
-                            : ""
-                        }
-                        
-                        <div style="margin: 0.5rem 0;">
-                          <div style="font-weight: 500; margin-bottom: 0.5rem;">${
-                            record.question
-                          }</div>
-                          <div style="color: #666; font-size: 0.9rem;">
-                            <div>你的答案：${record.userAnswerText}</div>
-                            <div>正確答案：${record.correctAnswerText}</div>
-                          </div>
+                      `
+                          : ""
+                      }
+                      
+                      <div style="margin: 0.5rem 0;">
+                        <div style="font-weight: 500; margin-bottom: 0.5rem;">${
+                          record.question
+                        }</div>
+                        <div style="color: #666; font-size: 0.9rem;">
+                          <div>你的答案：${record.userAnswerText}</div>
+                          <div>正確答案：${record.correctAnswerText}</div>
                         </div>
                       </div>
-                    `
+                    </div>
+                  `
                     )
                     .join("")}
                 </div>
@@ -1873,7 +1903,9 @@
                   </div>
       
                   <div class="footnote">
-                    * 數據來源：AI模型在農業圖像識別測驗中的平均表現<br/>
+                    * 數據來源：AI模型在${
+                      categoryType === "veterinary" ? "獸醫" : "農業"
+                    }圖像識別測驗中的平均表現<br/>
                     * 顯示的是各模型在相似題目上的正確率
                   </div>
                 </div>
@@ -1895,31 +1927,33 @@
                       ${answerHistory
                         .map(
                           (record, index) => `
-                          <tr>
-                            <td>${index + 1}</td>
-                            ${
-                              currentQuizFormat === "image"
-                                ? `<td>
-                                  <img src="${currentQuestions[index].imagePath}"
-                                       alt="題目圖片"
-                                       style="max-width: 150px; max-height: 150px; object-fit: contain;">
-                                 </td>`
-                                : ""
-                            }
-                            <td>${record.question}</td>
-                            <td>${record.userAnswerText}</td>
-                            <td>${record.correctAnswerText}</td>
+                        <tr>
+                          <td>${index + 1}</td>
+                          ${
+                            currentQuizFormat === "image"
+                              ? `
                             <td>
-                              <span class="answer-status ${
-                                record.isCorrect
-                                  ? "answer-correct"
-                                  : "answer-incorrect"
-                              }">
-                                ${record.isCorrect ? "正確" : "錯誤"}
-                              </span>
+                              <img src="${currentQuestions[index].imagePath}"
+                                   alt="題目圖片"
+                                   style="max-width: 150px; max-height: 150px; object-fit: contain;">
                             </td>
-                          </tr>
-                        `
+                          `
+                              : ""
+                          }
+                          <td>${record.question}</td>
+                          <td>${record.userAnswerText}</td>
+                          <td>${record.correctAnswerText}</td>
+                          <td>
+                            <span class="answer-status ${
+                              record.isCorrect
+                                ? "answer-correct"
+                                : "answer-incorrect"
+                            }">
+                              ${record.isCorrect ? "正確" : "錯誤"}
+                            </span>
+                          </td>
+                        </tr>
+                      `
                         )
                         .join("")}
                     </tbody>
@@ -1933,7 +1967,7 @@
             container.innerHTML = desktopStatsHtml;
           }
 
-          // 設置圓形進度條和更新圖表
+          // 設置圓形進度條
           const circle = document.querySelector(
             ".progress-ring-circle-progress"
           );
@@ -1941,8 +1975,6 @@
           const circumference = radius * 2 * Math.PI;
 
           circle.style.strokeDasharray = `${circumference} ${circumference}`;
-
-          // 更新圓形進度條
           const offset =
             circumference - (parseFloat(percentage) / 100) * circumference;
           circle.style.strokeDashoffset = offset;
@@ -1950,27 +1982,12 @@
           // 更新分數顯示
           document.getElementById("scoreValue").textContent = `${percentage}%`;
 
-          // AI模型數據比較
-          const allAiData = [
-            { name: "Claude 3.5", score: 78.3 },
-            { name: "AgriVision Pro", score: 82.5 },
-            { name: "Gemini 2.0", score: 76.1 },
-            { name: "FarmSense AI", score: 80.2 },
-            { name: "GPT-4", score: 75.79 },
-            { name: "CropAnalytics", score: 77.8 },
-            { name: "Gemini 1.5", score: 73.58 },
-          ].sort((a, b) => b.score - a.score);
-
-          // 計算和更新比較信息
-          const betterThanCount = allAiData.filter(
-            (ai) => parseFloat(percentage) > ai.score
-          ).length;
-          const comparisonText = document.getElementById("comparisonText");
-
+          // 更新比較文字
           const message = getComparisonMessage(
             betterThanCount,
-            allAiData.length
+            aiModelData.length
           );
+          const comparisonText = document.getElementById("comparisonText");
           comparisonText.innerHTML = `
             <div class="comparison-highlight">${message.highlight}</div>
             <div class="comparison-count">${message.count}</div>
@@ -1980,22 +1997,22 @@
           // 更新柱狀圖
           const barContainer = document.getElementById("barContainer");
           const allData = [
-            ...allAiData,
+            ...aiModelData,
             { name: "您的得分", score: parseFloat(percentage) },
           ].sort((a, b) => b.score - a.score);
 
           barContainer.innerHTML = allData
             .map(
               (item) => `
-              <div class="bar" 
-                   style="height: ${item.score}%; 
-                          background-color: ${
-                            item.name === "您的得分" ? "#2e7d32" : "#a5d6a7"
-                          }">
-                <div class="bar-label">${item.name}</div>
-                <div class="bar-value">${item.score.toFixed(1)}%</div>
-              </div>
-            `
+            <div class="bar" 
+                 style="height: ${item.score}%; 
+                        background-color: ${
+                          item.name === "您的得分" ? "#2e7d32" : "#a5d6a7"
+                        }">
+              <div class="bar-label">${item.name}</div>
+              <div class="bar-value">${item.score.toFixed(1)}%</div>
+            </div>
+          `
             )
             .join("");
 
