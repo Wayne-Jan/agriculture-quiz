@@ -1865,18 +1865,27 @@
       // 顯示結果
       async function showResult() {
         try {
+          // 1. 先取得並檢查容器是否存在
           const container = document.getElementById("quiz-container");
+          if (!container) {
+            console.error("找不到 quiz-container 元素");
+            throw new Error("找不到 quiz-container 元素");
+          }
+
+          // 2. 計算基本數據
           const percentage = ((score / currentQuestions.length) * 100).toFixed(
             1
           );
           const isMobile = window.innerWidth <= 768;
 
-          // 儲存測驗結果並獲取 AI 模型數據
+          // 3. 獲取主題相關資訊
           const topic = currentQuestions[0].topic;
           const categoryType = topic.includes("獸醫")
             ? "veterinary"
             : "agriculture";
 
+          // 4. 獲取 AI 模型數據並保存測驗結果
+          let aiModelData;
           try {
             const response = await fetch(
               `${API_URL}/quiz/ai-models/${categoryType}/${topic}`
@@ -1894,7 +1903,7 @@
             ];
           }
 
-          // 儲存測驗結果
+          // 5. 儲存測驗結果
           await saveQuizResult(
             currentQuestions[0].topic,
             score,
@@ -1902,29 +1911,29 @@
             answerHistory
           );
 
-          // 計算贏過幾個 AI 模型
+          // 6. 計算贏過幾個 AI 模型
           const betterThanCount = aiModelData.filter(
             (ai) => parseFloat(percentage) > ai.score
           ).length;
 
+          // 7. 根據裝置類型設置不同的 HTML 內容
           if (isMobile) {
-            // 移動版布局 HTML
-            const mobileStatsHtml = `
+            // 移動版面 HTML
+            container.innerHTML = `
               <div class="quiz-content">
                 <div class="comparison-card">
                   <div style="text-align: center; padding: 2rem 0;">
-                      <div style="font-size: 1.2rem; color: #666; margin-bottom: 0.5rem;">
-                        完成測驗! 您的答題正確率為:
-                      </div>
-                      <div style="font-size: 4rem; font-weight: bold; color: #2e7d32; margin-bottom: 1rem;">
-                        ${percentage}%
-                      </div>
-                      <div style="font-size: 1.2rem; color: #666;">
-                        答對題數：${score} / ${currentQuestions.length}
-                      </div>
+                    <div style="font-size: 1.2rem; color: #666; margin-bottom: 0.5rem;">
+                      完成測驗! 您的答題正確率為:
+                    </div>
+                    <div style="font-size: 4rem; font-weight: bold; color: #2e7d32; margin-bottom: 1rem;">
+                      ${percentage}%
+                    </div>
+                    <div style="font-size: 1.2rem; color: #666;">
+                      答對題數：${score} / ${currentQuestions.length}
+                    </div>
                   </div>
       
-                  <!-- 修改後的比較標題和分隔線，分隔線在文字上方 -->
                   <div style="text-align: center; margin: 1rem 0;">
                     <hr style="width: 90%; margin: 0.5rem auto; border: none; border-top: 1px solid #ccc;">
                     <span style="font-size: 1.2rem; color: #333; font-weight: bold;">與市面上之AI模型比較:</span>
@@ -1932,15 +1941,15 @@
                   
                   <div class="model-circles-container"></div>
       
-                    <div class="footnote">
+                  <div class="footnote">
                     * 模型版本資訊：<br/>
-                      - GPT-4o: gpt-4o-2024-08-06<br/>
-                      - GPT-4o-mini: gpt-4o-mini-2024-07-18<br/>
-                      - Claude-3.5: claude-3-5-sonnet-20241022<br/>
-                      - Claude-3: claude-3-haiku-20240307<br/>
-                      - Gemini-2.0: gemini-2.0-flash-exp<br/>
-                      - Gemini-1.5: gemini-1.5-flash
-                    </div>
+                    - GPT-4o: gpt-4o-2024-08-06<br/>
+                    - GPT-4o-mini: gpt-4o-mini-2024-07-18<br/>
+                    - Claude-3.5: claude-3-5-sonnet-20241022<br/>
+                    - Claude-3: claude-3-haiku-20240307<br/>
+                    - Gemini-2.0: gemini-2.0-flash-exp<br/>
+                    - Gemini-1.5: gemini-1.5-flash
+                  </div>
                 </div>
       
                 <div style="margin-top: 2rem;">
@@ -1993,273 +2002,282 @@
               </div>
             `;
 
-            // 更新容器內容
-            container.innerHTML = mobileStatsHtml;
-
             // 創建模型比較圓圈
             const circlesContainer = container.querySelector(
               ".model-circles-container"
             );
+            if (circlesContainer) {
+              // 創建圓形進度環的函數
+              function createCircleProgress(
+                container,
+                score,
+                modelName,
+                isUserScore = false
+              ) {
+                const radius = 55;
+                const circumference = radius * 2 * Math.PI;
+                const offset = circumference - (score / 100) * circumference;
 
-            // 創建圓形進度環的函數
-            function createCircleProgress(
-              container,
-              score,
-              modelName,
-              isUserScore = false
-            ) {
-              const radius = 55;
-              const circumference = radius * 2 * Math.PI;
-              const offset = circumference - (score / 100) * circumference;
-
-              const html = `
-                <div class="circle-container">
-                  <svg class="model-progress-ring" width="120" height="120">
-                    <circle class="model-circle-base" stroke-width="8" cx="60" cy="60" r="${radius}"/>
-                    <circle class="model-circle-progress"
-                            stroke-width="8"
-                            cx="60"
-                            cy="60"
-                            r="${radius}"
-                            style="stroke-dasharray: ${circumference} ${circumference};
-                                   stroke-dashoffset: ${offset}"/>
-                  </svg>
-                  <div class="model-score">${score.toFixed(1)}%</div>
-                </div>
-                <div class="model-name">${modelName}</div>
-              `;
-
-              const modelCircle = document.createElement("div");
-              modelCircle.className = `model-circle ${
-                isUserScore ? "your-score-circle" : ""
-              }`;
-              modelCircle.innerHTML = html;
-              container.appendChild(modelCircle);
-            }
-
-            // 整合所有得分，包括使用者的得分
-            const allScores = [
-              {
-                score: parseFloat(percentage),
-                name: "您的得分",
-                isUser: true,
-              },
-              ...aiModelData.map((model) => ({
-                score: model.score,
-                name: model.name,
-                isUser: false,
-              })),
-            ];
-
-            // 排序：先按分數從高到低，若分數相同，使用者得分優先
-            allScores.sort((a, b) => {
-              if (b.score !== a.score) {
-                return b.score - a.score; // 分數高的在前
-              } else if (a.isUser && !b.isUser) {
-                return -1; // 使用者得分優先
-              } else if (!a.isUser && b.isUser) {
-                return 1;
-              } else {
-                return 0;
-              }
-            });
-
-            // 依序生成圓形比較圖
-            allScores.forEach((model) => {
-              createCircleProgress(
-                circlesContainer,
-                model.score,
-                model.name,
-                model.isUser
-              );
-            });
-            window.scrollTo({
-              top: 0,
-              behavior: "smooth", // 使用平滑滾動效果
-            });
-          } else {
-            // 桌面版布局
-            const desktopStatsHtml = `
-            <div class="quiz-content">
-              <div class="comparison-card">
-                <div class="card-title">測驗結果分析</div>
-                
-                <div class="score-section">
-                  <div class="score-circle-container">
-                    <svg class="progress-ring" width="200" height="200">
-                      <circle
-                        class="progress-ring-circle"
-                        stroke-width="12"
-                        cx="100"
-                        cy="100"
-                        r="85"
-                      />
-                      <circle
-                        class="progress-ring-circle-progress"
-                        stroke-width="12"
-                        cx="100"
-                        cy="100"
-                        r="85"
-                      />
+                const html = `
+                  <div class="circle-container">
+                    <svg class="model-progress-ring" width="120" height="120">
+                      <circle class="model-circle-base" stroke-width="8" cx="60" cy="60" r="${radius}"/>
+                      <circle class="model-circle-progress"
+                              stroke-width="8"
+                              cx="60"
+                              cy="60"
+                              r="${radius}"
+                              style="stroke-dasharray: ${circumference} ${circumference};
+                                     stroke-dashoffset: ${offset}"/>
                     </svg>
-                    <div class="score-text">
-                      <div class="score-value" id="scoreValue">0%</div>
-                      <div class="score-label">正確率</div>
+                    <div class="model-score">${score.toFixed(1)}%</div>
+                  </div>
+                  <div class="model-name">${modelName}</div>
+                `;
+
+                const modelCircle = document.createElement("div");
+                modelCircle.className = `model-circle ${
+                  isUserScore ? "your-score-circle" : ""
+                }`;
+                modelCircle.innerHTML = html;
+                container.appendChild(modelCircle);
+              }
+
+              // 整合所有得分
+              const allScores = [
+                {
+                  score: parseFloat(percentage),
+                  name: "您的得分",
+                  isUser: true,
+                },
+                ...aiModelData.map((model) => ({
+                  score: model.score,
+                  name: model.name,
+                  isUser: false,
+                })),
+              ].sort((a, b) => {
+                if (b.score !== a.score) {
+                  return b.score - a.score;
+                } else if (a.isUser && !b.isUser) {
+                  return -1;
+                } else if (!a.isUser && b.isUser) {
+                  return 1;
+                } else {
+                  return 0;
+                }
+              });
+
+              // 生成圓形比較圖
+              allScores.forEach((model) => {
+                createCircleProgress(
+                  circlesContainer,
+                  model.score,
+                  model.name,
+                  model.isUser
+                );
+              });
+            }
+          } else {
+            // 桌面版面 HTML
+            container.innerHTML = `
+              <div class="quiz-content">
+                <div class="comparison-card">
+                  <div class="card-title">測驗結果分析</div>
+                  
+                  <div class="score-section">
+                    <div class="score-circle-container">
+                      <svg class="progress-ring" width="200" height="200">
+                        <circle
+                          class="progress-ring-circle"
+                          stroke-width="12"
+                          cx="100"
+                          cy="100"
+                          r="85"
+                        />
+                        <circle
+                          class="progress-ring-circle-progress"
+                          stroke-width="12"
+                          cx="100"
+                          cy="100"
+                          r="85"
+                        />
+                      </svg>
+                      <div class="score-text">
+                        <div class="score-value" id="scoreValue">0%</div>
+                        <div class="score-label">正確率</div>
+                      </div>
+                    </div>
+                    
+                    <div class="comparison-text" id="comparisonText">
+                      <!-- 將由 JavaScript 動態填充 -->
                     </div>
                   </div>
-                  
-                  <div class="comparison-text" id="comparisonText">
-                    <!-- 比較文字將由 JavaScript 動態填充 -->
+            
+                  <div class="bar-chart">
+                    <h3 style="text-align: center; margin-bottom: 2rem;">與AI模型得分比較</h3>
+                    <div class="bar-container" id="barContainer">
+                      <!-- 將由 JavaScript 動態填充 -->
+                    </div>
+                  </div>
+            
+                  <div class="footnote">
+                    * 模型版本資訊：<br/>
+                    - GPT-4o: gpt-4o-2024-08-06<br/>
+                    - GPT-4o-mini: gpt-4o-mini-2024-07-18<br/>
+                    - Claude-3.5: claude-3-5-sonnet-20241022<br/>
+                    - Claude-3: claude-3-haiku-20240307<br/>
+                    - Gemini-2.0: gemini-2.0-flash-exp<br/>
+                    - Gemini-1.5: gemini-1.5-flash
                   </div>
                 </div>
-          
-                <div class="bar-chart">
-                  <h3 style="text-align: center; margin-bottom: 2rem;">與AI模型得分比較</h3>
-                  <div class="bar-container" id="barContainer">
-                    <!-- 柱狀圖將由 JavaScript 動態填充 -->
-                  </div>
-                </div>
-          
-                <div class="footnote">
-                  * 模型版本資訊：<br/>
-                  - GPT-4o: gpt-4o-2024-08-06<br/>
-                  - GPT-4o-mini: gpt-4o-mini-2024-07-18<br/>
-                  - Claude-3.5: claude-3-5-sonnet-20241022<br/>
-                  - Claude-3: claude-3-haiku-20240307<br/>
-                  - Gemini-2.0: gemini-2.0-flash-exp<br/>
-                  - Gemini-1.5: gemini-1.5-flash
-                </div>
-              </div>
-          
-              <div style="margin-top: 2rem;">
-                <h3>詳細答題記錄</h3>
-                <div class="stats-table-container">
-                  <table class="stats-table">
-                    <thead>
-                      <tr>
-                        <th>題號</th>
-                        ${currentQuizFormat === "image" ? "<th>圖片</th>" : ""}
-                        <th>題目</th>
-                        <th>你的答案</th>
-                        <th>正確答案</th>
-                        <th>結果</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      ${answerHistory
-                        .map(
-                          (record, index) => `
+            
+                <div style="margin-top: 2rem;">
+                  <h3>詳細答題記錄</h3>
+                  <div class="stats-table-container">
+                    <table class="stats-table">
+                      <thead>
                         <tr>
-                          <td>${index + 1}</td>
+                          <th>題號</th>
                           ${
-                            currentQuizFormat === "image"
-                              ? `
-                            <td>
-                              <img src="${currentQuestions[index].imagePath}" alt="題目圖片">
-                            </td>
-                          `
-                              : ""
+                            currentQuizFormat === "image" ? "<th>圖片</th>" : ""
                           }
-                          <td>${record.question}</td>
-                          <td>${record.userAnswerText}</td>
-                          <td>${record.correctAnswerText}</td>
-                          <td>
-                            <span class="answer-status ${
-                              record.isCorrect
-                                ? "answer-correct"
-                                : "answer-incorrect"
-                            }">
-                              ${record.isCorrect ? "正確" : "錯誤"}
-                            </span>
-                          </td>
+                          <th>題目</th>
+                          <th>你的答案</th>
+                          <th>正確答案</th>
+                          <th>結果</th>
                         </tr>
-                      `
-                        )
-                        .join("")}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        ${answerHistory
+                          .map(
+                            (record, index) => `
+                          <tr>
+                            <td>${index + 1}</td>
+                            ${
+                              currentQuizFormat === "image"
+                                ? `
+                              <td>
+                                <img src="${currentQuestions[index].imagePath}" alt="題目圖片">
+                              </td>
+                            `
+                                : ""
+                            }
+                            <td>${record.question}</td>
+                            <td>${record.userAnswerText}</td>
+                            <td>${record.correctAnswerText}</td>
+                            <td>
+                              <span class="answer-status ${
+                                record.isCorrect
+                                  ? "answer-correct"
+                                  : "answer-incorrect"
+                              }">
+                                ${record.isCorrect ? "正確" : "錯誤"}
+                              </span>
+                            </td>
+                          </tr>
+                        `
+                          )
+                          .join("")}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="quiz-footer">
-              <button class="back-btn" onclick="showTopics()">返回主題選擇</button>
-            </div>
-          `;
-
-            // 將此 HTML 更新到容器中
-            container.innerHTML = desktopStatsHtml;
-          }
-
-          // 設置圓形進度條
-          const circle = document.querySelector(
-            ".progress-ring-circle-progress"
-          );
-          const radius = circle.r.baseVal.value;
-          const circumference = radius * 2 * Math.PI;
-
-          circle.style.strokeDasharray = `${circumference} ${circumference}`;
-          const offset =
-            circumference - (parseFloat(percentage) / 100) * circumference;
-          circle.style.strokeDashoffset = offset;
-
-          // 更新分數顯示
-          document.getElementById("scoreValue").textContent = `${percentage}%`;
-
-          // 更新比較文字
-          const message = getComparisonMessage(
-            betterThanCount,
-            aiModelData.length
-          );
-          const comparisonText = document.getElementById("comparisonText");
-          comparisonText.innerHTML = `
-            <div class="comparison-highlight">${message.highlight}</div>
-            <div class="comparison-count">${message.count}</div>
-            <div class="comparison-subtext">${message.subtext}</div>
-          `;
-
-          // 更新柱狀圖
-          const barContainer = document.getElementById("barContainer");
-          const allData = [
-            ...aiModelData,
-            { name: "您的得分", score: parseFloat(percentage) },
-          ].sort((a, b) => b.score - a.score);
-
-          barContainer.innerHTML = allData
-            .map(
-              (item) => `
-            <div class="bar"
-                 style="height: ${item.score}%;
-                        background-color: ${
-                          item.name === "您的得分" ? "#2e7d32" : "#a5d6a7"
-                        }">
-              <div class="bar-label">${item.name}</div>
-              <div class="bar-value">${item.score.toFixed(1)}%</div>
-            </div>
-          `
-            )
-            .join("");
-
-          // 確保底部按鈕不被遮擋
-          if (isMobile) {
-            const footer = document.querySelector(".quiz-footer");
-            if (footer) {
-              document.querySelector(".quiz-content").style.marginBottom =
-                footer.offsetHeight + 20 + "px";
-            }
-          }
-        } catch (error) {
-          console.error("顯示結果時發生錯誤:", error);
-          container.innerHTML = `
-            <div class="quiz-content">
-              <div class="result">
-                <h2>發生錯誤</h2>
-                <p>顯示結果時發生問題，請重新嘗試。</p>
               </div>
               <div class="quiz-footer">
                 <button class="back-btn" onclick="showTopics()">返回主題選擇</button>
               </div>
-            </div>
-          `;
+            `;
+
+            // 設置圓形進度條
+            const circle = container.querySelector(
+              ".progress-ring-circle-progress"
+            );
+            if (circle) {
+              const radius = circle.r.baseVal.value;
+              const circumference = radius * 2 * Math.PI;
+              circle.style.strokeDasharray = `${circumference} ${circumference}`;
+              const offset =
+                circumference - (parseFloat(percentage) / 100) * circumference;
+              circle.style.strokeDashoffset = offset;
+            }
+
+            // 更新分數顯示
+            const scoreValue = container.querySelector("#scoreValue");
+            if (scoreValue) {
+              scoreValue.textContent = `${percentage}%`;
+            }
+
+            // 更新比較文字
+            const comparisonText = container.querySelector("#comparisonText");
+            if (comparisonText) {
+              const message = getComparisonMessage(
+                betterThanCount,
+                aiModelData.length
+              );
+              comparisonText.innerHTML = `
+                <div class="comparison-highlight">${message.highlight}</div>
+                <div class="comparison-count">${message.count}</div>
+                <div class="comparison-subtext">${message.subtext}</div>
+              `;
+            }
+
+            // 更新柱狀圖
+            const barContainer = document.querySelector("#barContainer");
+            if (barContainer) {
+              const allData = [
+                ...aiModelData,
+                { name: "您的得分", score: parseFloat(percentage) },
+              ].sort((a, b) => b.score - a.score);
+
+              barContainer.innerHTML = allData
+                .map(
+                  (item) => `
+                <div class="bar"
+                     style="height: ${item.score}%;
+                            background-color: ${
+                              item.name === "您的得分" ? "#2e7d32" : "#a5d6a7"
+                            }">
+                  <div class="bar-label">${item.name}</div>
+                  <div class="bar-value">${item.score.toFixed(1)}%</div>
+                </div>
+              `
+                )
+                .join("");
+            }
+          }
+          // 8. 確保移動版面的頁腳不會遮擋內容
+          if (isMobile) {
+            const footer = container.querySelector(".quiz-footer");
+            if (footer) {
+              const quizContent = container.querySelector(".quiz-content");
+              if (quizContent) {
+                quizContent.style.marginBottom =
+                  footer.offsetHeight + 20 + "px";
+              }
+            }
+          }
+
+          // 9. 滾動到頁面頂部
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        } catch (error) {
+          // 錯誤處理
+          console.error("顯示結果時發生錯誤:", error);
+          if (container) {
+            container.innerHTML = `
+        <div class="quiz-content">
+          <div class="result">
+            <h2>發生錯誤</h2>
+            <p>顯示結果時發生問題，請重新嘗試。</p>
+          </div>
+          <div class="quiz-footer">
+            <button class="back-btn" onclick="showTopics()">返回主題選擇</button>
+          </div>
+        </div>
+      `;
+          }
         }
       }
 
