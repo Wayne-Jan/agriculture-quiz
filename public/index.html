@@ -791,6 +791,10 @@
         color: white;
       }
 
+      .menu-btn.record-btn {
+        background-color: var(--primary-color);
+      }
+
       /* Animations */
       @keyframes titleFloat {
         0%,
@@ -1280,6 +1284,15 @@
 
       /* 移動設備上的樣式保持不變 */
       @media (max-width: 768px) {
+        .answers-table {
+          font-size: 0.9rem;
+        }
+
+        .answers-table th,
+        .answers-table td {
+          padding: 0.5rem;
+        }
+
         .back-button-container {
           margin-top: 1rem;
         }
@@ -1359,6 +1372,140 @@
           font-size: 30px;
         }
       }
+
+      .record-btn {
+        background-color: #4caf50;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 8px;
+        max-width: 800px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+
+      .record-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 1rem;
+      }
+
+      .record-content h4 {
+        margin: 0;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+      }
+
+      .record-content p {
+        margin: 0.25rem 0;
+        color: #666;
+      }
+
+      .view-details-btn {
+        background: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .view-details-btn:hover {
+        background: #45a049;
+        transform: translateY(-2px);
+      }
+
+      .record-detail {
+        padding: 1rem;
+      }
+
+      .record-detail h3 {
+        color: #2c3e50;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #eee;
+      }
+
+      .score-summary {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+      }
+
+      .score-summary p {
+        margin: 0.5rem 0;
+        color: #2c3e50;
+      }
+
+      .answers-table {
+        margin-bottom: 1.5rem;
+        overflow-x: auto;
+      }
+
+      .back-to-list-btn {
+        background: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 0.8rem 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+
+      .back-to-list-btn:hover {
+        background: #45a049;
+        transform: translateY(-2px);
+      }
+
+      .answer-status {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 4px;
+        font-weight: 500;
+      }
+
+      .answer-correct {
+        background: #e8f5e9;
+        color: #2e7d32;
+      }
+
+      .answer-incorrect {
+        background: #ffebee;
+        color: #c62828;
+      }
+
+      .modal-content {
+        max-height: 80vh;
+        overflow-y: auto;
+      }
     </style>
   </head>
   <body>
@@ -1374,6 +1521,9 @@
         </button>
       </div>
       <div class="menu-items">
+        <button class="menu-btn record-btn" onclick="showUserRecords()">
+          <i class="fas fa-history"></i> 測驗記錄
+        </button>
         <button
           class="menu-btn admin-btn"
           id="mobile-admin-btn"
@@ -1394,6 +1544,9 @@
     <div class="animation-background"></div>
     <div class="user-info" id="user-info" style="display: none">
       歡迎, <span id="username-display"></span>
+      <button class="nav-btn record-btn" onclick="showUserRecords()">
+        <i class="fas fa-history"></i> 測驗記錄
+      </button>
       <button class="nav-btn admin-btn" id="admin-btn" onclick="goToAdmin()">
         <i class="fas fa-cog"></i> 管理系統
       </button>
@@ -1403,6 +1556,15 @@
       <button class="nav-btn logout-btn" onclick="logout()">
         <i class="fas fa-sign-out-alt"></i> 登出
       </button>
+    </div>
+
+    <!-- 添加記錄模態框 -->
+    <div class="modal" id="recordsModal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeRecordsModal()">&times;</span>
+        <h2>個人測驗記錄</h2>
+        <div class="record-list" id="userRecordList"></div>
+      </div>
     </div>
 
     <div class="main-title">
@@ -2756,6 +2918,232 @@
         modalImg.src = imageSrc;
         document.body.style.overflow = "hidden"; // 防止背景滾動
       }
+
+      // 顯示用戶記錄
+      async function showUserRecords() {
+        try {
+          const response = await fetch(`${API_URL}/quiz/records`, {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          });
+
+          const records = await response.json();
+          const recordList = document.getElementById("userRecordList");
+
+          recordList.innerHTML = records
+            .map(
+              (record) => `
+      <div class="record-item">
+        <div class="record-content">
+          <h4>${record.topic}</h4>
+          <p>分數: ${record.score}/${record.totalQuestions} 
+             (${((record.score / record.totalQuestions) * 100).toFixed(1)}%)</p>
+          <p>完成時間: ${new Date(record.completedAt).toLocaleString()}</p>
+          <button class="view-details-btn" onclick="showRecordDetails('${
+            record._id
+          }')">
+            <i class="fas fa-eye"></i> 查看詳情
+          </button>
+        </div>
+      </div>
+    `
+            )
+            .join("");
+
+          document.getElementById("recordsModal").style.display = "flex";
+        } catch (error) {
+          console.error("載入記錄失敗:", error);
+          alert("載入記錄失敗");
+        }
+      }
+
+      // 查看記錄詳情
+      async function showRecordDetails(recordId) {
+        try {
+          const response = await fetch(`${API_URL}/quiz/record/${recordId}`, {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          });
+
+          const record = await response.json();
+          const recordList = document.getElementById("userRecordList");
+          const isMobile = window.innerWidth <= 768;
+          const percentage = (
+            (record.score / record.totalQuestions) *
+            100
+          ).toFixed(1);
+
+          if (isMobile) {
+            // 手機版格式
+            recordList.innerHTML = `
+              <div class="quiz-content">
+                <div class="comparison-card">
+                  <div style="text-align: center; padding: 2rem 0;">
+                    <div style="font-size: 1.2rem; color: #666; margin-bottom: 0.5rem;">
+                      ${record.topic}
+                    </div>
+                    <div style="font-size: 4rem; font-weight: bold; color: #2e7d32; margin-bottom: 1rem;">
+                      ${percentage}%
+                    </div>
+                    <div style="font-size: 1.2rem; color: #666;">
+                      答對題數：${record.score} / ${record.totalQuestions}
+                    </div>
+                    <div style="font-size: 1rem; color: #666; margin-top: 0.5rem;">
+                      完成時間：${new Date(record.completedAt).toLocaleString()}
+                    </div>
+                  </div>
+                </div>
+      
+                <div style="margin-top: 2rem;">
+                  <h3 style="margin-bottom: 1rem;">詳細答題記錄</h3>
+                  ${record.answers
+                    .map(
+                      (answer, index) => `
+                    <div class="mobile-question-card" style="background: white; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <strong>題號 ${index + 1}</strong>
+                        <span class="answer-status ${
+                          answer.isCorrect
+                            ? "answer-correct"
+                            : "answer-incorrect"
+                        }">
+                          ${answer.isCorrect ? "正確" : "錯誤"}
+                        </span>
+                      </div>
+      
+                      ${
+                        record.quizFormat === "image" && answer.imagePath
+                          ? `
+                        <div style="text-align: center; margin: 0.5rem 0;">
+                          <img src="${answer.imagePath}"
+                               alt="題目圖片"
+                               style="max-width: 100%; max-height: 200px; object-fit: contain; cursor: pointer;"
+                               onclick="showImageModal('${answer.imagePath}')">
+                        </div>
+                      `
+                          : ""
+                      }
+      
+                      <div style="margin: 0.5rem 0;">
+                        <div style="font-weight: 500; margin-bottom: 0.5rem;">${
+                          answer.question
+                        }</div>
+                        <div style="color: #666; font-size: 0.9rem;">
+                          <div>你的答案：${
+                            answer.userAnswerText || answer.userAnswer
+                          }</div>
+                          <div>正確答案：${
+                            answer.correctAnswerText || answer.correctAnswer
+                          }</div>
+                        </div>
+                      </div>
+                    </div>
+                  `
+                    )
+                    .join("")}
+                </div>
+              </div>`;
+          } else {
+            // 桌面版格式（表格形式）
+            recordList.innerHTML = `
+              <div class="record-detail">
+                <h3>${record.topic}</h3>
+                <div class="score-summary">
+                  <p>總分: ${percentage}% (${record.score}/${
+              record.totalQuestions
+            })</p>
+                  <p>作答時間: ${new Date(
+                    record.completedAt
+                  ).toLocaleString()}</p>
+                </div>
+                
+                <div class="answers-table">
+                  <table class="stats-table">
+                    <thead>
+                      <tr>
+                        <th>題號</th>
+                        ${record.quizFormat === "image" ? "<th>圖片</th>" : ""}
+                        <th>題目</th>
+                        <th>您的答案</th>
+                        <th>正確答案</th>
+                        <th>結果</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${record.answers
+                        .map(
+                          (answer, index) => `
+                        <tr>
+                          <td>${index + 1}</td>
+                          ${
+                            record.quizFormat === "image"
+                              ? `
+                            <td>
+                              ${
+                                answer.imagePath
+                                  ? `
+                                <img src="${answer.imagePath}" 
+                                     alt="題目圖片" 
+                                     style="max-width: 100px; cursor: pointer"
+                                     onclick="showImageModal('${answer.imagePath}')"
+                                >
+                              `
+                                  : "無圖片"
+                              }
+                            </td>
+                          `
+                              : ""
+                          }
+                          <td>${answer.question}</td>
+                          <td>${answer.userAnswerText || answer.userAnswer}</td>
+                          <td>${
+                            answer.correctAnswerText || answer.correctAnswer
+                          }</td>
+                          <td>
+                            <span class="answer-status ${
+                              answer.isCorrect
+                                ? "answer-correct"
+                                : "answer-incorrect"
+                            }">
+                              ${answer.isCorrect ? "正確" : "錯誤"}
+                            </span>
+                          </td>
+                        </tr>
+                      `
+                        )
+                        .join("")}
+                    </tbody>
+                  </table>
+                </div>
+              </div>`;
+          }
+
+          // 添加返回按鈕
+          recordList.innerHTML += `
+            <button class="back-to-list-btn" onclick="showUserRecords()">
+              <i class="fas fa-arrow-left"></i> 返回記錄列表
+            </button>
+          `;
+        } catch (error) {
+          console.error("載入記錄詳情失敗:", error);
+          alert("載入記錄詳情失敗");
+        }
+      }
+
+      // 關閉記錄模態框
+      function closeRecordsModal() {
+        document.getElementById("recordsModal").style.display = "none";
+      }
+
+      // 點擊模態框外部關閉
+      window.onclick = function (event) {
+        const modal = document.getElementById("recordsModal");
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
     </script>
 
     <div id="imageModal" class="image-modal">
