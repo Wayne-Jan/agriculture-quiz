@@ -1819,12 +1819,19 @@
                     <div class="bar-container" id="barContainer"></div>
                   </div>
       
-                  <div class="footnote">
+                    <div class="footnote">
                     * 數據來源：AI模型在${
                       categoryType === "veterinary" ? "獸醫" : "農業"
                     }圖像識別測驗中的平均表現<br/>
-                    * 顯示的是各模型在相似題目上的正確率
-                  </div>
+                    * 顯示的是各模型在相同題目上的正確率<br/>
+                    * 模型版本資訊：<br/>
+                      - GPT-4o: gpt-4o-2024-08-06<br/>
+                      - GPT-4o-mini: gpt-4o-mini-2024-07-18<br/>
+                      - Claude-3.5: claude-3-5-sonnet-20241022<br/>
+                      - Claude-3: claude-3-haiku-20240307<br/>
+                      - Gemini-2.0: gemini-2.0-flash-exp<br/>
+                      - Gemini-1.5: gemini-1.5-flash
+                    </div>
                 </div>
       
                 <div style="margin-top: 2rem;">
@@ -1902,12 +1909,19 @@
                     <div class="bar-container" id="barContainer"></div>
                   </div>
       
-                  <div class="footnote">
+                    <div class="footnote">
                     * 數據來源：AI模型在${
                       categoryType === "veterinary" ? "獸醫" : "農業"
                     }圖像識別測驗中的平均表現<br/>
-                    * 顯示的是各模型在相似題目上的正確率
-                  </div>
+                    * 顯示的是各模型在相同題目上的正確率<br/>
+                    * 模型版本資訊：<br/>
+                      - GPT-4o: gpt-4o-2024-08-06<br/>
+                      - GPT-4o-mini: gpt-4o-mini-2024-07-18<br/>
+                      - Claude-3.5: claude-3-5-sonnet-20241022<br/>
+                      - Claude-3: claude-3-haiku-20240307<br/>
+                      - Gemini-2.0: gemini-2.0-flash-exp<br/>
+                      - Gemini-1.5: gemini-1.5-flash
+                    </div>
                 </div>
       
                 <div class="result" style="margin-top: 2rem;">
@@ -2041,6 +2055,27 @@
       }
 
       function getComparisonMessage(betterThanCount, totalModels) {
+        // 全對的情況
+        if (betterThanCount === totalModels) {
+          return {
+            highlight: "完美表現！",
+            count: `您完勝所有 ${totalModels} 個AI模型！`,
+            subtext:
+              "您展現了極致的專業判斷能力，完全超越了所有AI模型！這樣的表現令人印象深刻！",
+          };
+        }
+
+        // 全錯的情況
+        if (betterThanCount === 0) {
+          return {
+            highlight: "這是學習的開始！",
+            count: "讓我們從頭開始",
+            subtext:
+              "每個專家都是從基礎開始的，持續學習和練習，您一定能夠進步！",
+          };
+        }
+
+        // 其他情況維持原本的邏輯
         if (betterThanCount >= totalModels * 0.7) {
           return {
             highlight: "超越AI的實力！",

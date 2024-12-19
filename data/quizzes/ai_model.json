@@ -1,118 +1,118 @@
 {
   "agriculture": {
     "水稻病害": [
-      { "name": "Claude-3.5-Sonnet", "score": 93.94 },
-      { "name": "Gemini-2.0-flash", "score": 81.82 },
+      { "name": "Claude-3.5", "score": 93.94 },
+      { "name": "Gemini-2.0", "score": 81.82 },
       { "name": "GPT-4o", "score": 75.76 },
-      { "name": "Gemini-1.5-flash", "score": 63.64 },
+      { "name": "Gemini-1.5", "score": 63.64 },
       { "name": "GPT-4o-mini", "score": 60.61 },
-      { "name": "Claude-3-haiku", "score": 45.45 }
+      { "name": "Claude-3", "score": 45.45 }
     ],
     "水稻害蟲": [
-      { "name": "Claude-3.5-Sonnet", "score": 73.68 },
-      { "name": "Gemini-2.0-flash", "score": 68.42 },
+      { "name": "Claude-3.5", "score": 73.68 },
+      { "name": "Gemini-2.0", "score": 68.42 },
       { "name": "GPT-4o", "score": 71.93 },
-      { "name": "Gemini-1.5-flash", "score": 73.68 },
+      { "name": "Gemini-1.5", "score": 73.68 },
       { "name": "GPT-4o-mini", "score": 59.65 },
-      { "name": "Claude-3-haiku", "score": 49.12 }
+      { "name": "Claude-3", "score": 49.12 }
     ],
     "水稻營養障礙": [
-      { "name": "Claude-3.5-Sonnet", "score": 83.33 },
-      { "name": "Gemini-2.0-flash", "score": 100.0 },
+      { "name": "Claude-3.5", "score": 83.33 },
+      { "name": "Gemini-2.0", "score": 100.0 },
       { "name": "GPT-4o", "score": 100.0 },
-      { "name": "Gemini-1.5-flash", "score": 100.0 },
+      { "name": "Gemini-1.5", "score": 100.0 },
       { "name": "GPT-4o-mini", "score": 16.67 },
-      { "name": "Claude-3-haiku", "score": 0.0 }
+      { "name": "Claude-3", "score": 0.0 }
     ],
     "茶樹病害": [
-      { "name": "Claude-3.5-Sonnet", "score": 77.08 },
-      { "name": "Gemini-2.0-flash", "score": 93.75 },
+      { "name": "Claude-3.5", "score": 77.08 },
+      { "name": "Gemini-2.0", "score": 93.75 },
       { "name": "GPT-4o", "score": 87.5 },
-      { "name": "Gemini-1.5-flash", "score": 75.0 },
+      { "name": "Gemini-1.5", "score": 75.0 },
       { "name": "GPT-4o-mini", "score": 70.83 },
-      { "name": "Claude-3-haiku", "score": 60.42 }
+      { "name": "Claude-3", "score": 60.42 }
     ],
     "茶樹蟲害": [
-      { "name": "Claude-3.5-Sonnet", "score": 72.62 },
-      { "name": "Gemini-2.0-flash", "score": 65.48 },
+      { "name": "Claude-3.5", "score": 72.62 },
+      { "name": "Gemini-2.0", "score": 65.48 },
       { "name": "GPT-4o", "score": 64.29 },
-      { "name": "Gemini-1.5-flash", "score": 75.0 },
+      { "name": "Gemini-1.5", "score": 75.0 },
       { "name": "GPT-4o-mini", "score": 52.38 },
-      { "name": "Claude-3-haiku", "score": 48.81 }
+      { "name": "Claude-3", "score": 48.81 }
     ],
     "茶樹營養障礙": [
-      { "name": "Claude-3.5-Sonnet", "score": 50.0 },
-      { "name": "Gemini-2.0-flash", "score": 33.33 },
+      { "name": "Claude-3.5", "score": 50.0 },
+      { "name": "Gemini-2.0", "score": 33.33 },
       { "name": "GPT-4o", "score": 56.67 },
-      { "name": "Gemini-1.5-flash", "score": 50.0 },
+      { "name": "Gemini-1.5", "score": 50.0 },
       { "name": "GPT-4o-mini", "score": 36.67 },
-      { "name": "Claude-3-haiku", "score": 30.0 }
+      { "name": "Claude-3", "score": 30.0 }
     ],
     "葡萄病害": [
-      { "name": "Claude-3.5-Sonnet", "score": 93.33 },
-      { "name": "Gemini-2.0-flash", "score": 100.0 },
+      { "name": "Claude-3.5", "score": 93.33 },
+      { "name": "Gemini-2.0", "score": 100.0 },
       { "name": "GPT-4o", "score": 90.0 },
-      { "name": "Gemini-1.5-flash", "score": 70.0 },
+      { "name": "Gemini-1.5", "score": 70.0 },
       { "name": "GPT-4o-mini", "score": 70.0 },
-      { "name": "Claude-3-haiku", "score": 33.33 }
+      { "name": "Claude-3", "score": 33.33 }
     ],
     "葡萄害蟲": [
-      { "name": "Claude-3.5-Sonnet", "score": 100.0 },
-      { "name": "Gemini-2.0-flash", "score": 100.0 },
+      { "name": "Claude-3.5", "score": 100.0 },
+      { "name": "Gemini-2.0", "score": 100.0 },
       { "name": "GPT-4o", "score": 95.24 },
-      { "name": "Gemini-1.5-flash", "score": 100.0 },
+      { "name": "Gemini-1.5", "score": 100.0 },
       { "name": "GPT-4o-mini", "score": 85.71 },
-      { "name": "Claude-3-haiku", "score": 71.43 }
+      { "name": "Claude-3", "score": 71.43 }
     ],
     "葡萄營養障礙": [
-      { "name": "Claude-3.5-Sonnet", "score": 100.0 },
-      { "name": "Gemini-2.0-flash", "score": 100.0 },
+      { "name": "Claude-3.5", "score": 100.0 },
+      { "name": "Gemini-2.0", "score": 100.0 },
       { "name": "GPT-4o", "score": 100.0 },
-      { "name": "Gemini-1.5-flash", "score": 100.0 },
+      { "name": "Gemini-1.5", "score": 100.0 },
       { "name": "GPT-4o-mini", "score": 88.89 },
-      { "name": "Claude-3-haiku", "score": 100.0 }
+      { "name": "Claude-3", "score": 100.0 }
     ]
   },
   "veterinary": {
     "獸醫病理學": [
-      { "name": "Claude-3.5-Sonnet", "score": 76.04 },
-      { "name": "Gemini-2.0-flash", "score": 78.64 },
+      { "name": "Claude-3.5", "score": 76.04 },
+      { "name": "Gemini-2.0", "score": 78.64 },
       { "name": "GPT-4o", "score": 73.96 },
-      { "name": "Gemini-1.5-flash", "score": 46.56 },
+      { "name": "Gemini-1.5", "score": 46.56 },
       { "name": "GPT-4o-mini", "score": 53.64 },
-      { "name": "Claude-3-haiku", "score": 43.75 }
+      { "name": "Claude-3", "score": 43.75 }
     ],
     "獸醫實驗診斷學": [
-      { "name": "Claude-3.5-Sonnet", "score": 57.58 },
-      { "name": "Gemini-2.0-flash", "score": 69.7 },
+      { "name": "Claude-3.5", "score": 57.58 },
+      { "name": "Gemini-2.0", "score": 69.7 },
       { "name": "GPT-4o", "score": 62.12 },
-      { "name": "Gemini-1.5-flash", "score": 63.64 },
+      { "name": "Gemini-1.5", "score": 63.64 },
       { "name": "GPT-4o-mini", "score": 56.06 },
-      { "name": "Claude-3-haiku", "score": 37.88 }
+      { "name": "Claude-3", "score": 37.88 }
     ],
     "獸醫普通疾病學": [
-      { "name": "Claude-3.5-Sonnet", "score": 70.11 },
-      { "name": "Gemini-2.0-flash", "score": 68.39 },
+      { "name": "Claude-3.5", "score": 70.11 },
+      { "name": "Gemini-2.0", "score": 68.39 },
       { "name": "GPT-4o", "score": 81.04 },
-      { "name": "Gemini-1.5-flash", "score": 52.3 },
+      { "name": "Gemini-1.5", "score": 52.3 },
       { "name": "GPT-4o-mini", "score": 56.9 },
-      { "name": "Claude-3-haiku", "score": 48.85 }
+      { "name": "Claude-3", "score": 48.85 }
     ],
     "獸醫傳染病學": [
-      { "name": "Claude-3.5-Sonnet", "score": 72.13 },
-      { "name": "Gemini-2.0-flash", "score": 77.6 },
+      { "name": "Claude-3.5", "score": 72.13 },
+      { "name": "Gemini-2.0", "score": 77.6 },
       { "name": "GPT-4o", "score": 75.41 },
-      { "name": "Gemini-1.5-flash", "score": 62.84 },
+      { "name": "Gemini-1.5", "score": 62.84 },
       { "name": "GPT-4o-mini", "score": 60.11 },
-      { "name": "Claude-3-haiku", "score": 50.27 }
+      { "name": "Claude-3", "score": 50.27 }
     ],
     "獸醫公共衛生學": [
-      { "name": "Claude-3.5-Sonnet", "score": 59.26 },
-      { "name": "Gemini-2.0-flash", "score": 68.52 },
+      { "name": "Claude-3.5", "score": 59.26 },
+      { "name": "Gemini-2.0", "score": 68.52 },
       { "name": "GPT-4o", "score": 53.7 },
-      { "name": "Gemini-1.5-flash", "score": 48.15 },
+      { "name": "Gemini-1.5", "score": 48.15 },
       { "name": "GPT-4o-mini", "score": 50.0 },
-      { "name": "Claude-3-haiku", "score": 51.85 }
+      { "name": "Claude-3", "score": 51.85 }
     ]
   }
 }
