@@ -675,7 +675,7 @@
         pages[0].classList.add("visible");
         indicators[0].classList.add("active");
 
-        // 平滑滾動函數
+        // Smooth scroll function
         function smoothScrollTo(element, target) {
           if (isScrolling) return;
           isScrolling = true;
@@ -685,9 +685,16 @@
             behavior: "smooth",
           });
 
-          setTimeout(() => {
-            isScrolling = false;
-          }, 600);
+          // 使用 requestAnimationFrame 來重設 isScrolling
+          const checkScroll = () => {
+            const currentScroll = element.scrollTop;
+            if (Math.abs(currentScroll - target) < 2) {
+              isScrolling = false;
+            } else {
+              requestAnimationFrame(checkScroll);
+            }
+          };
+          requestAnimationFrame(checkScroll);
         }
 
         // 使用 Intersection Observer 監控頁面可見性
@@ -743,15 +750,18 @@
           });
         });
 
-        // 滾輪事件處理
-        let wheelTimeout;
+        // 優化後的滾輪事件處理，使用 requestAnimationFrame
+        let scrollAnimationFrame;
         pagesContainer.addEventListener(
           "wheel",
           (e) => {
             e.preventDefault();
 
-            clearTimeout(wheelTimeout);
-            wheelTimeout = setTimeout(() => {
+            if (scrollAnimationFrame) {
+              cancelAnimationFrame(scrollAnimationFrame);
+            }
+
+            scrollAnimationFrame = requestAnimationFrame(() => {
               if (!isScrolling) {
                 const direction = e.deltaY > 0 ? 1 : -1;
                 const nextPage = Math.max(
@@ -760,7 +770,7 @@
                 );
                 smoothScrollTo(pagesContainer, nextPage * window.innerHeight);
               }
-            }, 50);
+            });
           },
           { passive: false }
         );
@@ -772,10 +782,11 @@
           });
         }
 
-        // 觸摸事件處理
+        // 觸摸事件處理，使用 requestAnimationFrame
         let touchStartY = 0;
         let touchEndY = 0;
         const minSwipeDistance = 50;
+        let touchAnimationFrame;
 
         pagesContainer.addEventListener(
           "touchstart",
@@ -792,13 +803,19 @@
             const swipeDistance = touchStartY - touchEndY;
 
             if (Math.abs(swipeDistance) > minSwipeDistance && !isScrolling) {
-              if (swipeDistance > 0) {
-                const nextPage = Math.min(pages.length - 1, currentPage + 1);
-                smoothScrollTo(pagesContainer, nextPage * window.innerHeight);
-              } else {
-                const nextPage = Math.max(0, currentPage - 1);
-                smoothScrollTo(pagesContainer, nextPage * window.innerHeight);
+              if (touchAnimationFrame) {
+                cancelAnimationFrame(touchAnimationFrame);
               }
+
+              touchAnimationFrame = requestAnimationFrame(() => {
+                if (swipeDistance > 0) {
+                  const nextPage = Math.min(pages.length - 1, currentPage + 1);
+                  smoothScrollTo(pagesContainer, nextPage * window.innerHeight);
+                } else {
+                  const nextPage = Math.max(0, currentPage - 1);
+                  smoothScrollTo(pagesContainer, nextPage * window.innerHeight);
+                }
+              });
             }
           },
           { passive: true }
