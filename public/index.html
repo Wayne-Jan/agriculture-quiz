@@ -237,6 +237,9 @@
         /* 移除固定高度 */
         /* height: 100%; */
         text-align: center;
+        /* 初始狀態為隱藏，待動畫觸發 */
+        opacity: 0;
+        transform: translateY(20px);
       }
 
       /* 新增：設定圖示的過渡效果 */
@@ -255,7 +258,7 @@
         border-color: #1b5e20; /* 新增：hover 時的邊框色變化 */
       }
 
-      /* 新增：當 feature-card hover 時，圖示進行縮放和旋轉 */
+      /* 當 feature-card hover 時，圖示進行縮放和旋轉 */
       .feature-card:hover i {
         transform: scale(1.2) rotate(10deg);
         color: #2e7d32; /* 新增：hover 時圖示顏色變化 */
@@ -265,44 +268,11 @@
         color: #2e7d32; /* 新增：hover 時標題顏色變化 */
       }
 
-      .feature-card:hover p {
-        color: #1b5e20; /* 保持描述文字顏色一致或根據需求調整 */
-      }
-
-      .feature-card:hover .highlight {
-        background: rgba(27, 94, 32, 0.2); /* 新增：hover 時高亮背景顏色變化 */
-      }
-
-      .feature-card:hover p .highlight {
-        background: rgba(27, 94, 32, 0.2); /* 確保描述中的高亮部分也變化 */
-      }
-
-      .feature-card:hover h3 .highlight {
-        background: rgba(27, 94, 32, 0.2); /* 確保標題中的高亮部分也變化 */
-      }
-
-      .feature-card:hover p span {
-        background: rgba(27, 94, 32, 0.2); /* 確保描述中的 span 也變化 */
-      }
-
-      /* 保持現有的 hover 效果 */
-      .feature-card:hover p {
-        color: #1b5e20;
-      }
-
-      .feature-card:hover h3 {
-        color: #2e7d32;
-      }
-
-      .feature-card:hover .highlight {
-        background: rgba(27, 94, 32, 0.2);
-      }
-
       /* 開始測驗按鈕容器 */
       .start-btn-container {
         opacity: 0; /* 初始為隱藏狀態 */
         transform: translateY(20px); /* 初始位置稍微下移 */
-        transition: opacity 0.5s ease 0.5s, transform 0.5s ease 0.5s; /* 過渡效果，0.5秒的延遲 */
+        transition: opacity 0.5s ease 0.8s, transform 0.5s ease 0.8s; /* 過渡效果，0.8秒的延遲 */
         width: 100%;
         text-align: center;
         padding: 2rem 0;
@@ -550,6 +520,40 @@
         text-decoration-color: #ffffff; /* 底線顏色 */
         text-decoration-thickness: 2px; /* 底線粗細 */
       }
+
+      /* 新增：定義 fadeInUp 關鍵影格 */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* 新增：動畫類別 */
+      .feature-card.animate {
+        animation: fadeInUp 0.6s forwards;
+      }
+
+      /* 新增：為不同的 feature-card 設定不同的動畫延遲 */
+      .features-grid .feature-card.animate:nth-child(1) {
+        animation-delay: 0s;
+      }
+
+      .features-grid .feature-card.animate:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .features-grid .feature-card.animate:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      .features-grid .feature-card.animate:nth-child(4) {
+        animation-delay: 0.6s;
+      }
     </style>
   </head>
   <body>
@@ -690,13 +694,33 @@
         const observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
+              const index = Array.from(pages).indexOf(entry.target);
               if (entry.isIntersecting) {
-                const index = Array.from(pages).indexOf(entry.target);
                 entry.target.classList.add("visible");
                 updateIndicators(index);
                 currentPage = index;
+
+                // 如果是第三頁，觸發特徵卡片動畫
+                if (index === 2) {
+                  const featureCards = document.querySelectorAll(
+                    ".features-grid .feature-card"
+                  );
+                  featureCards.forEach((card) => {
+                    card.classList.add("animate");
+                  });
+                }
               } else {
                 entry.target.classList.remove("visible");
+
+                // 如果離開第三頁，移除動畫類別（可選）
+                if (index === 2) {
+                  const featureCards = document.querySelectorAll(
+                    ".features-grid .feature-card"
+                  );
+                  featureCards.forEach((card) => {
+                    card.classList.remove("animate");
+                  });
+                }
               }
             });
           },
@@ -795,7 +819,7 @@
 
       // 開始測驗按鈕點擊事件
       function startQuiz() {
-        window.location.href = "/quiz"; // 改為這行
+        window.location.href = "/quiz";
       }
     </script>
   </body>
