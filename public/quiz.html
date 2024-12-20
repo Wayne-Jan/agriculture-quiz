@@ -33,20 +33,42 @@
 
       body {
         font-family: "Noto Sans TC", sans-serif;
-        background: var(--background);
         color: var(--text-primary);
         line-height: 1.6;
         padding: 2rem;
         min-height: 100vh;
+        position: relative;
       }
 
+      /* 添加背景圖案 */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+            90deg,
+            rgba(220, 220, 220, 0.3) 1px,
+            transparent 1px
+          ),
+          linear-gradient(180deg, rgba(220, 220, 220, 0.3) 1px, transparent 1px);
+        background-size: 25px 25px;
+        background-position: center center;
+        z-index: -1;
+      }
+
+      /* 調整容器背景色和透明度 */
       .container {
         max-width: 900px;
         margin: 0 auto;
         padding: 2rem;
-        background: var(--card-bg);
+        background: rgba(255, 255, 255, 0.95);
         border-radius: 16px;
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
       }
 
       .header {
@@ -578,151 +600,6 @@
         text-decoration: underline;
       }
 
-      .animation-background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        background: linear-gradient(120deg, #e0f2f1, #b2dfdb);
-        overflow: hidden;
-      }
-
-      .main-title {
-        text-align: center;
-        margin: 2rem auto;
-        padding: 2rem;
-        max-width: 600px;
-        animation: titleFloat 3s ease-in-out infinite;
-      }
-
-      .main-title h1 {
-        font-size: 3rem;
-        color: #2e7d32;
-        margin-bottom: 0.5rem;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        animation: titleFadeIn 1.5s ease-out;
-      }
-
-      .main-title p {
-        font-size: 1.2rem;
-        color: #666666;
-        animation: titleFadeIn 1.5s ease-out 0.3s backwards;
-      }
-
-      .floating-element {
-        position: absolute;
-        opacity: 0.2;
-        animation: float 15s infinite linear;
-      }
-
-      .leaf-1 {
-        width: 30px;
-        height: 30px;
-        background-color: #4caf50;
-        clip-path: polygon(
-          50% 0%,
-          80% 25%,
-          95% 60%,
-          90% 80%,
-          50% 100%,
-          10% 80%,
-          5% 60%,
-          20% 25%
-        );
-        transform-origin: center;
-      }
-
-      .leaf-2 {
-        width: 25px;
-        height: 25px;
-        background-color: #66bb6a;
-        clip-path: polygon(
-          50% 0%,
-          90% 20%,
-          100% 60%,
-          90% 90%,
-          50% 100%,
-          10% 90%,
-          0% 60%,
-          10% 20%
-        );
-      }
-
-      .leaf-3 {
-        width: 35px;
-        height: 35px;
-        background-color: #81c784;
-        clip-path: polygon(
-          30% 0%,
-          70% 0%,
-          100% 30%,
-          100% 70%,
-          70% 100%,
-          30% 100%,
-          0% 70%,
-          0% 30%
-        );
-      }
-
-      .image-showcase {
-        display: flex;
-        justify-content: center;
-        margin: 2rem auto;
-        gap: -2rem;
-        perspective: 1000px;
-      }
-
-      .image-card {
-        width: 180px;
-        height: 240px;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        background: white;
-        transition: transform 0.3s ease;
-      }
-
-      .image-card:first-child {
-        transform: rotate(-12deg);
-        z-index: 1;
-      }
-
-      .image-card:last-child {
-        transform: rotate(12deg);
-        margin-left: -30px;
-      }
-
-      .image-card img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .image-card:hover {
-        transform: rotate(0) translateY(-10px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-      }
-
-      .start-btn {
-        margin-top: 2rem;
-        padding: 1rem 3rem;
-        font-size: 1.2rem;
-        background-color: #2e7d32;
-        color: white;
-        border: none;
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
-      }
-
-      .start-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(46, 125, 50, 0.3);
-      }
-
       .mobile-menu-button {
         display: none;
         position: fixed;
@@ -843,56 +720,6 @@
         max-height: 45px;
         margin-bottom: 0;
         overflow: hidden;
-      }
-
-      /* Animations */
-      @keyframes titleFloat {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-
-      @keyframes titleFadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(-20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @keyframes float {
-        0% {
-          transform: translate(0, -100%) rotate(0);
-          opacity: 0;
-        }
-        10% {
-          opacity: 0.2;
-        }
-        90% {
-          opacity: 0.2;
-        }
-        100% {
-          transform: translate(var(--translate-x), 100vh) rotate(360deg);
-          opacity: 0;
-        }
       }
 
       /* Media Queries */
@@ -1572,6 +1399,20 @@
         color: #666;
         margin: 0.5rem 0;
       }
+
+      /* 調整認證容器的背景 */
+      .auth-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+
+      /* 調整移動端選單背景 */
+      .mobile-menu {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
     </style>
   </head>
   <body>
@@ -1612,7 +1453,6 @@
 
     <!-- 用戶資訊區塊 -->
 
-    <div class="animation-background"></div>
     <div class="user-info" id="user-info" style="display: none">
       歡迎, <span id="username-display"></span>
       <button class="nav-btn record-btn" onclick="showUserRecords()">
@@ -1636,20 +1476,6 @@
         <h2>個人測驗記錄</h2>
         <div class="record-list" id="userRecordList"></div>
       </div>
-    </div>
-
-    <div class="main-title">
-      <div class="image-showcase">
-        <div class="image-card">
-          <img src="/images/agriculture1.jpg" alt="農業圖片1" />
-        </div>
-        <div class="image-card">
-          <img src="/images/agriculture2.jpg" alt="農業圖片2" />
-        </div>
-      </div>
-      <h1>農業知識測驗系統</h1>
-      <p>測試您的農業專業知識</p>
-      <button class="start-btn" onclick="showAuthForm()">開始測驗</button>
     </div>
 
     <!-- 認證表單容器 -->
@@ -1788,29 +1614,6 @@
           return "https://agriculture-quiz.onrender.com/api"; // 請替換成您的 Render URL
         }
       })();
-
-      // 修改背景和標題管理函數
-      function manageBackground(shouldShow) {
-        const existingBackground = document.querySelector(
-          ".animation-background"
-        );
-        const existingTitle = document.querySelector(".main-title");
-        const authContainer = document.getElementById("auth-container");
-
-        if (!existingBackground) {
-          const background = document.createElement("div");
-          background.className = "animation-background";
-          document.body.insertBefore(background, document.body.firstChild);
-          createFloatingElements();
-        }
-
-        if (shouldShow) {
-          if (existingTitle) existingTitle.style.display = "block";
-          authContainer.style.display = "none";
-        } else {
-          if (existingTitle) existingTitle.style.display = "none";
-        }
-      }
 
       // 檢查登入狀態
       async function checkAuth() {
@@ -2777,7 +2580,6 @@
 
       // 修改 DOMContentLoaded 事件監聽器
       document.addEventListener("DOMContentLoaded", () => {
-        // 直接檢查身份認證，背景會在 checkAuth 中處理
         checkAuth();
       });
 
@@ -2794,51 +2596,15 @@
         currentQuizFormat = "";
       }
 
-      // 生成漂浮的葉子
-      function createFloatingElements() {
-        const background = document.querySelector(".animation-background");
-        const leafTypes = ["leaf-1"];
-        const numberOfLeaves = 25; // 增加葉子數量
-
-        for (let i = 0; i < numberOfLeaves; i++) {
-          const leaf = document.createElement("div");
-          const leafType =
-            leafTypes[Math.floor(Math.random() * leafTypes.length)];
-          leaf.className = `floating-element ${leafType}`;
-
-          // 隨機起始位置
-          const startPositionX = Math.random() * 100;
-          leaf.style.left = `${startPositionX}%`;
-
-          // 隨機漂浮路徑
-          const translateX = (Math.random() - 0.5) * 300; // 增加水平移動範圍
-          leaf.style.setProperty("--translate-x", `${translateX}px`);
-
-          // 隨機動畫延遲
-          leaf.style.animationDelay = `${Math.random() * 15}s`; // 增加最大延遲時間
-
-          // 隨機初始旋轉
-          leaf.style.transform = `rotate(${Math.random() * 360}deg)`;
-
-          // 隨機大小變化 (0.8 到 1.2 倍之間)
-          const scale = 0.8 + Math.random() * 0.4;
-          leaf.style.transform += ` scale(${scale})`;
-
-          background.appendChild(leaf);
-        }
-      }
-
       // 檢查登入狀態
-      // 修改檢查認證函數
       async function checkAuth() {
         authToken = localStorage.getItem("token");
 
         if (!authToken) {
-          // 未登入狀態：顯示登入頁面和標題
+          // 未登入狀態：顯示登入表單
           document.getElementById("auth-container").style.display = "block";
           document.getElementById("main-container").style.display = "none";
           document.getElementById("user-info").style.display = "none";
-          manageBackground(true);
           return;
         }
 
@@ -2855,28 +2621,32 @@
 
           const data = await response.json();
 
-          // 登入成功：只保留背景動畫，移除標題
-          manageBackground(false);
+          // 登入成功時
           document.getElementById("auth-container").style.display = "none";
           document.getElementById("main-container").style.display = "block";
           document.getElementById("user-info").style.display = "block";
 
-          // 設置帳號稱
+          // 設置用戶名稱
           const username = localStorage.getItem("username");
           document.getElementById("username-display").textContent = username;
+          document.getElementById("mobile-username-display").textContent =
+            username;
 
-          // 設置管理員按鈕
+          // 控制管理員按鈕顯示
           const adminBtn = document.getElementById("admin-btn");
-          if (data.role === "admin") {
-            adminBtn.style.display = "inline-block";
-          } else {
-            adminBtn.style.display = "none";
+          const mobileAdminBtn = document.getElementById("mobile-admin-btn");
+          const isAdmin = data.role === "admin";
+
+          if (adminBtn) {
+            adminBtn.style.display = isAdmin ? "inline-flex" : "none";
+          }
+          if (mobileAdminBtn) {
+            mobileAdminBtn.style.display = isAdmin ? "block" : "none";
           }
 
           localStorage.setItem("userRole", data.role);
         } catch (error) {
           console.error("檢查角色失敗:", error);
-          // 認證失敗：清除資料並返回登入頁面
           localStorage.removeItem("token");
           localStorage.removeItem("username");
           localStorage.removeItem("userRole");
@@ -2885,20 +2655,6 @@
           document.getElementById("auth-container").style.display = "block";
           document.getElementById("main-container").style.display = "none";
           document.getElementById("user-info").style.display = "none";
-          manageBackground(true);
-        }
-      }
-
-      // 新增一個輔助函數來確保動畫背景的存在
-      function ensureAnimationBackground() {
-        if (!document.querySelector(".animation-background")) {
-          const animationBackground = document.createElement("div");
-          animationBackground.className = "animation-background";
-          document.body.insertBefore(
-            animationBackground,
-            document.body.firstChild
-          );
-          createFloatingElements();
         }
       }
 
@@ -2923,94 +2679,8 @@
         localStorage.removeItem("userRole");
         authToken = null;
 
-        // 移除現有背景（如果存在）
-        const existingBackground = document.querySelector(
-          ".animation-background"
-        );
-        if (existingBackground) {
-          existingBackground.remove();
-        }
-
-        // 重新創建背景和動畫
-        ensureAnimationBackground();
-
-        // 顯示首頁的圖片介面
-        document.querySelector(".main-title").style.display = "block";
-
-        // 隱藏其他元素
-        document.getElementById("auth-container").style.display = "none";
-        document.getElementById("main-container").style.display = "none";
-        document.getElementById("user-info").style.display = "none";
-      }
-
-      // 在頁面載入時初始化
-      document.addEventListener("DOMContentLoaded", () => {
-        if (!localStorage.getItem("token")) {
-          // 確保背景動畫正確初始化
-          const existingBackground = document.querySelector(
-            ".animation-background"
-          );
-          if (existingBackground) {
-            existingBackground.remove();
-          }
-          ensureAnimationBackground();
-        }
-
-        checkAuth();
-      });
-
-      document.addEventListener("DOMContentLoaded", function () {
-        const menuButton = document.querySelector(".mobile-menu-button");
-        const mobileMenu = document.querySelector(".mobile-menu");
-        const closeMenu = document.querySelector(".close-menu");
-        const mobileAdminBtn = document.getElementById("mobile-admin-btn");
-
-        // 檢查用戶權限並控制管理系統按鈕的顯示
-        function updateAdminButtonVisibility() {
-          const userRole = localStorage.getItem("userRole");
-          const isAdmin = userRole === "admin";
-
-          // 同時更新桌面版和移動版的管理按鈕顯示狀態
-          const desktopAdminBtn = document.getElementById("admin-btn");
-          if (desktopAdminBtn) {
-            desktopAdminBtn.style.display = isAdmin ? "inline-flex" : "none";
-          }
-
-          if (mobileAdminBtn) {
-            mobileAdminBtn.style.display = isAdmin ? "block" : "none";
-          }
-        }
-
-        // 打開選單時更新權限
-        menuButton.addEventListener("click", () => {
-          mobileMenu.classList.add("active");
-          updateAdminButtonVisibility();
-          document.getElementById("mobile-username-display").textContent =
-            document.getElementById("username-display").textContent;
-        });
-
-        // 關閉選單
-        closeMenu.addEventListener("click", () => {
-          mobileMenu.classList.remove("active");
-        });
-
-        // 點擊選單外區域關閉選單
-        document.addEventListener("click", (e) => {
-          if (
-            !mobileMenu.contains(e.target) &&
-            !menuButton.contains(e.target)
-          ) {
-            mobileMenu.classList.remove("active");
-          }
-        });
-
-        // 初始化時就執行一次權限檢查
-        updateAdminButtonVisibility();
-      });
-
-      function showAuthForm() {
-        document.getElementById("auth-container").style.display = "block";
-        document.querySelector(".main-title").style.display = "none";
+        // 導向回首頁
+        window.location.href = "/";
       }
 
       // 返回類別選擇頁面

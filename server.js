@@ -1,10 +1,9 @@
-// server.js
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const connectDB = require("./config/db");
-const mongoose = require("mongoose"); // 添加這行來引入 mongoose
+const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const User = require("./models/User");
 const authRoutes = require("./routes/auth");
@@ -19,7 +18,7 @@ const mongoURI = isDevelopment
   ? process.env.LOCAL_MONGODB_URI
   : process.env.PRODUCTION_MONGODB_URI;
 
-// 連接資料庫並在連接成功後創建管理員帳號
+// 連接資料庫
 connectDB(mongoURI).then(() => {
   console.log(`MongoDB: ${isDevelopment ? "本地資料庫" : "Atlas 資料庫"}`);
 });
@@ -45,6 +44,15 @@ app.use("/api/auth", authRoutes);
 app.use("/api/quiz", quizRoutes);
 app.use("/api/admin", adminRoutes);
 
+// 添加特定頁面路由
+app.get("/quiz", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "quiz.html"));
+});
+
+app.get("/admin", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "admin.html"));
+});
+
 // 錯誤處理中間件
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -54,12 +62,12 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 處理所有其他請求，返回 index.html
+// 處理其他所有請求，返回 index.html
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// 啟動伺服器並保存server實例
+// 啟動伺服器
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
   console.log(`伺服器運行在 port ${PORT}`);
@@ -72,7 +80,6 @@ process.on("SIGTERM", () => {
   server.close(async () => {
     console.log("HTTP 伺服器已關閉");
     try {
-      // 關閉 MongoDB 連接
       await mongoose.connection.close(false);
       console.log("MongoDB 連接已關閉");
       process.exit(0);
@@ -82,7 +89,6 @@ process.on("SIGTERM", () => {
     }
   });
 
-  // 設定強制關閉的超時時間
   setTimeout(() => {
     console.error("無法正常關閉，強制終止程序");
     process.exit(1);
