@@ -1413,6 +1413,34 @@
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
       }
+      @media (max-width: 768px) {
+        /* 使 body 成為 Flex 容器，並居中內容 */
+        body {
+          display: flex;
+          align-items: center; /* 垂直置中 */
+          justify-content: center; /* 水平置中 */
+          height: 100vh; /* 確保 body 高度為視窗高度 */
+          padding: 0.5rem; /* 可根據需要調整 */
+          overflow: hidden; /* 防止內容溢出滾動 */
+        }
+
+        /* 調整 .auth-container 的邊距和寬度 */
+        .auth-container {
+          margin: 0 auto; /* 移除上下邊距，僅水平置中 */
+          width: 100%; /* 確保寬度適應視窗 */
+          max-width: 400px; /* 可根據需要調整最大寬度 */
+          padding: 1.5rem; /* 調整內邊距以適應新布局 */
+        }
+
+        /* 隱藏其他不相關的元素，確保只有 auth-container 被顯示 */
+        #main-container,
+        #user-info,
+        .intro-pages,
+        .quiz-content,
+        .quiz-footer,
+        .mobile-menu {
+          display: none !important;
+        }
     </style>
   </head>
   <body>
