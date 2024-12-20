@@ -483,7 +483,10 @@
       }
 
       .auth-container {
-        max-width: 450px;
+        width: 90%;
+        min-width: 320px;
+        max-width: 600px;
+        min-height: 400px;
         margin: 2rem auto;
         padding: 2rem;
         background: rgba(255, 255, 255, 0.9);
@@ -492,6 +495,29 @@
         border-radius: 16px;
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
         animation: fadeIn 0.8s ease-out;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      @media (max-width: 768px) {
+        .auth-container {
+          width: 85%;
+          padding: 1.5rem;
+          margin: 1rem auto;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .auth-container {
+          width: 90%;
+          padding: 1.25rem;
+          margin: 0.5rem auto;
+        }
       }
 
       .auth-form {
@@ -1412,35 +1438,6 @@
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
-      }
-      @media (max-width: 768px) {
-        /* 使 body 成為 Flex 容器，並居中內容 */
-        body {
-          display: flex;
-          align-items: center; /* 垂直置中 */
-          justify-content: center; /* 水平置中 */
-          height: 100vh; /* 確保 body 高度為視窗高度 */
-          padding: 0.5rem; /* 可根據需要調整 */
-          overflow: hidden; /* 防止內容溢出滾動 */
-        }
-
-        /* 調整 .auth-container 的邊距和寬度 */
-        .auth-container {
-          margin: 0 auto; /* 移除上下邊距，僅水平置中 */
-          width: 100%; /* 確保寬度適應視窗 */
-          max-width: 400px; /* 可根據需要調整最大寬度 */
-          padding: 1.5rem; /* 調整內邊距以適應新布局 */
-        }
-
-        /* 隱藏其他不相關的元素，確保只有 auth-container 被顯示 */
-        #main-container,
-        #user-info,
-        .intro-pages,
-        .quiz-content,
-        .quiz-footer,
-        .mobile-menu {
-          display: none !important;
-        }
       }
     </style>
   </head>
