@@ -2008,38 +2008,69 @@
       // 保存測驗結果
       async function saveQuizResult(topic, score, totalQuestions, answers) {
         try {
+          // 計算作答時間
+          const timeSpent = Date.now() - quizStartTime;
+
+          // 檢查並去除重複答案
+          const uniqueAnswers = answers.reduce((acc, current) => {
+            const existingAnswer = acc.find(
+              (item) => item.question === current.question
+            );
+            if (!existingAnswer) {
+              acc.push(current);
+            }
+            return acc;
+          }, []);
+
+          // 重新計算實際分數
+          const actualScore = uniqueAnswers.filter(
+            (answer) => answer.isCorrect
+          ).length;
+
+          // 準備要發送的資料
+          const quizData = {
+            topic,
+            score: actualScore,
+            totalQuestions: uniqueAnswers.length,
+            answers: uniqueAnswers,
+            quizFormat: currentQuizFormat,
+            timeSpent: timeSpent,
+          };
+
+          // 除錯訊息
+          console.log("準備送出的測驗資料:", {
+            原始答案數: answers.length,
+            去重後答案數: uniqueAnswers.length,
+            原始分數: score,
+            計算後分數: actualScore,
+            題目主題: topic,
+          });
+
           const response = await fetch(`${API_URL}/quiz/record`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${authToken}`,
             },
-            body: JSON.stringify({
-              topic,
-              score,
-              totalQuestions,
-              answers,
-              quizFormat: currentQuizFormat, // 添加這行
-            }),
+            body: JSON.stringify(quizData),
           });
 
           if (!response.ok) {
-            throw new Error("保存測驗結果失敗");
+            const errorData = await response.json();
+            throw new Error(errorData.message || "保存測驗結果失敗");
           }
 
-          console.log("測驗結果已保存");
+          const result = await response.json();
+          console.log("測驗結果已成功保存:", result);
+
+          return result;
         } catch (error) {
           console.error("保存測驗結果失敗:", error);
-          alert("保存測驗結果時發生錯誤，請稍後再試");
+          // 提供更詳細的錯誤訊息給使用者
+          alert(`保存測驗結果時發生錯誤: ${error.message}`);
+          throw error;
         }
       }
-
-      // 測驗相關變數
-      let allQuestions = [];
-      let currentQuestions = [];
-      let currentQuestion = 0;
-      let score = 0;
-      let answerHistory = [];
 
       // 顯示主題按鈕
       function showTopicButtons() {
@@ -2082,9 +2113,15 @@
         container.style.display = "grid";
       }
 
+      // 在測驗相關變數中添加新變數
+      let quizStartTime = null;
+
       // 開始測驗
       function startQuiz(topic) {
-        // 1. 先篩選出該主題的題目
+        // 記錄開始時間
+        quizStartTime = Date.now();
+
+        // 原有的程式碼
         currentQuestions = allQuestions.filter((q) => q.topic === topic);
         currentQuestion = 0;
         score = 0;
@@ -2109,6 +2146,7 @@
 
       // 在頁面載入時初始化模態框
       document.addEventListener("DOMContentLoaded", initializeImageModal);
+
       // 顯示題目
       function showQuestion() {
         const questionData = currentQuestions[currentQuestion];
@@ -2176,28 +2214,50 @@
       // 檢查答案
       function checkAnswer(selected) {
         const questionData = currentQuestions[currentQuestion];
-        const correct = selected === questionData.correct_answer;
-
-        // 在 checkAnswer 函數中，建立 answerHistory 物件時加入 imagePath
-        answerHistory.push({
+        const answerKey = JSON.stringify({
           question: questionData.question,
-          userAnswer: selected,
           correctAnswer: questionData.correct_answer,
-          isCorrect: correct,
-          userAnswerText: questionData[`answer_${selected.toLowerCase()}`],
-          correctAnswerText:
-            questionData[`answer_${questionData.correct_answer.toLowerCase()}`],
-          imagePath:
-            currentQuizFormat === "image" ? questionData.imagePath : null,
         });
 
-        if (correct) score++;
+        // 檢查是否已經回答過此題目
+        const isDuplicate = answerHistory.some(
+          (record) => record.question === questionData.question
+        );
 
-        if (currentQuestion < currentQuestions.length - 1) {
-          currentQuestion++;
-          showQuestion();
+        if (!isDuplicate) {
+          const correct = selected === questionData.correct_answer;
+
+          answerHistory.push({
+            question: questionData.question,
+            userAnswer: selected,
+            correctAnswer: questionData.correct_answer,
+            isCorrect: correct,
+            userAnswerText: questionData[`answer_${selected.toLowerCase()}`],
+            correctAnswerText:
+              questionData[
+                `answer_${questionData.correct_answer.toLowerCase()}`
+              ],
+            imagePath:
+              currentQuizFormat === "image" ? questionData.imagePath : null,
+          });
+
+          if (correct) score++;
+
+          // 確保不會超過總題數
+          if (currentQuestion < currentQuestions.length - 1) {
+            currentQuestion++;
+            showQuestion();
+          } else {
+            showResult();
+          }
         } else {
-          showResult();
+          // 如果發現重複答案，直接進入下一題或顯示結果
+          if (currentQuestion < currentQuestions.length - 1) {
+            currentQuestion++;
+            showQuestion();
+          } else {
+            showResult();
+          }
         }
       }
 

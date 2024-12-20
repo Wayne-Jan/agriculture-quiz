@@ -123,7 +123,6 @@ router.delete("/records/:recordId", auth, checkAdmin, async (req, res) => {
   }
 });
 
-// 下載測驗記錄
 router.get(
   "/records/:recordId/download",
   auth,
@@ -134,7 +133,7 @@ router.get(
       const record = await QuizRecord.findById(req.params.recordId)
         .populate({
           path: "user",
-          select: "username organization name", // 添加 organization 和 name 欄位
+          select: "username organization name",
         })
         .exec();
 
@@ -146,10 +145,13 @@ router.get(
         return res.status(404).json({ message: "找不到此用戶資訊" });
       }
 
+      // 計算正確率
       const percentage = ((record.score / record.totalQuestions) * 100).toFixed(
         2
       );
-      const timeSpent = record.timeSpent || 0;
+
+      // 將時間從毫秒轉換為秒
+      const timeSpent = (record.timeSpent / 1000).toFixed(2);
 
       // 格式化日期
       const dateStr = new Date(record.completedAt)
@@ -165,20 +167,24 @@ router.get(
       const filename = `${organization}_${name}_${dateStr}.txt`;
 
       // 生成報告內容
-      let content = `No.1 Model: ${organization}_${name}, Correct: ${
-        record.score
-      } / ${
-        record.totalQuestions
-      }, Accuracy: ${percentage}%, Time: ${timeSpent.toFixed(2)} seconds\n\n`;
+      let content = `No.1 Model: ${organization}_${name}, `;
+      content += `Correct: ${record.score} / ${record.totalQuestions}, `;
+      content += `Accuracy: ${percentage}%, `;
+      content += `Time: ${timeSpent} seconds\n\n`;
 
       // 添加每個問題的詳細資訊
       if (record.answers && record.answers.length > 0) {
         record.answers.forEach((answer, index) => {
-          content += `Question ${index + 1}, AI answer: ${
-            answer.userAnswer
-          }, True: ${answer.correctAnswer}, ${
-            answer.isCorrect ? "correct" : "incorrect"
-          }, Topic: ${answer.topic || record.topic}\n`;
+          content += `Question ${index + 1}, AI answer: ${answer.userAnswer}, `;
+          content += `True: ${answer.correctAnswer}, `;
+          content += `${answer.isCorrect ? "correct" : "incorrect"}, `;
+          content += `Topic: ${answer.topic || record.topic}\n`;
+
+          // // 如果是圖片題，添加圖片路徑
+          // if (record.quizFormat === "image" && answer.imagePath) {
+          //   content += `Image: ${answer.imagePath}\n`;
+          // }
+          // content += "\n";
         });
       }
 

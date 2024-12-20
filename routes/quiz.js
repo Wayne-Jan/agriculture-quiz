@@ -62,9 +62,80 @@ router.get("/questions/image/:type", async (req, res) => {
 // 儲存測驗記錄
 router.post("/record", auth, async (req, res) => {
   try {
-    const { topic, score, totalQuestions, answers, quizFormat } = req.body;
-    const startTime = Date.now();
+    const { topic, score, totalQuestions, answers, quizFormat, timeSpent } =
+      req.body;
 
+    // // 記錄收到的資料，以便除錯
+    // console.log("收到的測驗資料:", {
+    //   topic,
+    //   score,
+    //   totalQuestions,
+    //   answersLength: answers.length,
+    //   quizFormat,
+    //   timeSpent,
+    // });
+
+    // 1. 驗證是否有所需資料
+    if (!topic || score === undefined || !totalQuestions || !answers) {
+      return res.status(400).json({
+        message: "缺少必要資料",
+        details: {
+          hasTopic: !!topic,
+          hasScore: score !== undefined,
+          hasTotalQuestions: !!totalQuestions,
+          hasAnswers: !!answers,
+        },
+      });
+    }
+
+    // 2. 驗證答案數量
+    if (answers.length !== totalQuestions) {
+      return res.status(400).json({
+        message: "答案數量與題目數量不符",
+        details: {
+          expectedQuestions: totalQuestions,
+          actualAnswers: answers.length,
+        },
+      });
+    }
+
+    // 3. 檢查重複答案
+    const uniqueQuestions = new Set(answers.map((answer) => answer.question));
+    if (uniqueQuestions.size !== answers.length) {
+      return res.status(400).json({
+        message: "存在重複答案",
+        details: {
+          totalAnswers: answers.length,
+          uniqueAnswers: uniqueQuestions.size,
+          duplicateCount: answers.length - uniqueQuestions.size,
+        },
+      });
+    }
+
+    // 4. 確認分數計算
+    const correctAnswers = answers.filter((answer) => answer.isCorrect).length;
+    if (correctAnswers !== score) {
+      return res.status(400).json({
+        message: "分數計算不正確",
+        details: {
+          submittedScore: score,
+          calculatedScore: correctAnswers,
+        },
+      });
+    }
+
+    // 5. 驗證作答時間
+    if (timeSpent < 0 || timeSpent > 24 * 60 * 60 * 1000) {
+      return res.status(400).json({
+        message: "作答時間不合理",
+        details: {
+          submittedTime: timeSpent,
+          maxAllowedTime: 24 * 60 * 60 * 1000,
+        },
+      });
+    }
+
+    // 儲存測驗記錄
     const quizRecord = new QuizRecord({
       user: req.user.userId,
       topic,
@@ -76,13 +147,13 @@ router.post("/record", auth, async (req, res) => {
         imagePath: answer.imagePath || null,
       })),
       quizFormat,
-      timeSpent: Date.now() - startTime,
+      timeSpent: timeSpent, // 使用前端傳來的時間
       completedAt: new Date(),
     });
 
     await quizRecord.save();
 
-    // 獲取相關的 AI 模型數據以供比較
+    // 獲取 AI 模型數據
     const aiModelFilePath = path.join(
       __dirname,
       "..",
@@ -98,7 +169,7 @@ router.post("/record", auth, async (req, res) => {
       console.error("讀取 AI 模型數據失敗:", error);
     }
 
-    // 計算並返回統計資訊
+    // 計算統計資訊
     const percentage = (score / totalQuestions) * 100;
     const categoryType = topic.includes("獸醫") ? "veterinary" : "agriculture";
     const aiModels =
@@ -110,6 +181,7 @@ router.post("/record", auth, async (req, res) => {
       (model) => percentage > model.score
     ).length;
 
+    // 回傳成功訊息
     res.status(201).json({
       message: "測驗記錄已保存",
       statistics: {
@@ -117,11 +189,20 @@ router.post("/record", auth, async (req, res) => {
         betterThanCount,
         totalModels: aiModels.length,
         aiModels,
+        timeSpent,
+      },
+      details: {
+        score,
+        totalQuestions,
+        answersCount: answers.length,
       },
     });
   } catch (error) {
     console.error("保存測驗記錄失敗:", error);
-    res.status(500).json({ message: "伺服器錯誤" });
+    res.status(500).json({
+      message: "伺服器錯誤",
+      details: error.message,
+    });
   }
 });
 

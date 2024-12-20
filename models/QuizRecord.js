@@ -106,11 +106,69 @@ quizRecordSchema.statics.getTopicStatistics = async function () {
   ]);
 };
 
-// 保留原有的 generateReport 方法
 quizRecordSchema.methods.generateReport = async function (
   modelName = "農業知識測驗系統"
 ) {
-  // ... (保持原有的 generateReport 實現不變)
+  // 將毫秒轉換為秒
+  const timeInSeconds = (this.timeSpent / 1000).toFixed(2);
+
+  // 計算正確率
+  const accuracy = ((this.score / this.totalQuestions) * 100).toFixed(2);
+
+  // 設定時間格式
+  const formattedDate = new Date(this.completedAt).toLocaleString("zh-TW", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+
+  // 生成標題和基本資訊
+  let report = `${modelName} - 測驗記錄\n`;
+  report += `================================================\n`;
+  report += `測驗主題：${this.topic}\n`;
+  report += `測驗時間：${formattedDate}\n`;
+  report += `作答時間：${timeInSeconds} 秒\n`;
+  report += `總題數：${this.totalQuestions}\n`;
+  report += `正確題數：${this.score}\n`;
+  report += `正確率：${accuracy}%\n`;
+  report += `題目形式：${this.quizFormat === "image" ? "圖片題" : "文字題"}\n`;
+  report += `================================================\n\n`;
+
+  // 添加答題詳情
+  report += `答題詳情：\n`;
+  this.answers.forEach((answer, index) => {
+    report += `\n問題 ${index + 1}：${answer.question}\n`;
+
+    // 如果是圖片題，添加圖片路徑資訊
+    if (this.quizFormat === "image" && answer.imagePath) {
+      report += `圖片位置：${answer.imagePath}\n`;
+    }
+
+    report += `您的答案：${answer.userAnswerText || answer.userAnswer}\n`;
+    report += `正確答案：${answer.correctAnswerText || answer.correctAnswer}\n`;
+    report += `結果：${answer.isCorrect ? "正確" : "錯誤"}\n`;
+    report += `------------------------------------------------\n`;
+  });
+
+  // 添加結語
+  report += `\n總評：\n`;
+  if (accuracy >= 90) {
+    report += `表現優異！您對${this.topic}有很好的掌握。\n`;
+  } else if (accuracy >= 70) {
+    report += `表現良好！您對${this.topic}有不錯的理解。\n`;
+  } else if (accuracy >= 60) {
+    report += `表現尚可，建議多加練習${this.topic}相關題目。\n`;
+  } else {
+    report += `需要加強，建議重新複習${this.topic}的相關知識。\n`;
+  }
+
+  // 添加完成時間
+  report += `\n報告生成時間：${new Date().toLocaleString("zh-TW")}\n`;
+
+  return report;
 };
 
 const QuizRecord = mongoose.model("QuizRecord", quizRecordSchema);
