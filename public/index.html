@@ -186,6 +186,16 @@
         cursor: pointer;
       }
 
+      /* 第二頁的 scroll-hint 文字顏色設定為綠色 */
+      .intro-page:nth-child(2) .scroll-hint {
+        color: #1b5e20;
+      }
+
+      .intro-page:nth-child(2) .scroll-hint span,
+      .intro-page:nth-child(2) .scroll-hint i {
+        color: #1b5e20;
+      }
+
       .intro-page.visible .scroll-hint {
         opacity: 1;
       }
@@ -426,6 +436,7 @@
           ); /* 增加透明度以適應較小屏幕 */
           padding: 0.4rem 0.8rem;
           border-radius: 6px;
+          bottom: 1.5rem; /* 調整底部位置以避免重疊 */
         }
 
         .intro-content {
@@ -575,7 +586,7 @@
         </div>
       </section>
 
-      <!-- 新的第二頁 -->
+      <!-- 第二頁：TAKA 說明 -->
       <section class="intro-page">
         <div class="intro-content">
           <h2>台灣農業題庫 TAKA</h2>
@@ -604,13 +615,11 @@
               </p>
             </div>
           </div>
-          <!-- 刪除第二頁的 scroll-hint -->
-          <!--
+          <!-- 新增的 scroll-hint，標示為「系統特色」 -->
           <div class="scroll-hint">
             <span>系統特色</span>
             <i class="fas fa-chevron-down"></i>
           </div>
-          -->
         </div>
       </section>
 
