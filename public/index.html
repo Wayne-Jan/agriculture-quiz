@@ -239,27 +239,63 @@
         text-align: center;
       }
 
-      .feature-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      }
-
+      /* 新增：設定圖示的過渡效果 */
       .feature-card i {
         font-size: 1.8rem;
         color: #1b5e20;
         margin-bottom: 0.8rem;
+        transition: transform 0.3s ease, color 0.3s ease; /* 增加過渡效果 */
       }
 
-      .feature-card h3 {
-        font-size: 1.3rem;
-        margin-bottom: 0.4rem;
+      /* 現有的 hover 效果 */
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        background-color: #e8f5e9; /* 新增：hover 時的背景色變化 */
+        border-color: #1b5e20; /* 新增：hover 時的邊框色變化 */
+      }
+
+      /* 新增：當 feature-card hover 時，圖示進行縮放和旋轉 */
+      .feature-card:hover i {
+        transform: scale(1.2) rotate(10deg);
+        color: #2e7d32; /* 新增：hover 時圖示顏色變化 */
+      }
+
+      .feature-card:hover h3 {
+        color: #2e7d32; /* 新增：hover 時標題顏色變化 */
+      }
+
+      .feature-card:hover p {
+        color: #1b5e20; /* 保持描述文字顏色一致或根據需求調整 */
+      }
+
+      .feature-card:hover .highlight {
+        background: rgba(27, 94, 32, 0.2); /* 新增：hover 時高亮背景顏色變化 */
+      }
+
+      .feature-card:hover p .highlight {
+        background: rgba(27, 94, 32, 0.2); /* 確保描述中的高亮部分也變化 */
+      }
+
+      .feature-card:hover h3 .highlight {
+        background: rgba(27, 94, 32, 0.2); /* 確保標題中的高亮部分也變化 */
+      }
+
+      .feature-card:hover p span {
+        background: rgba(27, 94, 32, 0.2); /* 確保描述中的 span 也變化 */
+      }
+
+      /* 保持現有的 hover 效果 */
+      .feature-card:hover p {
         color: #1b5e20;
       }
 
-      .feature-card p {
-        font-size: 0.9rem;
-        line-height: 1.4;
-        margin: 0;
+      .feature-card:hover h3 {
+        color: #2e7d32;
+      }
+
+      .feature-card:hover .highlight {
+        background: rgba(27, 94, 32, 0.2);
       }
 
       /* 開始測驗按鈕容器 */
