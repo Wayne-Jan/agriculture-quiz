@@ -4,3348 +4,713 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>農業知識測驗系統</title>
-    <!-- 原有的 Google Fonts -->
+    <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
-    <!-- 添加 Font Awesome -->
+    <!-- Font Awesome -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
     <style>
-      :root {
-        --primary-color: #2e7d32;
-        --primary-light: #4caf50;
-        --primary-dark: #1b5e20;
-        --background: #f8f9fa;
-        --card-bg: #ffffff;
-        --text-primary: #2c3e50;
-        --text-secondary: #666666;
-      }
-
+      /* 基礎設定 */
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        font-family: "Noto Sans TC", sans-serif;
       }
 
       body {
-        font-family: "Noto Sans TC", sans-serif;
-        background: var(--background);
-        color: var(--text-primary);
-        line-height: 1.6;
-        padding: 2rem;
-        min-height: 100vh;
+        overflow: hidden;
       }
 
-      .container {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 2rem;
-        background: var(--card-bg);
-        border-radius: 16px;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      /* 頁面容器 */
+      .intro-pages {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        overflow-y: scroll;
+        scroll-behavior: smooth;
+        scroll-snap-type: y mandatory;
+        z-index: 1000;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
       }
 
-      .header {
-        text-align: center;
-        margin-bottom: 2rem;
-        padding-bottom: 2rem;
-        border-bottom: 2px solid #eee;
-      }
-
-      .header h1 {
-        color: var(--primary-color);
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .nav-btn {
-        padding: 0.8rem 1.5rem;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        min-width: 120px;
-        justify-content: center;
-        margin-left: 1rem;
-        color: white;
-      }
-
-      .nav-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      }
-
-      .admin-btn {
-        background-color: #1a237e;
+      .intro-pages::-webkit-scrollbar {
         display: none;
       }
 
-      .home-btn {
-        background-color: #666666;
-      }
-
-      .logout-btn {
-        background-color: #2e7d32;
-      }
-
-      .user-info {
+      /* 單個頁面 */
+      .intro-page {
+        min-height: 100vh;
+        height: 100vh;
+        position: relative;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
         display: flex;
         align-items: center;
-        padding: 1rem;
-        gap: 1rem;
-        text-align: right;
-        background: var(--card-bg);
-        margin-bottom: 1rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      .question-image {
-        max-width: 100%;
-        max-height: 400px;
-        object-fit: contain;
-        margin-bottom: 1.5rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        image-orientation: from-image;
-        -webkit-image-orientation: from-image;
-      }
-
-      .question-card.image-question {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .format-back-btn {
-        position: static;
-        margin-top: 1rem;
-        padding: 0.8rem 1.5rem;
-        background: var(--text-secondary);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
-      }
-
-      .format-back-btn:hover {
-        background: #555;
-        transform: translateY(-2px);
-      }
-
-      .selection-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
-        margin: 2rem 0;
-      }
-
-      .quiz-format-btn {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 2rem;
-        background: white;
-        border: 2px solid var(--primary-color);
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .quiz-format-btn:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .format-icon {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-        color: var(--primary-color);
-      }
-
-      .format-title {
-        font-size: 1.2rem;
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-      }
-
-      .format-description {
-        font-size: 0.9rem;
-        color: var(--text-secondary);
-        text-align: center;
-      }
-
-      #username-display {
-        margin-right: auto;
-      }
-
-      .topic-selection-container {
-        text-align: center;
-        margin-bottom: 2rem;
-        padding: 2rem;
-      }
-
-      .topic-selection-container h2 {
-        color: var(--text-primary);
-        margin-bottom: 1.5rem;
-      }
-
-      .topic-buttons {
-        display: flex;
-        gap: 2rem;
         justify-content: center;
+        opacity: 0;
+        transition: opacity 0.4s ease;
       }
 
-      .topic-select-btn {
-        padding: 1.5rem 3rem;
-        background: var(--card-bg);
-        border: 2px solid var(--primary-color);
-        border-radius: 12px;
-        cursor: pointer;
-        font-size: 1.2rem;
-        font-weight: 500;
-        color: var(--primary-color);
-        transition: all 0.3s ease;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
+      .intro-page.visible {
+        opacity: 1;
       }
 
-      .topic-select-btn i {
-        font-size: 2rem;
+      /* 背景設定 */
+      .intro-page:nth-child(1) {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url("/images/agriculture1.jpg");
+        background-size: cover;
+        background-position: center;
       }
 
-      .topic-select-btn:hover {
-        background: var(--primary-color);
-        color: white;
-        transform: translateY(-3px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      .intro-page:nth-child(2),
+      .intro-page:nth-child(3) {
+        background: #ffffff;
       }
 
-      .file-label {
-        display: inline-block;
-        padding: 12px 24px;
-        background: var(--primary-color);
-        color: white;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .file-label:hover {
-        background: var(--primary-dark);
-        transform: translateY(-2px);
-      }
-
-      .topic-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1rem;
-        margin-bottom: 2rem;
-      }
-
-      .topic-button {
-        padding: 1.2rem;
-        background: var(--card-bg);
-        color: var(--primary-color);
-        border: 2px solid var(--primary-color);
-        border-radius: 12px;
-        cursor: pointer;
-        font-size: 1rem;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
-
-      .topic-button:hover {
-        background: var(--primary-color);
-        color: white;
-        transform: translateY(-3px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-      }
-
-      .quiz-content {
-        margin-bottom: 80px;
-      }
-
-      .question-card {
-        background: var(--card-bg);
-        padding: 2rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-bottom: 2rem;
-      }
-
-      .question-card h2 {
-        color: var(--text-primary);
-        margin-bottom: 1.5rem;
-        font-size: 1.3rem;
-        line-height: 1.5;
-      }
-
-      .options {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-      }
-
-      .option-btn {
-        padding: 1rem 1.5rem;
-        background: var(--card-bg);
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 1rem;
-        text-align: left;
-        transition: all 0.2s ease;
-      }
-
-      .option-btn:hover {
-        background: #f8f9fa;
-        border-color: var(--primary-color);
-        transform: translateX(5px);
-      }
-
-      .progress {
-        margin-bottom: 2rem;
-        padding: 1rem;
-        background: var(--card-bg);
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      .progress-bar {
-        height: 8px;
-        background: #e0e0e0;
-        border-radius: 4px;
-        overflow: hidden;
-        margin-top: 0.5rem;
-      }
-
-      .progress-fill {
-        height: 100%;
-        background: var(--primary-color);
-        width: 0%;
-        transition: width 0.3s ease;
-      }
-
-      .quiz-footer {
-        position: fixed;
-        bottom: 0;
+      .intro-page:nth-child(2)::before,
+      .intro-page:nth-child(3)::before {
+        content: "";
+        position: absolute;
+        top: 0;
         left: 0;
         right: 0;
-        background: white;
-        padding: 1rem;
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
+        bottom: 0;
+        background: linear-gradient(
+            90deg,
+            rgba(220, 220, 220, 0.3) 1px,
+            transparent 1px
+          ),
+          linear-gradient(180deg, rgba(220, 220, 220, 0.3) 1px, transparent 1px);
+        background-size: 25px 25px;
+        background-position: center center;
+        z-index: 0;
       }
 
-      .quiz-footer .back-btn {
-        padding: 0.8rem 1.5rem;
-        background: var(--text-secondary);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        min-width: 140px;
-        justify-content: center;
-      }
-
-      .quiz-footer .back-btn:hover:not([disabled]) {
-        background: #555;
-        transform: translateY(-2px);
-      }
-
-      .back-btn {
-        padding: 0.8rem 1.5rem;
-        background: var(--text-secondary);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
-      }
-
-      .back-btn:hover {
-        background: #555;
-        transform: translateY(-2px);
-      }
-
-      .result {
+      /* 內容區塊設定 */
+      .intro-content {
+        position: relative;
         text-align: center;
+        width: 100%;
+        height: 100%;
+        max-width: 800px;
         padding: 2rem;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 4rem;
+        gap: 1rem;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
+        margin: 0 auto;
       }
 
-      .result h2 {
-        color: var(--primary-color);
+      .intro-page:nth-child(3) .intro-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* 垂直置中所有內容 */
+        align-items: center; /* 水平置中所有內容，如有需要 */
+        padding: 1rem;
+        gap: 0.1rem;
+      }
+
+      .intro-page.visible .intro-content {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .intro-page:nth-child(1) .intro-content {
+        color: white;
+        justify-content: center;
+        padding-top: 2rem;
+      }
+
+      .intro-page:nth-child(2) .intro-content {
+        padding: 4rem 2rem;
+        margin: auto;
+      }
+
+      /* 標題樣式 */
+      .intro-page:nth-child(1) .intro-content h1,
+      .intro-page:nth-child(1) .intro-content .subtitle {
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+      }
+
+      .intro-content h1 {
+        font-size: 3.5rem;
         margin-bottom: 1.5rem;
-        font-size: 2rem;
-      }
-
-      .result p {
-        font-size: 1.2rem;
-        color: var(--text-secondary);
-        margin-bottom: 1rem;
-      }
-
-      .score {
-        font-size: 3rem;
-        color: var(--primary-color);
-        margin: 1.5rem 0;
         font-weight: bold;
       }
 
-      .stats-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 1rem 0;
-        background: white;
-      }
-
-      .stats-table th,
-      .stats-table td {
-        padding: 1rem;
-        border: 1px solid #e0e0e0;
-        text-align: left;
-      }
-
-      .stats-table th {
-        background: #f5f5f5;
-        font-weight: 600;
-      }
-
-      .stats-table tr:hover {
-        background: #f8f9fa;
-      }
-
-      .stats-table img {
-        max-width: 150px;
-        max-height: 150px;
-        object-fit: contain;
-        image-orientation: from-image;
-        -webkit-image-orientation: from-image;
-      }
-
-      .answer-status {
-        display: inline-block;
-        padding: 0.25rem 0.75rem;
-        border-radius: 4px;
-        font-weight: 500;
-      }
-
-      .answer-correct {
-        background: #e8f5e9;
-        color: #2e7d32;
-      }
-
-      .answer-incorrect {
-        background: #ffebee;
-        color: #c62828;
-      }
-
-      .auth-container {
-        max-width: 450px;
-        margin: 2rem auto;
-        padding: 2rem;
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 16px;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-        animation: fadeIn 0.8s ease-out;
-      }
-
-      .auth-form {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-      }
-
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
+      .intro-content h2 {
+        font-size: 2rem;
         margin-bottom: 1.5rem;
+        font-weight: bold;
+        color: #1b5e20;
       }
 
-      .auth-container .form-group input {
-        background-color: #ffffff;
-        border: 2px solid #c8e6c9 !important;
-        border-radius: 8px;
-        padding: 1rem;
-        font-size: 1rem;
-        width: 100%;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      .subtitle {
+        font-size: 1.5rem;
+        opacity: 0.9;
+        margin-bottom: 2rem;
       }
 
-      .auth-container .form-group input:focus {
-        border-color: #4caf50 !important;
-        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
-        outline: none;
-      }
-
-      .auth-container .form-group label {
-        display: block;
-        margin-bottom: 0.8rem;
-        color: #2c3e50;
-        font-weight: 600;
-        font-size: 1.1rem;
-      }
-
-      .form-group select {
-        background-color: rgba(255, 255, 255, 0.9);
-        border: 2px solid #e8f5e9;
-        border-radius: 8px;
-        padding: 0.8rem;
-        font-size: 1rem;
-        width: 100%;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-      }
-
-      .form-group select:focus {
-        border-color: #4caf50;
-        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
-        outline: none;
-        background-color: #ffffff;
-      }
-
-      .auth-btn {
-        padding: 1rem;
-        background: var(--primary-color);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .auth-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        background: var(--primary-dark);
-      }
-
-      .auth-btn::after {
-        content: "";
-        position: absolute;
-        top: 50%;
+      /* 滾動提示 */
+      .scroll-hint {
+        position: fixed;
+        bottom: 2rem;
         left: 50%;
-        width: 0;
-        height: 0;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        transition: width 0.6s ease, height 0.6s ease;
-      }
-
-      .auth-btn:active::after {
-        width: 300px;
-        height: 300px;
-      }
-
-      .auth-switch {
+        transform: translateX(-50%);
         text-align: center;
-        margin-top: 1rem;
-      }
-
-      .auth-switch button {
-        background: none;
-        border: none;
-        color: var(--primary-color);
-        cursor: pointer;
-        text-decoration: underline;
-      }
-
-      .animation-background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        background: linear-gradient(120deg, #e0f2f1, #b2dfdb);
-        overflow: hidden;
-      }
-
-      .main-title {
-        text-align: center;
-        margin: 2rem auto;
-        padding: 2rem;
-        max-width: 600px;
-        animation: titleFloat 3s ease-in-out infinite;
-      }
-
-      .main-title h1 {
-        font-size: 3rem;
-        color: #2e7d32;
-        margin-bottom: 0.5rem;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        animation: titleFadeIn 1.5s ease-out;
-      }
-
-      .main-title p {
-        font-size: 1.2rem;
-        color: #666666;
-        animation: titleFadeIn 1.5s ease-out 0.3s backwards;
-      }
-
-      .floating-element {
-        position: absolute;
-        opacity: 0.2;
-        animation: float 15s infinite linear;
-      }
-
-      .leaf-1 {
-        width: 30px;
-        height: 30px;
-        background-color: #4caf50;
-        clip-path: polygon(
-          50% 0%,
-          80% 25%,
-          95% 60%,
-          90% 80%,
-          50% 100%,
-          10% 80%,
-          5% 60%,
-          20% 25%
-        );
-        transform-origin: center;
-      }
-
-      .leaf-2 {
-        width: 25px;
-        height: 25px;
-        background-color: #66bb6a;
-        clip-path: polygon(
-          50% 0%,
-          90% 20%,
-          100% 60%,
-          90% 90%,
-          50% 100%,
-          10% 90%,
-          0% 60%,
-          10% 20%
-        );
-      }
-
-      .leaf-3 {
-        width: 35px;
-        height: 35px;
-        background-color: #81c784;
-        clip-path: polygon(
-          30% 0%,
-          70% 0%,
-          100% 30%,
-          100% 70%,
-          70% 100%,
-          30% 100%,
-          0% 70%,
-          0% 30%
-        );
-      }
-
-      .image-showcase {
-        display: flex;
-        justify-content: center;
-        margin: 2rem auto;
-        gap: -2rem;
-        perspective: 1000px;
-      }
-
-      .image-card {
-        width: 180px;
-        height: 240px;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        background: white;
-        transition: transform 0.3s ease;
-      }
-
-      .image-card:first-child {
-        transform: rotate(-12deg);
-        z-index: 1;
-      }
-
-      .image-card:last-child {
-        transform: rotate(12deg);
-        margin-left: -30px;
-      }
-
-      .image-card img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .image-card:hover {
-        transform: rotate(0) translateY(-10px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-      }
-
-      .start-btn {
-        margin-top: 2rem;
-        padding: 1rem 3rem;
-        font-size: 1.2rem;
-        background-color: #2e7d32;
-        color: white;
-        border: none;
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
-      }
-
-      .start-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(46, 125, 50, 0.3);
-      }
-
-      .mobile-menu-button {
-        display: none;
-        position: fixed;
-        top: 1rem;
-        right: 1rem;
-        z-index: 1000;
-        background: var(--primary-color);
-        color: white;
-        padding: 0.5rem;
-        border-radius: 5px;
-        cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      }
-
-      .mobile-menu {
-        display: none;
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 80%;
-        max-width: 300px;
-        height: 100vh;
-        background: white;
-        z-index: 1001;
-        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-        transition: right 0.3s ease;
-      }
-
-      .mobile-menu.active {
-        right: 0;
-      }
-
-      .menu-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem;
-        background: var(--primary-color);
-        color: white;
-      }
-
-      .close-menu {
-        background: none;
-        border: none;
-        color: white;
-        font-size: 1.2rem;
-        cursor: pointer;
-      }
-
-      .menu-items {
-        padding: 1rem;
+        z-index: 10;
         display: flex;
         flex-direction: column;
+        align-items: center;
         gap: 0.5rem;
-      }
-
-      /* 重置 menu-items 的樣式 */
-      .menu-items {
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.8rem; /* 統一間距 */
-      }
-
-      /* 統一所有選單按鈕的基本樣式 */
-      .menu-items .menu-btn {
-        width: 100%;
-        padding: 0.8rem 1rem;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        height: 45px; /* 固定高度 */
         color: white;
-        font-size: 0.9rem;
-        margin: 0; /* 移除margin */
-        box-sizing: border-box;
+        opacity: 0;
+        transition: opacity 0.6s ease 1s;
+        pointer-events: none;
       }
 
-      /* 圖示樣式統一 */
-      .menu-items .menu-btn i {
-        width: 20px;
+      .intro-page.visible .scroll-hint {
+        opacity: 1;
+      }
+
+      .scroll-hint span {
         font-size: 1rem;
-        text-align: center;
-        margin-right: 0.8rem;
+        letter-spacing: 2px;
+        opacity: 0.9;
       }
 
-      /* 按鈕顏色設定 */
-      .menu-items .menu-btn.record-btn {
-        background-color: #4caf50;
+      .scroll-hint i {
+        font-size: 1rem;
+        animation: bounce 2s infinite;
       }
 
-      .menu-items .menu-btn.admin-btn {
-        background-color: #1a237e;
-      }
-
-      .menu-items .menu-btn.home-btn {
-        background-color: #666666;
-      }
-
-      .menu-items .menu-btn.logout-btn {
-        background-color: #dc3545;
-      }
-
-      /* 確保按鈕內容對齊一致 */
-      .menu-items .menu-btn span {
-        flex-grow: 1;
-        text-align: left;
-      }
-
-      /* 移除任何可能的額外樣式 */
-      .menu-items .menu-btn.record-btn,
-      .menu-items .menu-btn.admin-btn,
-      .menu-items .menu-btn.home-btn,
-      .menu-items .menu-btn.logout-btn {
-        min-height: unset;
-        max-height: 45px;
-        margin-bottom: 0;
-        overflow: hidden;
-      }
-
-      /* Animations */
-      @keyframes titleFloat {
+      @keyframes bounce {
         0%,
         100% {
           transform: translateY(0);
         }
         50% {
-          transform: translateY(-10px);
+          transform: translateY(-8px);
         }
       }
 
-      @keyframes titleFadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(-20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      /* 特色卡片 */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        width: 90%;
+        max-width: 700px;
+        padding: 0 1rem;
+        margin: 2rem auto;
+        flex: 1;
       }
 
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      .feature-card {
+        padding: 1rem;
+        border-radius: 1rem;
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(27, 94, 32, 0.2);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateY(0);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        text-align: center;
       }
 
-      @keyframes float {
-        0% {
-          transform: translate(0, -100%) rotate(0);
-          opacity: 0;
-        }
-        10% {
-          opacity: 0.2;
-        }
-        90% {
-          opacity: 0.2;
-        }
-        100% {
-          transform: translate(var(--translate-x), 100vh) rotate(360deg);
-          opacity: 0;
-        }
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       }
 
-      /* Media Queries */
+      .feature-card i {
+        font-size: 1.8rem;
+        color: #1b5e20;
+        margin-bottom: 0.8rem;
+      }
+
+      .feature-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.4rem;
+        color: #1b5e20;
+      }
+
+      .feature-card p {
+        font-size: 0.9rem;
+        line-height: 1.4;
+        margin: 0;
+      }
+
+      /* 開始測驗按鈕容器 */
+      .start-btn-container {
+        width: 100%;
+        text-align: center;
+        padding: 2rem 0;
+        margin-top: auto;
+      }
+
+      /* 開始按鈕 */
+      .start-btn {
+        background: #1b5e20;
+        color: white;
+        border: none;
+        padding: 1rem 3rem;
+        font-size: 1.2rem;
+        border-radius: 2rem;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        transform: translateY(0);
+        display: inline-block;
+      }
+
+      .start-btn:hover {
+        background: #2e7d32;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      /* 頁面指示器 */
+      .page-indicator {
+        position: fixed;
+        right: 2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        z-index: 1001;
+      }
+
+      .indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(27, 94, 32, 0.3);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .indicator.active {
+        background: #1b5e20;
+        transform: scale(1.1);
+      }
+
+      /* TAKA說明頁面的樣式 */
+      .taka-description {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 1.5rem;
+        padding: 1.8rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+        border: 1px solid rgba(27, 94, 32, 0.1);
+        overflow-y: auto;
+        max-height: calc(100vh - 8rem);
+      }
+
+      .taka-description h3 {
+        color: #1b5e20;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 0.8rem;
+        position: relative;
+        padding-bottom: 0.3rem;
+      }
+
+      .taka-description h3::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: #1b5e20;
+        border-radius: 2px;
+      }
+
+      .source-section,
+      .vision-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .vision-section {
+        margin-bottom: 0;
+      }
+
+      .taka-description p {
+        color: #333;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+        text-align: left;
+      }
+
+      .highlight {
+        color: #1b5e20;
+        font-weight: 500;
+        padding: 0.1rem 0.2rem;
+        background: rgba(27, 94, 32, 0.08);
+        border-radius: 4px;
+      }
+
+      /* 滾動條美化 */
+      .taka-description::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .taka-description::-webkit-scrollbar-track {
+        background: rgba(27, 94, 32, 0.05);
+      }
+
+      .taka-description::-webkit-scrollbar-thumb {
+        background: rgba(27, 94, 32, 0.2);
+        border-radius: 3px;
+      }
+
+      .taka-description::-webkit-scrollbar-thumb:hover {
+        background: rgba(27, 94, 32, 0.3);
+      }
+
+      /* 隱藏的驗證容器 */
+      #auth-container {
+        display: none;
+      }
+
+      /* 響應式設計 */
       @media (max-width: 768px) {
-        body {
-          padding: 0.5rem;
-        }
-
-        .container {
-          padding: 1rem;
-          margin: 0.5rem;
-          width: auto;
-        }
-
-        .topic-buttons {
-          flex-direction: column;
+        .intro-content {
+          padding: 1.5rem;
           gap: 1rem;
-        }
-
-        .topic-select-btn {
-          padding: 1rem;
-          width: 100%;
-          margin: 0;
-        }
-
-        .user-info {
-          flex-wrap: wrap;
-          gap: 0.5rem;
-          padding: 0.5rem;
           justify-content: center;
-          display: none !important;
         }
 
-        .nav-btn {
-          margin: 0.25rem;
-          min-width: auto;
-          width: calc(50% - 0.5rem);
-          padding: 0.5rem 1rem;
-          font-size: 0.8rem;
-        }
-
-        .question-card {
-          padding: 1rem;
-          margin: 1rem 0;
-        }
-
-        .question-card h2 {
-          font-size: 1.1rem;
-        }
-
-        .option-btn {
-          padding: 0.8rem 1rem;
-          font-size: 0.9rem;
-        }
-
-        .progress {
-          margin: 1rem 0;
-          padding: 0.5rem;
-        }
-
-        .stats-table {
-          display: block;
-          overflow-x: auto;
-          white-space: nowrap;
-          font-size: 0.8rem;
-        }
-
-        .stats-table th,
-        .stats-table td {
-          padding: 0.5rem;
-        }
-
-        .auth-container {
-          margin: 1rem auto;
-          padding: 1rem;
-          width: auto;
-          max-width: 100%;
-        }
-
-        .auth-form {
-          gap: 0.8rem;
-        }
-
-        .form-group input {
-          padding: 0.6rem;
-        }
-
-        .header h1 {
-          font-size: 1.8rem;
-        }
-
-        .admin-btn,
-        .home-btn,
-        .logout-btn {
-          padding: 0.5rem 1rem;
-          font-size: 0.8rem;
-          margin: 0.25rem;
-        }
-
-        .main-title h1 {
+        .intro-content h1 {
           font-size: 2rem;
+          margin-bottom: 1rem;
         }
 
-        .main-title p {
+        .intro-content h2 {
+          font-size: 1.8rem;
+          margin-bottom: 1.5rem;
+          color: #1b5e20;
+        }
+
+        .subtitle {
+          font-size: 1rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .feature-card {
+          min-height: 120px; /* 確保在手機版有足夠的高度 */
+          padding: 0.8rem;
+        }
+
+        .feature-card i {
+          margin-bottom: 0.3rem; /* 減少圖標和文字的間距 */
+        }
+
+        .feature-card h3 {
+          font-size: 1.1rem;
+          margin-bottom: 0.2rem;
+          color: #1b5e20; /* 保持顏色一致 */
+        }
+
+        .features-grid {
+          gap: 0.8rem; /* 減少卡片之間的間距 */
+        }
+
+        .feature-card p {
+          font-size: 0.85rem;
+        }
+
+        .start-btn {
+          padding: 0.8rem 2rem;
           font-size: 1rem;
         }
 
-        .mobile-menu-button {
-          display: block;
+        .page-indicator {
+          right: 1rem;
         }
 
-        .mobile-menu {
-          display: block;
+        .scroll-hint {
+          bottom: 1.5rem;
         }
 
-        .stats-table-container {
-          margin: 0 -1rem;
-          padding: 0 1rem;
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
+        .intro-page:nth-child(2) .intro-content {
+          padding: 2rem 1rem;
         }
 
-        .stats-table td img {
-          max-width: 80px;
-          height: auto;
-          display: block;
-          margin: 0 auto;
-        }
-
-        .mobile-result-card {
-          background: white;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          margin-bottom: 1rem;
-          padding: 1rem;
-        }
-
-        .answer-status {
-          font-size: 0.75rem;
-        }
-
-        .score-section {
-          text-align: center;
+        .taka-description {
           padding: 1.5rem;
-          margin-bottom: 1.5rem;
-          background: #f8f9fa;
-          border-radius: 8px;
+          margin: 0 1rem;
+          max-height: calc(100vh - 6rem);
         }
 
-        .score-number {
-          font-size: 2.5rem;
-          color: #2e7d32;
-          font-weight: bold;
-          margin: 0.5rem 0;
+        .taka-description h3 {
+          font-size: 1.2rem;
         }
 
-        .quiz-footer {
-          padding: 0.8rem;
+        .taka-description p {
+          font-size: 0.95rem;
         }
 
-        .quiz-footer .back-btn {
-          padding: 0.6rem 1rem;
-          font-size: 0.8rem;
-          min-width: 120px;
-        }
-
-        .quiz-content {
-          margin-bottom: 80px;
-        }
-
-        .modal-content {
-          max-width: 95%;
-        }
-
-        .close-modal {
-          right: 15px;
-          top: 10px;
-          font-size: 30px;
+        .start-btn-container {
+          padding: 1rem 0;
         }
       }
 
-      @media (max-width: 480px) {
-        .main-title h1 {
-          font-size: 1.8rem;
-        }
-      }
-
-      @media (max-width: 320px) {
-        .header h1 {
-          font-size: 1.5rem;
-        }
-
-        .nav-btn {
-          width: 100%;
-          margin: 0.25rem 0;
-        }
-
-        .stats-table {
-          font-size: 0.75rem;
-        }
-
-        .mobile-result-card {
-          padding: 0.75rem;
-        }
-      }
-
-      .comparison-card {
-        background: white;
-        border-radius: 16px;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-        padding: 2rem;
-        margin: 2rem auto;
-        max-width: 800px;
-      }
-
-      .card-title {
-        color: #2e7d32;
-        font-size: 1.5rem;
-        font-weight: 600;
-        text-align: center;
-        margin-bottom: 2rem;
-      }
-
-      .score-section {
-        display: flex;
-        align-items: center;
-        gap: 2rem;
-        margin-bottom: 3rem;
-      }
-
-      .score-circle-container {
-        position: relative;
-        width: 200px;
-        flex-shrink: 0;
-      }
-
-      .progress-ring {
-        transform: rotate(-90deg);
-      }
-
-      .progress-ring-circle {
-        stroke: #e8f5e9;
-        fill: transparent;
-      }
-
-      .progress-ring-circle-progress {
-        stroke: #2e7d32;
-        fill: transparent;
-        stroke-linecap: round;
-        transition: stroke-dashoffset 1s ease;
-      }
-
-      .score-text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-      }
-
-      .score-value {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #2e7d32;
-        line-height: 1;
-        transition: all 0.5s ease;
-      }
-
-      .score-label {
-        font-size: 0.875rem;
-        color: #666;
-        margin-top: 0.5rem;
-      }
-
-      .comparison-text {
-        flex: 1;
-      }
-
-      .comparison-highlight {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #1b5e20;
-        margin-bottom: 0.5rem;
-        animation: fadeIn 0.5s ease-out;
-      }
-
-      .comparison-count {
-        font-size: 1.5rem;
-        color: #2e7d32;
-        margin-bottom: 0.5rem;
-        animation: fadeIn 0.7s ease-out;
-      }
-
-      .comparison-subtext {
-        font-size: 1.1rem;
-        color: #666;
-        animation: fadeIn 0.9s ease-out;
-      }
-
-      .bar-chart {
-        position: relative;
-        padding: 2rem 0 3rem;
-        height: 400px;
-      }
-
-      .bar-container {
-        display: flex;
-        align-items: flex-end;
-        height: 300px;
-        padding: 0 2rem;
-        position: relative;
-        gap: 1.5rem;
-      }
-
-      .bar {
-        flex: 1;
-        position: relative;
-        transition: all 0.5s ease;
-        border-radius: 8px 8px 0 0;
-        min-width: 40px;
-      }
-
-      .bar:hover {
-        transform: scale(1.03);
-      }
-
-      .bar-label {
-        position: absolute;
-        bottom: -30px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.875rem;
-        color: #1b5e20;
-        text-align: center;
-        width: 100px;
-        font-weight: 500;
-      }
-
-      .bar-value {
-        position: absolute;
-        bottom: 8px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: white;
-      }
-
-      .footnote {
-        font-size: 0.875rem;
-        color: #666;
-        margin-top: 2rem;
-        padding-top: 1rem;
-        border-top: 1px solid #e0e0e0;
-        line-height: 1.6;
-      }
-
-      .model-circles-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-        margin-top: 2rem;
-        padding: 0 1rem;
-      }
-
-      .model-circle {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 1.5rem;
-      }
-
-      .circle-container {
-        position: relative;
-        width: 120px;
-        height: 120px;
-        margin-bottom: 0.5rem;
-      }
-
-      .model-progress-ring {
-        transform: rotate(-90deg);
-      }
-
-      .model-circle-base {
-        stroke: #e8f5e9;
-        fill: transparent;
-      }
-
-      .model-circle-progress {
-        stroke: #a5d6a7;
-        fill: transparent;
-        stroke-linecap: round;
-        transition: stroke-dashoffset 1s ease;
-      }
-
-      .your-score-circle .model-circle-progress {
-        stroke: #2e7d32;
-      }
-
-      .model-score {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #2c3e50;
-      }
-
-      .model-name {
-        font-size: 0.9rem;
-        color: #666;
-        text-align: center;
-        margin-top: 0.25rem;
-        font-weight: 500;
-      }
-      /* 新增返回按鈕容器的樣式 */
-      .back-button-container {
-        grid-column: 1 / -1; /* 讓返回按鈕佔滿整個行 */
-        display: flex;
-        justify-content: center; /* 置中對齊 */
-        margin-top: 2rem; /* 添加上邊距，使其與主題按鈕分開 */
-      }
-
-      /* 確保在桌面版本中使用 grid 布局 */
-      @media (min-width: 769px) {
-        .topic-list {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 2rem;
-        }
-
-        .back-button-container {
-          grid-column: 1 / -1; /* 確保返回按鈕在新行 */
-          justify-content: center; /* 置中對齊 */
-        }
-      }
-
-      /* 移動設備上的樣式保持不變 */
-      @media (max-width: 768px) {
-        .answers-table {
-          font-size: 0.9rem;
-        }
-
-        .answers-table th,
-        .answers-table td {
-          padding: 0.5rem;
-        }
-
-        .back-button-container {
-          margin-top: 1rem;
-        }
-
-        .format-back-btn {
-          width: 100%; /* 確保在移動設備上按鈕寬度為 100% */
-          padding: 0.8rem;
-        }
-      }
-
-      .question-image {
+      .scroll-hint {
         cursor: pointer;
-        transition: opacity 0.3s ease;
-      }
-
-      .question-image:hover {
-        opacity: 0.9;
-      }
-
-      .image-modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        padding: 20px;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(255, 255, 255, 0.6);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-      }
-
-      .modal-content {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        max-width: 90%;
-        max-height: 90vh;
-        object-fit: contain;
-        width: auto;
-        height: auto;
-        border-radius: 8px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      }
-
-      .close-modal {
-        position: fixed;
-        right: 25px;
-        top: 15px;
-        color: #2e7d32;
-        font-size: 35px;
-        font-weight: bold;
-        cursor: pointer;
-        z-index: 1001;
-        transition: color 0.3s ease;
-      }
-
-      .close-modal:hover,
-      .close-modal:focus {
-        color: #1b5e20;
-        text-decoration: none;
-        cursor: pointer;
-      }
-
-      /* 移動端適配 */
-      @media (max-width: 768px) {
-        .modal-content {
-          max-width: 95%;
-        }
-
-        .close-modal {
-          right: 15px;
-          top: 10px;
-          font-size: 30px;
-        }
-      }
-
-      .record-btn {
-        background-color: #4caf50;
-      }
-
-      .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-      }
-
-      .modal-content {
-        background: #fff;
-        padding: 2rem;
-        border-radius: 8px;
-        max-width: 800px;
-        width: 90%;
-        max-height: 80vh;
-        overflow-y: auto;
-      }
-
-      .record-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        padding: 1rem;
-        border-bottom: 1px solid #eee;
-        margin-bottom: 1rem;
-      }
-
-      .record-content h4 {
-        margin: 0;
-        color: #2c3e50;
-        margin-bottom: 0.5rem;
-      }
-
-      .record-content p {
-        margin: 0.25rem 0;
-        color: #666;
-      }
-
-      .view-details-btn {
-        background: #4caf50;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        padding: 0.5rem 1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .view-details-btn:hover {
-        background: #45a049;
-        transform: translateY(-2px);
-      }
-
-      .record-detail {
-        padding: 1rem;
-      }
-
-      .record-detail h3 {
-        color: #2c3e50;
-        margin-bottom: 1.5rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 2px solid #eee;
-      }
-
-      .score-summary {
-        background: #f8f9fa;
-        padding: 1rem;
-        border-radius: 8px;
-        margin-bottom: 1.5rem;
-      }
-
-      .score-summary p {
-        margin: 0.5rem 0;
-        color: #2c3e50;
-      }
-
-      .answers-table {
-        margin-bottom: 1.5rem;
-        overflow-x: auto;
-      }
-
-      .back-to-list-btn {
-        background: #4caf50;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        padding: 0.8rem 1.5rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-top: 1rem;
-      }
-
-      .back-to-list-btn:hover {
-        background: #45a049;
-        transform: translateY(-2px);
-      }
-
-      .answer-status {
-        display: inline-block;
-        padding: 0.25rem 0.75rem;
-        border-radius: 4px;
-        font-weight: 500;
-      }
-
-      .answer-correct {
-        background: #e8f5e9;
-        color: #2e7d32;
-      }
-
-      .answer-incorrect {
-        background: #ffebee;
-        color: #c62828;
-      }
-
-      .modal-content {
-        max-height: 80vh;
-        overflow-y: auto;
-      }
-      .topic-highlight {
-        background: #e8f5e9;
-        color: #2e7d32;
-        padding: 1rem;
-        border-radius: 8px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin-bottom: 1.5rem;
-        text-align: center;
-      }
-
-      .time-spent {
-        font-size: 1.1rem;
-        color: #666;
-        margin: 0.5rem 0;
+        pointer-events: auto; /* 修改這一行，使元素可以接收點擊事件 */
       }
     </style>
   </head>
   <body>
-    <div class="mobile-menu-button" id="mobile-menu-button">
-      <i class="fas fa-bars"></i>
-    </div>
+    <div class="intro-pages">
+      <!-- 第一頁：首頁 -->
+      <section class="intro-page">
+        <div class="intro-content">
+          <h1>臺灣農業知識量化指標</h1>
+          <p class="subtitle">Taiwan Agriculture Knowledge Assessment</p>
+          <div class="scroll-hint">
+            <span>瞭解更多</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+        </div>
+      </section>
 
-    <div class="mobile-menu" id="mobile-menu">
-      <div class="menu-header">
-        <span id="mobile-username-display"></span>
-        <button class="close-menu" id="close-menu-button">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="menu-items">
-        <button class="menu-btn record-btn" onclick="showUserRecords()">
-          <i class="fas fa-history"></i>
-          <span>測驗記錄</span>
-        </button>
-        <button
-          class="menu-btn admin-btn"
-          id="mobile-admin-btn"
-          onclick="goToAdmin()"
-        >
-          <i class="fas fa-cog"></i>
-          <span>管理系統</span>
-        </button>
-        <button class="menu-btn home-btn" onclick="goHome()">
-          <i class="fas fa-home"></i>
-          <span>返回主頁</span>
-        </button>
-        <button class="menu-btn logout-btn" onclick="logout()">
-          <i class="fas fa-sign-out-alt"></i>
-          <span>登出</span>
-        </button>
-      </div>
-    </div>
+      <!-- 新的第二頁 -->
+      <section class="intro-page">
+        <div class="intro-content">
+          <h2>台灣農業題庫 TAKA</h2>
+          <div class="taka-description">
+            <div class="source-section">
+              <h3>題庫來源</h3>
+              <p>
+                TAKA 匯集了來自各大專業領域的試題資源：
+                <span class="highlight">統一入學測驗</span>、
+                <span class="highlight">技藝競賽</span>、
+                <span class="highlight">技術士檢定</span>與
+                <span class="highlight">獸醫師執照考試</span>。
+                除此之外，研究團隊也邀請了國立中興大學農學院的教授群參與命題，
+                確保題庫的專業性與實用性。
+              </p>
+            </div>
 
-    <!-- 用戶資訊區塊 -->
-
-    <div class="animation-background"></div>
-    <div class="user-info" id="user-info" style="display: none">
-      歡迎, <span id="username-display"></span>
-      <button class="nav-btn record-btn" onclick="showUserRecords()">
-        <i class="fas fa-history"></i> 測驗記錄
-      </button>
-      <button class="nav-btn admin-btn" id="admin-btn" onclick="goToAdmin()">
-        <i class="fas fa-cog"></i> 管理系統
-      </button>
-      <button class="nav-btn home-btn" onclick="goHome()">
-        <i class="fas fa-home"></i> 返回主頁
-      </button>
-      <button class="nav-btn logout-btn" onclick="logout()">
-        <i class="fas fa-sign-out-alt"></i> 登出
-      </button>
-    </div>
-
-    <!-- 添加記錄模態框 -->
-    <div class="modal" id="recordsModal">
-      <div class="modal-content">
-        <span class="close-btn" onclick="closeRecordsModal()">&times;</span>
-        <h2>個人測驗記錄</h2>
-        <div class="record-list" id="userRecordList"></div>
-      </div>
-    </div>
-
-    <div class="main-title">
-      <div class="image-showcase">
-        <div class="image-card">
-          <img src="/images/agriculture1.jpg" alt="農業圖片1" />
-        </div>
-        <div class="image-card">
-          <img src="/images/agriculture2.jpg" alt="農業圖片2" />
-        </div>
-      </div>
-      <h1>農業知識測驗系統</h1>
-      <p>測試您的農業專業知識</p>
-      <button class="start-btn" onclick="showAuthForm()">開始測驗</button>
-    </div>
-
-    <!-- 認證表單容器 -->
-    <div id="auth-container" class="auth-container" style="display: none">
-      <!-- 登入表單 -->
-      <div class="auth-form" id="login-form">
-        <h2>登入</h2>
-        <div class="form-group">
-          <label for="username">帳號</label>
-          <input type="text" id="username" required />
-        </div>
-        <div class="form-group">
-          <label for="password">密碼</label>
-          <input type="password" id="password" required />
-        </div>
-        <button class="auth-btn" onclick="login()">登入</button>
-        <div class="auth-switch">
-          <button onclick="toggleAuthForm()">還沒有帳號？註冊</button>
-        </div>
-      </div>
-
-      <!-- 註冊表單 -->
-      <div class="auth-form" id="register-form" style="display: none">
-        <h2>註冊</h2>
-        <div class="form-group">
-          <label for="reg-username">帳號</label>
-          <input type="text" id="reg-username" required />
-        </div>
-        <div class="form-group">
-          <label for="reg-password">密碼</label>
-          <input type="password" id="reg-password" required />
-        </div>
-        <div class="form-group">
-          <label for="reg-name">姓名</label>
-          <input type="text" id="reg-name" required />
-        </div>
-        <div class="form-group">
-          <label for="reg-organization">單位</label>
-          <input type="text" id="reg-organization" required />
-        </div>
-        <div class="form-group">
-          <label for="reg-education">教育程度</label>
-          <select id="reg-education" required>
-            <option value="">請選擇教育程度</option>
-            <option value="highschool">高中</option>
-            <option value="university">大學</option>
-            <option value="graduate">研究所以上</option>
-          </select>
-        </div>
-        <button class="auth-btn" onclick="register()">註冊</button>
-        <div class="auth-switch">
-          <button onclick="toggleAuthForm()">已有帳號？登入</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 原有的主要容器 -->
-    <div class="container" id="main-container" style="display: none">
-      <div class="header">
-        <h1>農業知識測驗系統</h1>
-        <p>選擇題庫開始測驗</p>
-      </div>
-
-      <div class="topic-selection-container" id="format-selection">
-        <h2>請選擇題庫形式</h2>
-        <div class="selection-grid">
-          <button class="quiz-format-btn" onclick="selectQuizFormat('text')">
-            <i class="fas fa-file-alt format-icon"></i>
-            <span class="format-title">文字題庫</span>
-            <span class="format-description">純文字知識測驗題目</span>
-          </button>
-          <button class="quiz-format-btn" onclick="selectQuizFormat('image')">
-            <i class="fas fa-images format-icon"></i>
-            <span class="format-title">圖片題庫</span>
-            <span class="format-description">包含圖片的辨識測驗</span>
-          </button>
-        </div>
-      </div>
-
-      <div
-        class="topic-selection-container"
-        id="category-selection"
-        style="display: none"
-      >
-        <h2>請選擇題庫類別</h2>
-        <div class="selection-grid">
-          <button class="quiz-format-btn" onclick="loadQuestions('veterinary')">
-            <i class="fas fa-stethoscope format-icon"></i>
-            <span class="format-title">獸醫題庫</span>
-            <span class="format-description">動物醫療相關測驗</span>
-          </button>
-          <button
-            class="quiz-format-btn"
-            onclick="loadQuestions('agriculture')"
-          >
-            <i class="fas fa-seedling format-icon"></i>
-            <span class="format-title">農業題庫</span>
-            <span class="format-description">農作物相關測驗</span>
-          </button>
-        </div>
-        <button class="format-back-btn" onclick="backToFormatSelection()">
-          <i class="fas fa-arrow-left"></i> 返回形式選擇
-        </button>
-      </div>
-
-      <div id="topics-container" class="topic-list"></div>
-
-      <div id="quiz-container" style="display: none">
-        <div class="quiz-content">
-          <div class="progress">
-            <span id="progress-text"></span>
-            <div class="progress-bar">
-              <div class="progress-fill" id="progress-fill"></div>
+            <div class="vision-section">
+              <h3>研究願景</h3>
+              <p>
+                作為一個創新的農業知識評估平台， TAKA
+                將多模態試題設計引入評估機制， 結合圖片識別與情境判斷，
+                以更貼近實際農業現場的應用需求，
+                並建立一個標準化的農業知識評估基準， 不僅服務於農業教育，
+                也同時為人工智慧在農業領域的發展提供重要的測試基準。
+              </p>
             </div>
           </div>
-          <div id="question-container" class="question-card"></div>
         </div>
-        <div class="quiz-footer">
-          <button class="back-btn" onclick="showTopics()">
-            ← 返回主題選擇
-          </button>
+      </section>
+
+      <!-- 系統特色  -->
+      <section class="intro-page">
+        <div class="intro-content">
+          <h2>系統特色</h2>
+          <div class="features-grid">
+            <div class="feature-card">
+              <i class="fas fa-list-alt"></i>
+              <h3>多元題型</h3>
+              <p>文字與圖片識別</p>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-chart-line"></i>
+              <h3>即時評分</h3>
+              <p>完整的答題紀錄</p>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-robot"></i>
+              <h3>AI 對比</h3>
+              <p>多個 AI 模型比較</p>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-sitemap"></i>
+              <h3>專業分類</h3>
+              <p>不同農業領域類別</p>
+            </div>
+          </div>
+          <div class="start-btn-container">
+            <button class="start-btn" onclick="startQuiz()">開始測驗</button>
+          </div>
         </div>
+      </section>
+
+      <!-- 頁面指示器 -->
+      <div class="page-indicator">
+        <div class="indicator"></div>
+        <div class="indicator"></div>
+        <div class="indicator"></div>
       </div>
     </div>
+
+    <!-- 驗證容器 -->
+    <div id="auth-container"></div>
 
     <script>
-      let authToken = localStorage.getItem("token"); // 初始化 authToken
-      // API 設定
-      const API_URL = (() => {
-        if (
-          window.location.hostname === "localhost" ||
-          window.location.hostname === "127.0.0.1"
-        ) {
-          return "http://localhost:5000/api";
-        } else {
-          return "https://agriculture-quiz.onrender.com/api"; // 請替換成您的 Render URL
-        }
-      })();
-
-      // 修改背景和標題管理函數
-      function manageBackground(shouldShow) {
-        const existingBackground = document.querySelector(
-          ".animation-background"
-        );
-        const existingTitle = document.querySelector(".main-title");
-        const authContainer = document.getElementById("auth-container");
-
-        if (!existingBackground) {
-          const background = document.createElement("div");
-          background.className = "animation-background";
-          document.body.insertBefore(background, document.body.firstChild);
-          createFloatingElements();
-        }
-
-        if (shouldShow) {
-          if (existingTitle) existingTitle.style.display = "block";
-          authContainer.style.display = "none";
-        } else {
-          if (existingTitle) existingTitle.style.display = "none";
-        }
-      }
-
-      // 檢查登入狀態
-      async function checkAuth() {
-        authToken = localStorage.getItem("token");
-
-        if (!authToken) {
-          // 未登入狀態處理...
-          return;
-        }
-
-        try {
-          const response = await fetch(`${API_URL}/auth/check-role`, {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
+      document.addEventListener("DOMContentLoaded", function () {
+        const pagesContainer = document.querySelector(".intro-pages");
+        document
+          .querySelector(".scroll-hint")
+          .addEventListener("click", function () {
+            if (!isScrolling) {
+              const pagesContainer = document.querySelector(".intro-pages");
+              smoothScrollTo(pagesContainer, window.innerHeight); // 滾動到第二頁
+            }
           });
-
-          if (!response.ok) {
-            throw new Error("認證失敗");
-          }
-
-          const data = await response.json();
-
-          // 登入成功後的處理...
-          manageBackground(false);
-          document.getElementById("auth-container").style.display = "none";
-          document.getElementById("main-container").style.display = "block";
-          document.getElementById("user-info").style.display = "block";
-
-          // 設置帳號稱
-          const username = localStorage.getItem("username");
-          document.getElementById("username-display").textContent = username;
-          document.getElementById("mobile-username-display").textContent =
-            username;
-
-          // 更嚴格的管理員按鈕控制
-          const adminBtn = document.getElementById("admin-btn");
-          const mobileAdminBtn = document.getElementById("mobile-admin-btn");
-          const isAdmin = data.role === "admin";
-
-          // 桌面版管理按鈕
-          if (adminBtn) {
-            adminBtn.style.display = isAdmin ? "inline-flex" : "none";
-          }
-
-          // 手機版管理按鈕
-          if (mobileAdminBtn) {
-            mobileAdminBtn.style.display = isAdmin ? "block" : "none";
-          }
-
-          localStorage.setItem("userRole", data.role);
-        } catch (error) {
-          // 錯誤處理...
-        }
-      }
-
-      // 添加跳轉到管理頁面的函數
-      function goToAdmin() {
-        window.location.href = "/admin.html";
-      }
-
-      // 切換登入/註冊表單
-      function toggleAuthForm() {
-        const loginForm = document.getElementById("login-form");
-        const registerForm = document.getElementById("register-form");
-        if (loginForm.style.display === "none") {
-          loginForm.style.display = "block";
-          registerForm.style.display = "none";
-        } else {
-          loginForm.style.display = "none";
-          registerForm.style.display = "block";
-        }
-      }
-
-      // 登入功能
-      async function login() {
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-
-        try {
-          const response = await fetch(`${API_URL}/auth/login`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username, password }),
-          });
-
-          const data = await response.json();
-
-          if (response.ok) {
-            authToken = data.token;
-            localStorage.setItem("token", authToken);
-            localStorage.setItem("username", username);
-            checkAuth();
-          } else {
-            console.error("登入失敗:", data);
-            alert(data.message || "登入失敗，請檢查帳號和密碼");
-          }
-        } catch (error) {
-          console.error("登入錯誤:", error);
-          alert("登入時發生錯誤，請檢查網路連接");
-        }
-      }
-
-      // 註冊功能
-      async function register() {
-        const username = document.getElementById("reg-username").value;
-        const password = document.getElementById("reg-password").value;
-        const name = document.getElementById("reg-name").value;
-        const organization = document.getElementById("reg-organization").value;
-        const education = document.getElementById("reg-education").value;
-
-        try {
-          const response = await fetch(`${API_URL}/auth/register`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              username,
-              password,
-              name,
-              organization,
-              education,
-            }),
-          });
-
-          const data = await response.json();
-          if (response.ok) {
-            alert("註冊成功，請登入");
-            toggleAuthForm();
-          } else {
-            alert(data.message || "註冊失敗");
-          }
-        } catch (error) {
-          alert("註冊時發生錯誤");
-        }
-      }
-
-      // 登出功能
-      function logout() {
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
-        localStorage.removeItem("userRole");
-        authToken = null;
-
-        // 顯示首頁的圖片介面
-        document.querySelector(".main-title").style.display = "block";
-        // 隱藏其他元素
-        document.getElementById("auth-container").style.display = "none";
-        document.getElementById("main-container").style.display = "none";
-        document.getElementById("user-info").style.display = "none";
-
-        // 確保背景動畫存在
-        ensureAnimationBackground();
-      }
-
-      function selectQuizFormat(format) {
-        currentQuizFormat = format;
-        // 隱藏形式選擇
-        document.querySelector(".topic-selection-container").style.display =
-          "none";
-        // 顯示類別選擇
-        document.getElementById("category-selection").style.display = "block";
-      }
-
-      function backToFormatSelection() {
-        // 隱藏類別選擇
-        document.getElementById("category-selection").style.display = "none";
-        // 顯示形式選擇
-        document.querySelector(".topic-selection-container").style.display =
-          "block";
-      }
-      async function loadQuestions(type) {
-        try {
-          const endpoint =
-            currentQuizFormat === "image"
-              ? `${API_URL}/quiz/questions/image/${type}`
-              : `${API_URL}/quiz/questions/${type}`;
-
-          const response = await fetch(endpoint);
-          if (!response.ok) {
-            throw new Error("載入題庫失敗");
-          }
-
-          const data = await response.json();
-
-          if (!Array.isArray(data) || data.length === 0) {
-            throw new Error("題庫格式不正確或是空的");
-          }
-
-          allQuestions = data;
-          const topics = [...new Set(allQuestions.map((q) => q.topic))];
-
-          if (topics.length === 0) {
-            throw new Error("沒有找到任何主題");
-          }
-
-          showTopicButtons();
-
-          // 隱藏選擇區，顯示題目列表
-          document.getElementById("category-selection").style.display = "none";
-          document.getElementById("topics-container").style.display = "grid";
-        } catch (error) {
-          console.error("載入題庫失敗:", error);
-          alert(`載入題庫時發生錯誤：${error.message}`);
-        }
-      }
-
-      // 保存測驗結果
-      async function saveQuizResult(topic, score, totalQuestions, answers) {
-        try {
-          // 計算作答時間
-          const timeSpent = Date.now() - quizStartTime;
-
-          // 檢查並去除重複答案
-          const uniqueAnswers = answers.reduce((acc, current) => {
-            const existingAnswer = acc.find(
-              (item) => item.question === current.question
-            );
-            if (!existingAnswer) {
-              acc.push(current);
-            }
-            return acc;
-          }, []);
-
-          // 重新計算實際分數
-          const actualScore = uniqueAnswers.filter(
-            (answer) => answer.isCorrect
-          ).length;
-
-          // 準備要發送的資料
-          const quizData = {
-            topic,
-            score: actualScore,
-            totalQuestions: uniqueAnswers.length,
-            answers: uniqueAnswers,
-            quizFormat: currentQuizFormat,
-            timeSpent: timeSpent,
-          };
-
-          // 除錯訊息
-          console.log("準備送出的測驗資料:", {
-            原始答案數: answers.length,
-            去重後答案數: uniqueAnswers.length,
-            原始分數: score,
-            計算後分數: actualScore,
-            題目主題: topic,
-          });
-
-          const response = await fetch(`${API_URL}/quiz/record`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${authToken}`,
-            },
-            body: JSON.stringify(quizData),
-          });
-
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || "保存測驗結果失敗");
-          }
-
-          const result = await response.json();
-          console.log("測驗結果已成功保存:", result);
-
-          return result;
-        } catch (error) {
-          console.error("保存測驗結果失敗:", error);
-          // 提供更詳細的錯誤訊息給使用者
-          alert(`保存測驗結果時發生錯誤: ${error.message}`);
-          throw error;
-        }
-      }
-
-      // 顯示主題按鈕
-      function showTopicButtons() {
-        const topics = [...new Set(allQuestions.map((q) => q.topic))];
-        console.log("可用的主題:", topics); // 添加這行來檢查主題
-
-        const container = document.getElementById("topics-container");
-        if (!container) {
-          console.error("找不到 topics-container 元素");
-          return;
-        }
-
-        // 生成主題按鈕的 HTML
-        const topicsHtml = topics
-          .map(
-            (topic) => `
-        <button class="topic-button" onclick="startQuiz('${topic}')">
-          ${topic}
-        </button>
-      `
-          )
-          .join("");
-
-        // 添加返回按鈕的 HTML，包裹在一個新的 div 中
-        const backButtonHtml = `
-    <div class="back-button-container">
-      <button class="format-back-btn" onclick="backToCategorySelection()">
-        <i class="fas fa-arrow-left"></i> 返回類別選擇
-      </button>
-    </div>
-  `;
-
-        // 將主題按鈕和返回按鈕組合起來
-        container.innerHTML = `
-    ${topicsHtml}
-    ${backButtonHtml}
-  `;
-
-        // 顯示 topics-container
-        container.style.display = "grid";
-      }
-
-      // 在測驗相關變數中添加新變數
-      let quizStartTime = null;
-
-      // 開始測驗
-      function startQuiz(topic) {
-        // 記錄開始時間
-        quizStartTime = Date.now();
-
-        // 原有的程式碼
-        currentQuestions = allQuestions.filter((q) => q.topic === topic);
-        currentQuestion = 0;
-        score = 0;
-        answerHistory = [];
-
-        // 2. 確保元素的顯示/隱藏狀態正確
-        document.querySelector(".topic-selection-container").style.display =
-          "none";
-        document.getElementById("topics-container").style.display = "none";
-        document.getElementById("quiz-container").style.display = "block";
-
-        // 3. 添加除錯日誌
-        console.log("開始測驗:", {
-          topic,
-          questionsCount: currentQuestions.length,
-          firstQuestion: currentQuestions[0],
-        });
-
-        // 4. 顯示第一個題目
-        showQuestion();
-      }
-
-      // 在頁面載入時初始化模態框
-      document.addEventListener("DOMContentLoaded", initializeImageModal);
-
-      // 顯示題目
-      function showQuestion() {
-        const questionData = currentQuestions[currentQuestion];
-        const container = document.getElementById("question-container");
-
-        let questionHtml = `<h2>${questionData.question}</h2>`;
-
-        if (currentQuizFormat === "image" && questionData.imagePath) {
-          questionHtml = `
-            <img src="${questionData.imagePath}" 
-                 alt="題目圖片" 
-                 class="question-image" 
-                 onclick="showImageModal(this.src)"
-            >
-            <h2>${questionData.question}</h2>
-          `;
-        }
-
-        container.innerHTML = `
-            ${questionHtml}
-            <div class="options">
-                <button class="option-btn" onclick="checkAnswer('A')">${questionData.answer_a}</button>
-                <button class="option-btn" onclick="checkAnswer('B')">${questionData.answer_b}</button>
-                <button class="option-btn" onclick="checkAnswer('C')">${questionData.answer_c}</button>
-                <button class="option-btn" onclick="checkAnswer('D')">${questionData.answer_d}</button>
-            </div>
-        `;
-
-        // 更新 quiz-footer
-        const footer = document.querySelector(".quiz-footer");
-        footer.innerHTML = `
-            <div style="display: flex; justify-content: space-between; width: 100%; gap: 1rem;">
-                <button class="back-btn" onclick="previousQuestion()" ${
-                  currentQuestion === 0 ? "disabled" : ""
-                } 
-                        style="${
-                          currentQuestion === 0
-                            ? "opacity: 0.5; cursor: not-allowed;"
-                            : ""
-                        }">
-                    <i class="fas fa-arrow-left"></i> 返回上一題
-                </button>
-                <button class="back-btn" onclick="showTopics()">
-                    <i class="fas fa-list"></i> 返回主題選擇
-                </button>
-            </div>
-        `;
-
-        updateProgress();
-      }
-
-      // 新增進度條更新函數
-      function updateProgress() {
-        const progressText = document.getElementById("progress-text");
-        const progressFill = document.getElementById("progress-fill");
-
-        progressText.textContent = `題目 ${currentQuestion + 1} / ${
-          currentQuestions.length
-        }`;
-        progressFill.style.width = `${
-          ((currentQuestion + 1) / currentQuestions.length) * 100
-        }%`;
-      }
-
-      // 檢查答案
-      function checkAnswer(selected) {
-        const questionData = currentQuestions[currentQuestion];
-        const answerKey = JSON.stringify({
-          question: questionData.question,
-          correctAnswer: questionData.correct_answer,
-        });
-
-        // 檢查是否已經回答過此題目
-        const isDuplicate = answerHistory.some(
-          (record) => record.question === questionData.question
-        );
-
-        if (!isDuplicate) {
-          const correct = selected === questionData.correct_answer;
-
-          answerHistory.push({
-            question: questionData.question,
-            userAnswer: selected,
-            correctAnswer: questionData.correct_answer,
-            isCorrect: correct,
-            userAnswerText: questionData[`answer_${selected.toLowerCase()}`],
-            correctAnswerText:
-              questionData[
-                `answer_${questionData.correct_answer.toLowerCase()}`
-              ],
-            imagePath:
-              currentQuizFormat === "image" ? questionData.imagePath : null,
-          });
-
-          if (correct) score++;
-
-          // 確保不會超過總題數
-          if (currentQuestion < currentQuestions.length - 1) {
-            currentQuestion++;
-            showQuestion();
-          } else {
-            showResult();
-          }
-        } else {
-          // 如果發現重複答案，直接進入下一題或顯示結果
-          if (currentQuestion < currentQuestions.length - 1) {
-            currentQuestion++;
-            showQuestion();
-          } else {
-            showResult();
-          }
-        }
-      }
-
-      // 顯示結果
-      async function showResult() {
-        try {
-          // 1. 先取得並檢查容器是否存在
-          const container = document.getElementById("quiz-container");
-          if (!container) {
-            console.error("找不到 quiz-container 元素");
-            throw new Error("找不到 quiz-container 元素");
-          }
-
-          // 2. 計算基本數據
-          const percentage = ((score / currentQuestions.length) * 100).toFixed(
-            1
-          );
-          const isMobile = window.innerWidth <= 768;
-
-          // 3. 獲取主題相關資訊
-          const topic = currentQuestions[0].topic;
-          const categoryType = topic.includes("獸醫")
-            ? "veterinary"
-            : "agriculture";
-
-          // 4. 獲取 AI 模型數據並保存測驗結果
-          let aiModelData;
-          try {
-            const response = await fetch(
-              `${API_URL}/quiz/ai-models/${categoryType}/${topic}`
-            );
-            if (!response.ok) {
-              throw new Error("載入 AI 模型數據失敗");
-            }
-            aiModelData = await response.json();
-          } catch (error) {
-            console.error("獲取 AI 模型數據失敗，使用預設數據:", error);
-            aiModelData = [
-              { name: "Claude-3.5-Sonnet", score: 78.3 },
-              { name: "Gemini-2.0-flash", score: 76.1 },
-              { name: "GPT-4o", score: 75.79 },
-            ];
-          }
-
-          // 5. 儲存測驗結果
-          await saveQuizResult(
-            currentQuestions[0].topic,
-            score,
-            currentQuestions.length,
-            answerHistory
-          );
-
-          // 6. 計算贏過幾個 AI 模型
-          const betterThanCount = aiModelData.filter(
-            (ai) => parseFloat(percentage) > ai.score
-          ).length;
-
-          // 7. 根據裝置類型設置不同的 HTML 內容
-          if (isMobile) {
-            // 移動版面 HTML
-            container.innerHTML = `
-              <div class="quiz-content">
-                <div class="comparison-card">
-                  <div style="text-align: center; padding: 2rem 0;">
-                    <div style="font-size: 1.2rem; color: #666; margin-bottom: 0.5rem;">
-                      完成測驗! 您的答題正確率為:
-                    </div>
-                    <div style="font-size: 4rem; font-weight: bold; color: #2e7d32; margin-bottom: 1rem;">
-                      ${percentage}%
-                    </div>
-                      <div style="font-size: 1.0rem; color: #666;">
-                        答對題數：${score} / ${currentQuestions.length}
-                      </div>
-                      <div style="font-size: 1.0rem; color: #666; margin-top: 0.5rem;">
-                        花費時間：${(
-                          (Date.now() - quizStartTime) /
-                          1000
-                        ).toFixed(1)} 秒
-                      </div>
-                      <div style="font-size: 1.0rem; color: #666; margin-top: 0.5rem;">
-                        完成時間：${new Date().toLocaleString()}
-                      </div>
-                  </div>
-      
-                  <div style="text-align: center; margin: 1rem 0;">
-                    <hr style="width: 90%; margin: 0.5rem auto; border: none; border-top: 1px solid #ccc;">
-                    <span style="font-size: 1.2rem; color: #333; font-weight: bold;">與市面上之AI模型比較:</span>
-                  </div>
-                  
-                  <div class="model-circles-container"></div>
-      
-                  <div class="footnote">
-                    * 模型版本資訊：<br/>
-                    - GPT-4o: gpt-4o-2024-08-06<br/>
-                    - GPT-4o-mini: gpt-4o-mini-2024-07-18<br/>
-                    - Claude-3.5: claude-3-5-sonnet-20241022<br/>
-                    - Claude-3: claude-3-haiku-20240307<br/>
-                    - Gemini-2.0: gemini-2.0-flash-exp<br/>
-                    - Gemini-1.5: gemini-1.5-flash
-                  </div>
-                </div>
-      
-                <div style="margin-top: 2rem;">
-                  <h3 style="margin-bottom: 1rem;">詳細答題記錄</h3>
-                  ${answerHistory
-                    .map(
-                      (record, index) => `
-                    <div class="mobile-question-card" style="background: white; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                        <strong>題號 ${index + 1}</strong>
-                        <span class="answer-status ${
-                          record.isCorrect
-                            ? "answer-correct"
-                            : "answer-incorrect"
-                        }"
-                              style="padding: 0.25rem 0.5rem; border-radius: 4px;">
-                          ${record.isCorrect ? "正確" : "錯誤"}
-                        </span>
-                      </div>
-      
-                      ${
-                        currentQuizFormat === "image"
-                          ? `
-                        <div style="text-align: center; margin: 0.5rem 0;">
-                          <img src="${currentQuestions[index].imagePath}"
-                               alt="題目圖片"
-                               style="max-width: 100%; max-height: 200px; object-fit: contain;">
-                        </div>
-                      `
-                          : ""
-                      }
-      
-                      <div style="margin: 0.5rem 0;">
-                        <div style="font-weight: 500; margin-bottom: 0.5rem;">${
-                          record.question
-                        }</div>
-                        <div style="color: #666; font-size: 0.9rem;">
-                          <div>你的答案：${record.userAnswerText}</div>
-                          <div>正確答案：${record.correctAnswerText}</div>
-                        </div>
-                      </div>
-                    </div>
-                  `
-                    )
-                    .join("")}
-                </div>
-              </div>
-              <div class="quiz-footer" style="position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 1rem; box-shadow: 0 -2px 10px rgba(0,0,0,0.1);">
-                <button class="back-btn" onclick="showTopics()" style="width: 100%; padding: 0.8rem;">返回主題選擇</button>
-              </div>
-            `;
-
-            // 創建模型比較圓圈
-            const circlesContainer = container.querySelector(
-              ".model-circles-container"
-            );
-            if (circlesContainer) {
-              // 創建圓形進度環的函數
-              function createCircleProgress(
-                container,
-                score,
-                modelName,
-                isUserScore = false
-              ) {
-                const radius = 55;
-                const circumference = radius * 2 * Math.PI;
-                const offset = circumference - (score / 100) * circumference;
-
-                const html = `
-                  <div class="circle-container">
-                    <svg class="model-progress-ring" width="120" height="120">
-                      <circle class="model-circle-base" stroke-width="8" cx="60" cy="60" r="${radius}"/>
-                      <circle class="model-circle-progress"
-                              stroke-width="8"
-                              cx="60"
-                              cy="60"
-                              r="${radius}"
-                              style="stroke-dasharray: ${circumference} ${circumference};
-                                     stroke-dashoffset: ${offset}"/>
-                    </svg>
-                    <div class="model-score">${score.toFixed(1)}%</div>
-                  </div>
-                  <div class="model-name">${modelName}</div>
-                `;
-
-                const modelCircle = document.createElement("div");
-                modelCircle.className = `model-circle ${
-                  isUserScore ? "your-score-circle" : ""
-                }`;
-                modelCircle.innerHTML = html;
-                container.appendChild(modelCircle);
-              }
-
-              // 整合所有得分
-              const allScores = [
-                {
-                  score: parseFloat(percentage),
-                  name: "您的得分",
-                  isUser: true,
-                },
-                ...aiModelData.map((model) => ({
-                  score: model.score,
-                  name: model.name,
-                  isUser: false,
-                })),
-              ].sort((a, b) => {
-                if (b.score !== a.score) {
-                  return b.score - a.score;
-                } else if (a.isUser && !b.isUser) {
-                  return -1;
-                } else if (!a.isUser && b.isUser) {
-                  return 1;
-                } else {
-                  return 0;
-                }
-              });
-
-              // 生成圓形比較圖
-              allScores.forEach((model) => {
-                createCircleProgress(
-                  circlesContainer,
-                  model.score,
-                  model.name,
-                  model.isUser
-                );
-              });
-            }
-          } else {
-            // 桌面版面 HTML
-            container.innerHTML = `
-              <div class="quiz-content">
-                <div class="comparison-card">
-                  <div class="card-title">測驗結果分析</div>
-                  
-                  <div class="score-section">
-                    <div class="score-circle-container">
-                      <svg class="progress-ring" width="200" height="200">
-                        <circle
-                          class="progress-ring-circle"
-                          stroke-width="12"
-                          cx="100"
-                          cy="100"
-                          r="85"
-                        />
-                        <circle
-                          class="progress-ring-circle-progress"
-                          stroke-width="12"
-                          cx="100"
-                          cy="100"
-                          r="85"
-                        />
-                      </svg>
-                      <div class="score-text">
-                        <div class="score-value" id="scoreValue">0%</div>
-                        <div class="score-label">正確率</div>
-                      </div>
-                    </div>
-                    
-                    <div class="comparison-text" id="comparisonText">
-                      <!-- 將由 JavaScript 動態填充 -->
-                    </div>
-                  </div>
-            
-                  <div class="bar-chart">
-                    <h3 style="text-align: center; margin-bottom: 2rem;">與AI模型得分比較</h3>
-                    <div class="bar-container" id="barContainer">
-                      <!-- 將由 JavaScript 動態填充 -->
-                    </div>
-                  </div>
-            
-                  <div class="footnote">
-                    * 模型版本資訊：<br/>
-                    - GPT-4o: gpt-4o-2024-08-06<br/>
-                    - GPT-4o-mini: gpt-4o-mini-2024-07-18<br/>
-                    - Claude-3.5: claude-3-5-sonnet-20241022<br/>
-                    - Claude-3: claude-3-haiku-20240307<br/>
-                    - Gemini-2.0: gemini-2.0-flash-exp<br/>
-                    - Gemini-1.5: gemini-1.5-flash
-                  </div>
-                </div>
-            
-                <div style="margin-top: 2rem;">
-                  <h3>詳細答題記錄</h3>
-                  <div class="stats-table-container">
-                    <table class="stats-table">
-                      <thead>
-                        <tr>
-                          <th>題號</th>
-                          ${
-                            currentQuizFormat === "image" ? "<th>圖片</th>" : ""
-                          }
-                          <th>題目</th>
-                          <th>你的答案</th>
-                          <th>正確答案</th>
-                          <th>結果</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        ${answerHistory
-                          .map(
-                            (record, index) => `
-                          <tr>
-                            <td>${index + 1}</td>
-                            ${
-                              currentQuizFormat === "image"
-                                ? `
-                              <td>
-                                <img src="${currentQuestions[index].imagePath}" alt="題目圖片">
-                              </td>
-                            `
-                                : ""
-                            }
-                            <td>${record.question}</td>
-                            <td>${record.userAnswerText}</td>
-                            <td>${record.correctAnswerText}</td>
-                            <td>
-                              <span class="answer-status ${
-                                record.isCorrect
-                                  ? "answer-correct"
-                                  : "answer-incorrect"
-                              }">
-                                ${record.isCorrect ? "正確" : "錯誤"}
-                              </span>
-                            </td>
-                          </tr>
-                        `
-                          )
-                          .join("")}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <div class="quiz-footer">
-                <button class="back-btn" onclick="showTopics()">返回主題選擇</button>
-              </div>
-            `;
-
-            // 設置圓形進度條
-            const circle = container.querySelector(
-              ".progress-ring-circle-progress"
-            );
-            if (circle) {
-              const radius = circle.r.baseVal.value;
-              const circumference = radius * 2 * Math.PI;
-              circle.style.strokeDasharray = `${circumference} ${circumference}`;
-              const offset =
-                circumference - (parseFloat(percentage) / 100) * circumference;
-              circle.style.strokeDashoffset = offset;
-            }
-
-            // 更新分數顯示
-            const scoreValue = container.querySelector("#scoreValue");
-            if (scoreValue) {
-              scoreValue.textContent = `${percentage}%`;
-            }
-
-            // 更新比較文字
-            const comparisonText = container.querySelector("#comparisonText");
-            if (comparisonText) {
-              const message = getComparisonMessage(
-                betterThanCount,
-                aiModelData.length
-              );
-              comparisonText.innerHTML = `
-                <div class="comparison-highlight">${message.highlight}</div>
-                <div class="comparison-count">${message.count}</div>
-                <div class="comparison-subtext">${message.subtext}</div>
-              `;
-            }
-
-            // 更新柱狀圖
-            const barContainer = document.querySelector("#barContainer");
-            if (barContainer) {
-              const allData = [
-                ...aiModelData,
-                { name: "您的得分", score: parseFloat(percentage) },
-              ].sort((a, b) => b.score - a.score);
-
-              barContainer.innerHTML = allData
-                .map(
-                  (item) => `
-                <div class="bar"
-                     style="height: ${item.score}%;
-                            background-color: ${
-                              item.name === "您的得分" ? "#2e7d32" : "#a5d6a7"
-                            }">
-                  <div class="bar-label">${item.name}</div>
-                  <div class="bar-value">${item.score.toFixed(1)}%</div>
-                </div>
-              `
-                )
-                .join("");
-            }
-          }
-          // 8. 確保移動版面的頁腳不會遮擋內容
-          if (isMobile) {
-            const footer = container.querySelector(".quiz-footer");
-            if (footer) {
-              const quizContent = container.querySelector(".quiz-content");
-              if (quizContent) {
-                quizContent.style.marginBottom =
-                  footer.offsetHeight + 20 + "px";
-              }
-            }
-          }
-
-          // 9. 滾動到頁面頂部
-          window.scrollTo({
-            top: 0,
+        const pages = document.querySelectorAll(".intro-page");
+        const indicators = document.querySelectorAll(".indicator");
+        let isScrolling = false;
+        let currentPage = 0;
+
+        // 初始化第一頁
+        pages[0].classList.add("visible");
+        indicators[0].classList.add("active");
+
+        // 平滑滾動函數
+        function smoothScrollTo(element, target) {
+          if (isScrolling) return;
+          isScrolling = true;
+
+          element.scrollTo({
+            top: target,
             behavior: "smooth",
           });
-        } catch (error) {
-          // 錯誤處理
-          console.error("顯示結果時發生錯誤:", error);
-          if (container) {
-            container.innerHTML = `
-        <div class="quiz-content">
-          <div class="result">
-            <h2>發生錯誤</h2>
-            <p>顯示結果時發生問題，請重新嘗試。</p>
-          </div>
-          <div class="quiz-footer">
-            <button class="back-btn" onclick="showTopics()">返回主題選擇</button>
-          </div>
-        </div>
-      `;
+
+          setTimeout(() => {
+            isScrolling = false;
+          }, 600);
+        }
+
+        // 使用 Intersection Observer 監控頁面可見性
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const index = Array.from(pages).indexOf(entry.target);
+                entry.target.classList.add("visible");
+                updateIndicators(index);
+                currentPage = index;
+              } else {
+                entry.target.classList.remove("visible");
+              }
+            });
+          },
+          {
+            threshold: 0.5,
           }
-        }
-      }
-
-      function getComparisonMessage(betterThanCount, totalModels) {
-        // 全對的情況
-        if (betterThanCount === totalModels) {
-          return {
-            highlight: "完美表現！",
-            count: `您完勝所有 ${totalModels} 個AI模型！`,
-            subtext:
-              "您展現了極致的專業判斷能力，完全超越了所有AI模型！這樣的表現令人印象深刻！",
-          };
-        }
-
-        // 全錯的情況
-        if (betterThanCount === 0) {
-          return {
-            highlight: "這是學習的開始！",
-            count: "讓我們從頭開始",
-            subtext:
-              "每個專家都是從基礎開始的，持續學習和練習，您一定能夠進步！",
-          };
-        }
-
-        // 其他情況維持原本的邏輯
-        if (betterThanCount >= totalModels * 0.7) {
-          return {
-            highlight: "超越AI的實力！",
-            count: `您已經贏過 ${betterThanCount} 個AI模型`,
-            subtext: "您展現了極高的專業判斷能力，超越了大多數AI模型！",
-          };
-        } else if (betterThanCount >= totalModels * 0.3) {
-          return {
-            highlight: "表現優異！",
-            count: `您已經贏過 ${betterThanCount} 個AI模型`,
-            subtext: "您的專業能力已經超越了部分AI模型",
-          };
-        } else {
-          return {
-            highlight: "繼續加油！",
-            count: `您已經贏過 ${betterThanCount} 個AI模型`,
-            subtext: "透過更多練習，您可以超越更多AI模型",
-          };
-        }
-      }
-
-      // 返回主題選擇
-      function showTopics() {
-        answerHistory = [];
-        currentQuestion = 0;
-        score = 0;
-
-        document.getElementById("quiz-container").innerHTML = `
-                <div class="quiz-content">
-                  <div class="progress">
-                    <span id="progress-text"></span>
-                    <div class="progress-bar">
-                      <div class="progress-fill" id="progress-fill"></div>
-                    </div>
-                  </div>
-                  <div id="question-container" class="question-card"></div>
-                </div>
-                <div class="quiz-footer">
-                  <button class="back-btn" onclick="showTopics()">← 返回主題選擇</button>
-                </div>
-              `;
-
-        document.getElementById("topics-container").style.display = "none";
-        document.querySelector(".topic-selection-container").style.display =
-          "block";
-        document.getElementById("quiz-container").style.display = "none";
-      }
-
-      // 修改 DOMContentLoaded 事件監聽器
-      document.addEventListener("DOMContentLoaded", () => {
-        // 直接檢查身份認證，背景會在 checkAuth 中處理
-        checkAuth();
-      });
-
-      // 修改 goHome 函數
-      function goHome() {
-        // 顯示初始的形式選擇容器
-        document.querySelector(".topic-selection-container").style.display =
-          "block";
-        // 隱藏其他容器
-        document.getElementById("category-selection").style.display = "none";
-        document.getElementById("topics-container").style.display = "none";
-        document.getElementById("quiz-container").style.display = "none";
-        // 重置當前選擇的形式
-        currentQuizFormat = "";
-      }
-
-      // 生成漂浮的葉子
-      function createFloatingElements() {
-        const background = document.querySelector(".animation-background");
-        const leafTypes = ["leaf-1"];
-        const numberOfLeaves = 25; // 增加葉子數量
-
-        for (let i = 0; i < numberOfLeaves; i++) {
-          const leaf = document.createElement("div");
-          const leafType =
-            leafTypes[Math.floor(Math.random() * leafTypes.length)];
-          leaf.className = `floating-element ${leafType}`;
-
-          // 隨機起始位置
-          const startPositionX = Math.random() * 100;
-          leaf.style.left = `${startPositionX}%`;
-
-          // 隨機漂浮路徑
-          const translateX = (Math.random() - 0.5) * 300; // 增加水平移動範圍
-          leaf.style.setProperty("--translate-x", `${translateX}px`);
-
-          // 隨機動畫延遲
-          leaf.style.animationDelay = `${Math.random() * 15}s`; // 增加最大延遲時間
-
-          // 隨機初始旋轉
-          leaf.style.transform = `rotate(${Math.random() * 360}deg)`;
-
-          // 隨機大小變化 (0.8 到 1.2 倍之間)
-          const scale = 0.8 + Math.random() * 0.4;
-          leaf.style.transform += ` scale(${scale})`;
-
-          background.appendChild(leaf);
-        }
-      }
-
-      // 檢查登入狀態
-      // 修改檢查認證函數
-      async function checkAuth() {
-        authToken = localStorage.getItem("token");
-
-        if (!authToken) {
-          // 未登入狀態：顯示登入頁面和標題
-          document.getElementById("auth-container").style.display = "block";
-          document.getElementById("main-container").style.display = "none";
-          document.getElementById("user-info").style.display = "none";
-          manageBackground(true);
-          return;
-        }
-
-        try {
-          const response = await fetch(`${API_URL}/auth/check-role`, {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          });
-
-          if (!response.ok) {
-            throw new Error("認證失敗");
-          }
-
-          const data = await response.json();
-
-          // 登入成功：只保留背景動畫，移除標題
-          manageBackground(false);
-          document.getElementById("auth-container").style.display = "none";
-          document.getElementById("main-container").style.display = "block";
-          document.getElementById("user-info").style.display = "block";
-
-          // 設置帳號稱
-          const username = localStorage.getItem("username");
-          document.getElementById("username-display").textContent = username;
-
-          // 設置管理員按鈕
-          const adminBtn = document.getElementById("admin-btn");
-          if (data.role === "admin") {
-            adminBtn.style.display = "inline-block";
-          } else {
-            adminBtn.style.display = "none";
-          }
-
-          localStorage.setItem("userRole", data.role);
-        } catch (error) {
-          console.error("檢查角色失敗:", error);
-          // 認證失敗：清除資料並返回登入頁面
-          localStorage.removeItem("token");
-          localStorage.removeItem("username");
-          localStorage.removeItem("userRole");
-          authToken = null;
-
-          document.getElementById("auth-container").style.display = "block";
-          document.getElementById("main-container").style.display = "none";
-          document.getElementById("user-info").style.display = "none";
-          manageBackground(true);
-        }
-      }
-
-      // 新增一個輔助函數來確保動畫背景的存在
-      function ensureAnimationBackground() {
-        if (!document.querySelector(".animation-background")) {
-          const animationBackground = document.createElement("div");
-          animationBackground.className = "animation-background";
-          document.body.insertBefore(
-            animationBackground,
-            document.body.firstChild
-          );
-          createFloatingElements();
-        }
-      }
-
-      // 添加驗證管理員的函數
-      function isAdmin() {
-        return localStorage.getItem("userRole") === "admin";
-      }
-
-      // 在進入管理頁面時檢查
-      function goToAdmin() {
-        if (isAdmin()) {
-          window.location.href = "/admin.html";
-        } else {
-          alert("您沒有權限訪問管理頁面");
-        }
-      }
-
-      // 修改登出功能
-      function logout() {
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
-        localStorage.removeItem("userRole");
-        authToken = null;
-
-        // 移除現有背景（如果存在）
-        const existingBackground = document.querySelector(
-          ".animation-background"
         );
-        if (existingBackground) {
-          existingBackground.remove();
-        }
 
-        // 重新創建背景和動畫
-        ensureAnimationBackground();
-
-        // 顯示首頁的圖片介面
-        document.querySelector(".main-title").style.display = "block";
-
-        // 隱藏其他元素
-        document.getElementById("auth-container").style.display = "none";
-        document.getElementById("main-container").style.display = "none";
-        document.getElementById("user-info").style.display = "none";
-      }
-
-      // 在頁面載入時初始化
-      document.addEventListener("DOMContentLoaded", () => {
-        if (!localStorage.getItem("token")) {
-          // 確保背景動畫正確初始化
-          const existingBackground = document.querySelector(
-            ".animation-background"
-          );
-          if (existingBackground) {
-            existingBackground.remove();
-          }
-          ensureAnimationBackground();
-        }
-
-        checkAuth();
-      });
-
-      document.addEventListener("DOMContentLoaded", function () {
-        const menuButton = document.querySelector(".mobile-menu-button");
-        const mobileMenu = document.querySelector(".mobile-menu");
-        const closeMenu = document.querySelector(".close-menu");
-        const mobileAdminBtn = document.getElementById("mobile-admin-btn");
-
-        // 檢查用戶權限並控制管理系統按鈕的顯示
-        function updateAdminButtonVisibility() {
-          const userRole = localStorage.getItem("userRole");
-          const isAdmin = userRole === "admin";
-
-          // 同時更新桌面版和移動版的管理按鈕顯示狀態
-          const desktopAdminBtn = document.getElementById("admin-btn");
-          if (desktopAdminBtn) {
-            desktopAdminBtn.style.display = isAdmin ? "inline-flex" : "none";
-          }
-
-          if (mobileAdminBtn) {
-            mobileAdminBtn.style.display = isAdmin ? "block" : "none";
-          }
-        }
-
-        // 打開選單時更新權限
-        menuButton.addEventListener("click", () => {
-          mobileMenu.classList.add("active");
-          updateAdminButtonVisibility();
-          document.getElementById("mobile-username-display").textContent =
-            document.getElementById("username-display").textContent;
+        // 觀察所有頁面
+        pages.forEach((section) => {
+          observer.observe(section);
         });
 
-        // 關閉選單
-        closeMenu.addEventListener("click", () => {
-          mobileMenu.classList.remove("active");
-        });
-
-        // 點擊選單外區域關閉選單
-        document.addEventListener("click", (e) => {
-          if (
-            !mobileMenu.contains(e.target) &&
-            !menuButton.contains(e.target)
-          ) {
-            mobileMenu.classList.remove("active");
-          }
-        });
-
-        // 初始化時就執行一次權限檢查
-        updateAdminButtonVisibility();
-      });
-
-      function showAuthForm() {
-        document.getElementById("auth-container").style.display = "block";
-        document.querySelector(".main-title").style.display = "none";
-      }
-
-      // 返回類別選擇頁面
-      function backToCategorySelection() {
-        // 隱藏主題選擇容器
-        document.getElementById("topics-container").style.display = "none";
-
-        // 顯示類別選擇容器
-        document.getElementById("category-selection").style.display = "block";
-      }
-
-      function previousQuestion() {
-        if (currentQuestion > 0) {
-          currentQuestion--;
-          // 如果答題記錄存在，移除最後一個記錄
-          if (answerHistory.length > 0) {
-            const lastAnswer = answerHistory.pop();
-            if (lastAnswer.isCorrect) {
-              score--;
+        // 指示器點擊事件
+        indicators.forEach((indicator, index) => {
+          indicator.addEventListener("click", () => {
+            if (!isScrolling) {
+              smoothScrollTo(pagesContainer, index * window.innerHeight);
             }
-          }
-          showQuestion();
-        }
-      }
-
-      // 初始化模態框功能
-      function initializeImageModal() {
-        const modal = document.getElementById("imageModal");
-        const modalImg = document.getElementById("modalImage");
-        const closeBtn = document.querySelector(".close-modal");
-
-        // 點擊關閉按鈕
-        closeBtn.onclick = function () {
-          modal.style.display = "none";
-          document.body.style.overflow = "auto"; // 恢復頁面滾動
-        };
-
-        // 點擊模態框外部區域關閉
-        modal.onclick = function (e) {
-          if (e.target === modal) {
-            modal.style.display = "none";
-            document.body.style.overflow = "auto";
-          }
-        };
-
-        // ESC 鍵關閉模態框
-        document.addEventListener("keydown", function (e) {
-          if (e.key === "Escape" && modal.style.display === "block") {
-            modal.style.display = "none";
-            document.body.style.overflow = "auto";
-          }
-        });
-      }
-
-      // 添加顯示模態框的函數
-      function showImageModal(imageSrc) {
-        const modal = document.getElementById("imageModal");
-        const modalImg = document.getElementById("modalImage");
-
-        modal.style.display = "block";
-        modalImg.src = imageSrc;
-        document.body.style.overflow = "hidden"; // 防止背景滾動
-      }
-
-      // 顯示用戶記錄
-      async function showUserRecords() {
-        try {
-          const response = await fetch(`${API_URL}/quiz/records`, {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
           });
-
-          let records = await response.json();
-          const recordList = document.getElementById("userRecordList");
-
-          records.sort(
-            (a, b) => new Date(b.completedAt) - new Date(a.completedAt)
-          );
-
-          recordList.innerHTML = records
-            .map(
-              (record) => `
-              <div class="record-item">
-                <div class="record-content">
-                  <h4>${record.topic}</h4>
-                                    <p>分數: ${record.score}/${
-                record.totalQuestions
-              } 
-                     (${((record.score / record.totalQuestions) * 100).toFixed(
-                       1
-                     )}%)</p>
-                  <p>花費時間: ${(record.timeSpent / 1000).toFixed(1)} 秒</p>  
-                  <p>完成時間: ${new Date(
-                    record.completedAt
-                  ).toLocaleString()}</p>
-                  <button class="view-details-btn" onclick="showRecordDetails('${
-                    record._id
-                  }')">
-                    <i class="fas fa-eye"></i> 查看詳情
-                  </button>
-                </div>
-              </div>
-            `
-            )
-            .join("");
-
-          document.getElementById("recordsModal").style.display = "flex";
-        } catch (error) {
-          console.error("載入記錄失敗:", error);
-          alert("載入記錄失敗");
-        }
-      }
-
-      // 查看記錄詳情
-      async function showRecordDetails(recordId) {
-        try {
-          const response = await fetch(`${API_URL}/quiz/record/${recordId}`, {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          });
-
-          const record = await response.json();
-          const recordList = document.getElementById("userRecordList");
-          const isMobile = window.innerWidth <= 768;
-          const percentage = (
-            (record.score / record.totalQuestions) *
-            100
-          ).toFixed(1);
-
-          if (isMobile) {
-            // 手機版格式
-            recordList.innerHTML = `
-              <div class="quiz-content">
-                <div class="comparison-card">
-                  <div style="text-align: center; padding: 2rem 0;">
-                    <div style="font-size: 1.5rem; color: #2e7d32; font-weight: bold; background: #e8f5e9; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-                      ${record.topic}
-                    </div>
-                    <div style="font-size: 4rem; font-weight: bold; color: #2e7d32; margin-bottom: 1rem;">
-                      ${percentage}%
-                    </div>
-                    <div style="font-size: 1.0rem; color: #666;">
-                      答對題數：${record.score} / ${record.totalQuestions}
-                    </div>
-                    <div style="font-size: 1.0rem; color: #666; margin-top: 0.5rem;">
-                      花費時間：${(record.timeSpent / 1000).toFixed(1)} 秒
-                    </div>
-                    <div style="font-size: 1rem; color: #666; margin-top: 0.5rem;">
-                      完成時間：${new Date(record.completedAt).toLocaleString()}
-                    </div>
-                  </div>
-                </div>
-
-                <div style="margin-top: 2rem;">
-                  <h3 style="margin-bottom: 1rem;">詳細答題記錄</h3>
-                  ${record.answers
-                    .map(
-                      (answer, index) => `
-                    <div class="mobile-question-card" style="background: white; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                        <strong>題號 ${index + 1}</strong>
-                        <span class="answer-status ${
-                          answer.isCorrect
-                            ? "answer-correct"
-                            : "answer-incorrect"
-                        }">
-                          ${answer.isCorrect ? "正確" : "錯誤"}
-                        </span>
-                      </div>
-
-                      ${
-                        record.quizFormat === "image" && answer.imagePath
-                          ? `
-                        <div style="text-align: center; margin: 0.5rem 0;">
-                          <img src="${answer.imagePath}"
-                              alt="題目圖片"
-                              style="max-width: 100%; max-height: 200px; object-fit: contain; cursor: pointer;"
-                              onclick="showImageModal('${answer.imagePath}')">
-                        </div>
-                      `
-                          : ""
-                      }
-
-                      <div style="margin: 0.5rem 0;">
-                        <div style="font-weight: 500; margin-bottom: 0.5rem;">${
-                          answer.question
-                        }</div>
-                        <div style="color: #666; font-size: 0.9rem;">
-                          <div>你的答案：${
-                            answer.userAnswerText || answer.userAnswer
-                          }</div>
-                          <div>正確答案：${
-                            answer.correctAnswerText || answer.correctAnswer
-                          }</div>
-                        </div>
-                      </div>
-                    </div>
-                  `
-                    )
-                    .join("")}
-                </div>
-              </div>`;
-          } else {
-            // 桌面版格式（表格形式）
-            recordList.innerHTML = `
-              <div class="record-detail">
-                <div style="background: #e8f5e9; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center;">
-                  <h3 style="color: #2e7d32; font-size: 1.5rem; margin: 0;">${
-                    record.topic
-                  }</h3>
-                </div>
-                <div class="score-summary">
-                  <p>總分: ${percentage}% (${record.score}/${
-              record.totalQuestions
-            })</p>
-                  <p>花費時間: ${(record.timeSpent / 1000).toFixed(1)} 秒</p>
-                  <p>完成時間: ${new Date(
-                    record.completedAt
-                  ).toLocaleString()}</p>
-                </div>
-                
-                <div class="answers-table">
-                  <table class="stats-table">
-                    <thead>
-                      <tr>
-                        <th>題號</th>
-                        ${record.quizFormat === "image" ? "<th>圖片</th>" : ""}
-                        <th>題目</th>
-                        <th>您的答案</th>
-                        <th>正確答案</th>
-                        <th>結果</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      ${record.answers
-                        .map(
-                          (answer, index) => `
-                        <tr>
-                          <td>${index + 1}</td>
-                          ${
-                            record.quizFormat === "image"
-                              ? `
-                            <td>
-                              ${
-                                answer.imagePath
-                                  ? `
-                                <img src="${answer.imagePath}" 
-                                    alt="題目圖片" 
-                                    style="max-width: 100px; cursor: pointer"
-                                    onclick="showImageModal('${answer.imagePath}')"
-                                >
-                              `
-                                  : "無圖片"
-                              }
-                            </td>
-                          `
-                              : ""
-                          }
-                          <td>${answer.question}</td>
-                          <td>${answer.userAnswerText || answer.userAnswer}</td>
-                          <td>${
-                            answer.correctAnswerText || answer.correctAnswer
-                          }</td>
-                          <td>
-                            <span class="answer-status ${
-                              answer.isCorrect
-                                ? "answer-correct"
-                                : "answer-incorrect"
-                            }">
-                              ${answer.isCorrect ? "正確" : "錯誤"}
-                            </span>
-                          </td>
-                        </tr>
-                      `
-                        )
-                        .join("")}
-                    </tbody>
-                  </table>
-                </div>
-              </div>`;
-          }
-
-          // 添加返回按鈕
-          recordList.innerHTML += `
-            <button class="back-to-list-btn" onclick="showUserRecords()">
-              <i class="fas fa-arrow-left"></i> 返回記錄列表
-            </button>
-          `;
-        } catch (error) {
-          console.error("載入記錄詳情失敗:", error);
-          alert("載入記錄詳情失敗");
-        }
-      }
-
-      // 關閉記錄模態框
-      function closeRecordsModal() {
-        document.getElementById("recordsModal").style.display = "none";
-      }
-
-      // 點擊模態框外部關閉
-      window.onclick = function (event) {
-        const modal = document.getElementById("recordsModal");
-        if (event.target == modal) {
-          modal.style.display = "none";
-        }
-      };
-
-      const mobileMenu = document.getElementById("mobile-menu");
-      const mobileMenuButton = document.getElementById("mobile-menu-button");
-      const closeMenuButton = document.getElementById("close-menu-button");
-      const menuItems = document.querySelectorAll(".menu-items .menu-btn");
-
-      // 點擊漢堡按鈕打開選單
-      mobileMenuButton.addEventListener("click", () => {
-        mobileMenu.classList.add("active");
-      });
-
-      // 點擊關閉按鈕關閉選單
-      closeMenuButton.addEventListener("click", () => {
-        mobileMenu.classList.remove("active");
-      });
-
-      // 點擊任一選單項目後關閉選單
-      menuItems.forEach((item) => {
-        item.addEventListener("click", () => {
-          mobileMenu.classList.remove("active");
         });
+
+        // 滾輪事件處理
+        let wheelTimeout;
+        pagesContainer.addEventListener(
+          "wheel",
+          (e) => {
+            e.preventDefault();
+
+            clearTimeout(wheelTimeout);
+            wheelTimeout = setTimeout(() => {
+              if (!isScrolling) {
+                const direction = e.deltaY > 0 ? 1 : -1;
+                const nextPage = Math.max(
+                  0,
+                  Math.min(pages.length - 1, currentPage + direction)
+                );
+                smoothScrollTo(pagesContainer, nextPage * window.innerHeight);
+              }
+            }, 50);
+          },
+          { passive: false }
+        );
+
+        // 更新指示器狀態
+        function updateIndicators(activeIndex) {
+          indicators.forEach((indicator, index) => {
+            indicator.classList.toggle("active", index === activeIndex);
+          });
+        }
+
+        // 觸摸事件處理
+        let touchStartY = 0;
+        let touchEndY = 0;
+        const minSwipeDistance = 50;
+
+        pagesContainer.addEventListener(
+          "touchstart",
+          (e) => {
+            touchStartY = e.touches[0].clientY;
+          },
+          { passive: true }
+        );
+
+        pagesContainer.addEventListener(
+          "touchend",
+          (e) => {
+            touchEndY = e.changedTouches[0].clientY;
+            const swipeDistance = touchStartY - touchEndY;
+
+            if (Math.abs(swipeDistance) > minSwipeDistance && !isScrolling) {
+              if (swipeDistance > 0) {
+                const nextPage = Math.min(pages.length - 1, currentPage + 1);
+                smoothScrollTo(pagesContainer, nextPage * window.innerHeight);
+              } else {
+                const nextPage = Math.max(0, currentPage - 1);
+                smoothScrollTo(pagesContainer, nextPage * window.innerHeight);
+              }
+            }
+          },
+          { passive: true }
+        );
       });
+
+      // 開始測驗按鈕點擊事件
+      function startQuiz() {
+        document.querySelector(".intro-pages").style.display = "none";
+        document.getElementById("auth-container").style.display = "block";
+      }
     </script>
-
-    <div id="imageModal" class="image-modal">
-      <span class="close-modal">&times;</span>
-      <img class="modal-content" id="modalImage" />
-    </div>
   </body>
 </html>
