@@ -1556,6 +1556,22 @@
         max-height: 80vh;
         overflow-y: auto;
       }
+      .topic-highlight {
+        background: #e8f5e9;
+        color: #2e7d32;
+        padding: 1rem;
+        border-radius: 8px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      .time-spent {
+        font-size: 1.1rem;
+        color: #666;
+        margin: 0.5rem 0;
+      }
     </style>
   </head>
   <body>
@@ -2328,9 +2344,18 @@
                     <div style="font-size: 4rem; font-weight: bold; color: #2e7d32; margin-bottom: 1rem;">
                       ${percentage}%
                     </div>
-                    <div style="font-size: 1.2rem; color: #666;">
-                      答對題數：${score} / ${currentQuestions.length}
-                    </div>
+                      <div style="font-size: 1.0rem; color: #666;">
+                        答對題數：${score} / ${currentQuestions.length}
+                      </div>
+                      <div style="font-size: 1.0rem; color: #666; margin-top: 0.5rem;">
+                        花費時間：${(
+                          (Date.now() - quizStartTime) /
+                          1000
+                        ).toFixed(1)} 秒
+                      </div>
+                      <div style="font-size: 1.0rem; color: #666; margin-top: 0.5rem;">
+                        完成時間：${new Date().toLocaleString()}
+                      </div>
                   </div>
       
                   <div style="text-align: center; margin: 1rem 0;">
@@ -3062,22 +3087,23 @@
           let records = await response.json();
           const recordList = document.getElementById("userRecordList");
 
-          // 將 records 以 completedAt 時間倒序排序
           records.sort(
             (a, b) => new Date(b.completedAt) - new Date(a.completedAt)
           );
 
-          // 接著再用 map 處理並顯示
           recordList.innerHTML = records
             .map(
               (record) => `
               <div class="record-item">
                 <div class="record-content">
                   <h4>${record.topic}</h4>
-                  <p>分數: ${record.score}/${record.totalQuestions} 
+                                    <p>分數: ${record.score}/${
+                record.totalQuestions
+              } 
                      (${((record.score / record.totalQuestions) * 100).toFixed(
                        1
                      )}%)</p>
+                  <p>花費時間: ${(record.timeSpent / 1000).toFixed(1)} 秒</p>  
                   <p>完成時間: ${new Date(
                     record.completedAt
                   ).toLocaleString()}</p>
@@ -3122,21 +3148,24 @@
               <div class="quiz-content">
                 <div class="comparison-card">
                   <div style="text-align: center; padding: 2rem 0;">
-                    <div style="font-size: 1.2rem; color: #666; margin-bottom: 0.5rem;">
+                    <div style="font-size: 1.5rem; color: #2e7d32; font-weight: bold; background: #e8f5e9; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
                       ${record.topic}
                     </div>
                     <div style="font-size: 4rem; font-weight: bold; color: #2e7d32; margin-bottom: 1rem;">
                       ${percentage}%
                     </div>
-                    <div style="font-size: 1.2rem; color: #666;">
+                    <div style="font-size: 1.0rem; color: #666;">
                       答對題數：${record.score} / ${record.totalQuestions}
+                    </div>
+                    <div style="font-size: 1.0rem; color: #666; margin-top: 0.5rem;">
+                      花費時間：${(record.timeSpent / 1000).toFixed(1)} 秒
                     </div>
                     <div style="font-size: 1rem; color: #666; margin-top: 0.5rem;">
                       完成時間：${new Date(record.completedAt).toLocaleString()}
                     </div>
                   </div>
                 </div>
-      
+
                 <div style="margin-top: 2rem;">
                   <h3 style="margin-bottom: 1rem;">詳細答題記錄</h3>
                   ${record.answers
@@ -3153,20 +3182,20 @@
                           ${answer.isCorrect ? "正確" : "錯誤"}
                         </span>
                       </div>
-      
+
                       ${
                         record.quizFormat === "image" && answer.imagePath
                           ? `
                         <div style="text-align: center; margin: 0.5rem 0;">
                           <img src="${answer.imagePath}"
-                               alt="題目圖片"
-                               style="max-width: 100%; max-height: 200px; object-fit: contain; cursor: pointer;"
-                               onclick="showImageModal('${answer.imagePath}')">
+                              alt="題目圖片"
+                              style="max-width: 100%; max-height: 200px; object-fit: contain; cursor: pointer;"
+                              onclick="showImageModal('${answer.imagePath}')">
                         </div>
                       `
                           : ""
                       }
-      
+
                       <div style="margin: 0.5rem 0;">
                         <div style="font-weight: 500; margin-bottom: 0.5rem;">${
                           answer.question
@@ -3190,12 +3219,17 @@
             // 桌面版格式（表格形式）
             recordList.innerHTML = `
               <div class="record-detail">
-                <h3>${record.topic}</h3>
+                <div style="background: #e8f5e9; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center;">
+                  <h3 style="color: #2e7d32; font-size: 1.5rem; margin: 0;">${
+                    record.topic
+                  }</h3>
+                </div>
                 <div class="score-summary">
                   <p>總分: ${percentage}% (${record.score}/${
               record.totalQuestions
             })</p>
-                  <p>作答時間: ${new Date(
+                  <p>花費時間: ${(record.timeSpent / 1000).toFixed(1)} 秒</p>
+                  <p>完成時間: ${new Date(
                     record.completedAt
                   ).toLocaleString()}</p>
                 </div>
@@ -3226,9 +3260,9 @@
                                 answer.imagePath
                                   ? `
                                 <img src="${answer.imagePath}" 
-                                     alt="題目圖片" 
-                                     style="max-width: 100px; cursor: pointer"
-                                     onclick="showImageModal('${answer.imagePath}')"
+                                    alt="題目圖片" 
+                                    style="max-width: 100px; cursor: pointer"
+                                    onclick="showImageModal('${answer.imagePath}')"
                                 >
                               `
                                   : "無圖片"

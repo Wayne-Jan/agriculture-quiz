@@ -163,8 +163,14 @@ router.get(
       const organization = record.user.organization || "未提供單位";
       const name = record.user.name || "未提供姓名";
 
-      // 設置檔案名稱
-      const filename = `${organization}_${name}_${dateStr}.txt`;
+      // 格式化日期和時間到秒
+      const dateTimeStr = new Date(record.completedAt)
+        .toISOString()
+        .replace(/[-:]/g, "")
+        .split(".")[0]; // 移除毫秒
+
+      // 設置檔案名稱 - 加入主題和時間戳
+      const filename = `${organization}_${name}_${record.topic}_${dateTimeStr}.txt`;
 
       // 生成報告內容
       let content = `No.1 Model: ${organization}_${name}, `;
