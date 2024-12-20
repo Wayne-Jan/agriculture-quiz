@@ -181,8 +181,9 @@
         gap: 0.5rem;
         color: white;
         opacity: 0;
-        transition: opacity 0.6s ease 1s;
-        pointer-events: none;
+        transition: opacity 0.3s ease 0s; /* 調整過渡時間和移除延遲 */
+        pointer-events: auto; /* 允許接收點擊事件 */
+        cursor: pointer;
       }
 
       .intro-page.visible .scroll-hint {
@@ -233,7 +234,8 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 100%;
+        /* 移除固定高度 */
+        /* height: 100%; */
         text-align: center;
       }
 
@@ -262,10 +264,19 @@
 
       /* 開始測驗按鈕容器 */
       .start-btn-container {
+        opacity: 0; /* 初始為隱藏狀態 */
+        transform: translateY(20px); /* 初始位置稍微下移 */
+        transition: opacity 0.5s ease 0.5s, transform 0.5s ease 0.5s; /* 過渡效果，0.5秒的延遲 */
         width: 100%;
         text-align: center;
         padding: 2rem 0;
         margin-top: auto;
+      }
+
+      /* 當頁面可見時，顯示按鈕容器 */
+      .intro-page.visible .start-btn-container {
+        opacity: 1; /* 完全不透明 */
+        transform: translateY(0); /* 恢復原位 */
       }
 
       /* 開始按鈕 */
@@ -400,6 +411,17 @@
 
       /* 響應式設計 */
       @media (max-width: 768px) {
+        .intro-page:nth-child(2) .scroll-hint {
+          background-color: rgba(
+            27,
+            94,
+            32,
+            0.15
+          ); /* 增加透明度以適應較小屏幕 */
+          padding: 0.4rem 0.8rem;
+          border-radius: 6px;
+        }
+
         .intro-content {
           padding: 1.5rem;
           gap: 1rem;
@@ -423,7 +445,7 @@
         }
 
         .feature-card {
-          min-height: 120px; /* 確保在手機版有足夠的高度 */
+          min-height: auto; /* 移除固定高度 */
           padding: 0.8rem;
         }
 
@@ -443,6 +465,10 @@
 
         .feature-card p {
           font-size: 0.85rem;
+        }
+
+        .start-btn-container {
+          padding: 1rem 0;
         }
 
         .start-btn {
@@ -476,14 +502,17 @@
           font-size: 0.95rem;
         }
 
-        .start-btn-container {
-          padding: 1rem 0;
+        /* 調整第二頁的 scroll-hint 文字顏色 */
+        .intro-page:nth-child(2) .scroll-hint {
+          color: #1b5e20;
         }
       }
 
-      .scroll-hint {
-        cursor: pointer;
-        pointer-events: auto; /* 修改這一行，使元素可以接收點擊事件 */
+      /* 新增的底線樣式 */
+      .underline {
+        text-decoration: underline;
+        text-decoration-color: #ffffff; /* 底線顏色 */
+        text-decoration-thickness: 2px; /* 底線粗細 */
       }
     </style>
   </head>
@@ -493,7 +522,12 @@
       <section class="intro-page">
         <div class="intro-content">
           <h1>臺灣農業知識量化指標</h1>
-          <p class="subtitle">Taiwan Agriculture Knowledge Assessment</p>
+          <p class="subtitle">
+            <span class="underline">T</span>aiwan
+            <span class="underline">A</span>griculture
+            <span class="underline">K</span>nowledge
+            <span class="underline">A</span>ssessment
+          </p>
           <div class="scroll-hint">
             <span>瞭解更多</span>
             <i class="fas fa-chevron-down"></i>
@@ -530,6 +564,13 @@
               </p>
             </div>
           </div>
+          <!-- 刪除第二頁的 scroll-hint -->
+          <!--
+          <div class="scroll-hint">
+            <span>系統特色</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          -->
         </div>
       </section>
 
@@ -562,6 +603,11 @@
           <div class="start-btn-container">
             <button class="start-btn" onclick="startQuiz()">開始測驗</button>
           </div>
+          <!-- 可選擇性新增 scroll-hint 到第三頁，如果有更多頁面 -->
+          <!-- <div class="scroll-hint">
+            <span>下一頁</span>
+            <i class="fas fa-chevron-down"></i>
+          </div> -->
         </div>
       </section>
 
@@ -579,14 +625,7 @@
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const pagesContainer = document.querySelector(".intro-pages");
-        document
-          .querySelector(".scroll-hint")
-          .addEventListener("click", function () {
-            if (!isScrolling) {
-              const pagesContainer = document.querySelector(".intro-pages");
-              smoothScrollTo(pagesContainer, window.innerHeight); // 滾動到第二頁
-            }
-          });
+        const scrollHints = document.querySelectorAll(".scroll-hint");
         const pages = document.querySelectorAll(".intro-page");
         const indicators = document.querySelectorAll(".indicator");
         let isScrolling = false;
@@ -704,6 +743,18 @@
           },
           { passive: true }
         );
+
+        // 新增的 scroll-hint 點擊事件
+        scrollHints.forEach((hint, index) => {
+          hint.addEventListener("click", () => {
+            if (!isScrolling) {
+              const targetPage = index + 1;
+              if (targetPage < pages.length) {
+                smoothScrollTo(pagesContainer, targetPage * window.innerHeight);
+              }
+            }
+          });
+        });
       });
 
       // 開始測驗按鈕點擊事件
